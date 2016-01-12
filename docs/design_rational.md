@@ -1,6 +1,9 @@
 # Domain Knowledge
 https://en.wikipedia.org/wiki/Sparse_matrix
+
 http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf
+
+[Compressed Row Storage](http://www.netlib.org/utk/people/JackDongarra/etemplates/node373.html)
 
 # Design Questions
 
