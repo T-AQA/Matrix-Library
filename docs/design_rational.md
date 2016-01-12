@@ -1,11 +1,12 @@
 # Domain Knowledge
-{{Ref Links Go Here}}
+https://en.wikipedia.org/wiki/Sparse_matrix
+http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf
 
 # Design Questions
 
 | Questions | Answers |
 |:----------|:--------|
-| What is a sparse matrix and what features should it possess?| | 
+| What is a sparse matrix and what features should it possess?| Matrix in which most of the elements are zero | 
 | What sources of information should you consult to derive features? Do analogies exist? If so with what? | |
 | Who is likely to be the user of a sparse matrix package? What features are they likely to demand? | |
 | What is a tri-diagonal matrix? | |
