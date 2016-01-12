@@ -52,11 +52,11 @@ TBD
 ##### What exceptions can occur during the processing of sparse matrices? And how should the system handle them? 
 Exceptions may arise! Here's a short list of what may happen:
 
-| Exception Types:   | System Response: |
-|--------------------|------------------|
-| Null matrix        |                  |
-| Dense matrix       |                  |
-| Tridiagonal matrix |                  |
+| Exception Types:   | System Response:          |
+|--------------------|---------------------------|
+| Null matrix        | Return null exception     |
+| Dense matrix       | TBD                       |
+| Tridiagonal matrix | Process array efficiently |
 
 ##### What information does the system require to create a sparse matrix object? Remember you are building for a set of unknown customers – what will they want?
 Customers will likely require:
