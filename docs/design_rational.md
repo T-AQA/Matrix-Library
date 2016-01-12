@@ -60,18 +60,21 @@ Exceptions may arise! Here's a short list of what may happen:
 
 ##### What information does the system require to create a sparse matrix object? Remember you are building for a set of unknown customers – what will they want?
 Customers will likely require:
+
 	1. Identificaiton of their array, in a form of a name or object attribution.
 	2. Generic properties (built to CSR standards) - row offset, column indices (+ if extensible design is required), values.
 	3. Visual representation of the object - eg. object.print()
 
 ##### What are the important quality characteristics of a sparse matrix package? Reusability? Efficiency? Efficiency of what?
 The most important qualities of a sparse matrix package are:
+
 	1. Reusability - insofar that the system can be reused for different structures.
 	2. Efficiency - in both storage and runtime.
 	3. Light - we need lightweight process stuctures in order to reduce overhead to a minimum.
 
 ##### How do we generalize 2-D matrices to n-D matrices, where n > 2 – um, sounds like an extensible design?
 Yes, the implementation of CSR is extensible design. For example, in a 3-D matrix, We can do this by:
+
 	1. Adding 'row indices' alongside 'column indices'
 	2. Renaming 'row offsets' to 'height offsets'
 	3. Change values from a 1-D matrix to a 2-D matrix - that is, expanding the 'frame' into a +1D structure.
