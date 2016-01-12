@@ -9,7 +9,7 @@ http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf
 | What is a sparse matrix and what features should it possess?| Matrix in which most of the elements are zero | 
 | What sources of information should you consult to derive features? Do analogies exist? If so with what? | |
 | Who is likely to be the user of a sparse matrix package? What features are they likely to demand? | |
-| What is a tri-diagonal matrix? | |
+| What is a tri-diagonal matrix? | [Reference](https://en.wikipedia.org/wiki/Tridiagonal_matrix) A tridiagonal matrix is a matrix in which only the diagonal line, and the lines above and below the lines are full. It is also referred to as both an upper and lower [Hessenberg matrix](https://en.wikipedia.org/wiki/Hessenberg_matrix).|
 | What is the relationship between a tri-diagonal matrix and a generic sparse matrix? | |
 | Are tri-diagonal matrices important? And should they impact your design? If so, how? | |
 | What is a good data representation for a sparse matrix? | |
