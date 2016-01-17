@@ -1,0 +1,9 @@
+/matrix/.bundle/
+/matrix/.yardoc
+/matrix/Gemfile.lock
+/matrix/_yardoc/
+/matrix/coverage/
+/matrix/doc/
+/matrix/pkg/
+/matrix/spec/reports/
+/matrix/tmp/
