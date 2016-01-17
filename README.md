@@ -1,2 +1,2 @@
 # Matrix-Library
-Library implementation of a matrix library for Ruby.
+Library implementation of a sparse matrix library for Ruby.
