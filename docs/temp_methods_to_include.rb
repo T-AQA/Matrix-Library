@@ -1,7 +1,5 @@
 #http://www.mathworks.com/help/matlab/sparse-matrix-manipulation.html
 
-
-
 #Manipulation
 
 #Determine if input is sparse
