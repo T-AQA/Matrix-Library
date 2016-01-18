@@ -19,6 +19,22 @@ class TwoDMatrix
 
 	# Builds when given a 2d array - to be true CSR conversion
 	def build(array) # assume this array is 2d eg. [0 0 2] [1 0 2] [1 0 0]
+		if depth(array) == 2
+			puts "Array dim is correct.\nBuilding CSR format."
+		end
+	end	
+
+	# Code taken from http://stackoverflow.com/questions/9545613/getting-dimension-of-multidimensional-array-in-ruby
+	def depth(array)
+    	return 0 if array.class != Array
+		  result = 1
+		  array.each do |sub_a|
+		    if sub_a.class == Array
+		      dim = depth(sub_a)
+		      result = dim + 1 if dim + 1 > result
+		    end
+		  end
+		  return result
 	end	
 
 	# dummy method - used by Ruby to setup 2d array init
@@ -27,13 +43,13 @@ class TwoDMatrix
 		values = array
 		values.each do |x|
 
-		    # Loop over each cell in the row.
-		    x.each do |cell|
-			puts cell
-		    end
+		  # Loop over each cell in the row.
+		  x.each do |cell|
+				puts cell
+		  end
 
-		    # End of row.
-		    puts "--"
+		  # End of row.
+		  puts "--"
 		end
 	end 	
 
@@ -44,15 +60,14 @@ class TwoDMatrix
 
 		# Loop over indexes.
 		values.each_index do |i|
-
-		    # Get subarray and loop over its indexes also.
-		    subarray = values[i]
-		    subarray.each_index do |x|
+		  # Get subarray and loop over its indexes also.
+		  subarray = values[i]
+		  subarray.each_index do |x|
 			# Display the cell.
 			puts String(i) << " " << String(x) << "... " << values[i][x]
-		    end
-
 		end
+
 	end
 
+end
 end
