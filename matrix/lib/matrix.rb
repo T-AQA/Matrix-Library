@@ -24,20 +24,21 @@ class TwoDMatrix
 			# sample design
 			# 1. set col_ind = 0 (0/1/2), row_ptr = 0
 			# 2. identify the dimensions of the array (3x3, 2x4, etc.) store row_val = row# and col_val = col#
-			dimensions = get_col_row_count(array)
+			dimensions = convert_to_csr(array)
 			column = dimensions[0]
 			row = dimensions[1]
 			nonzero_count = dimensions[2]
 			# 2.1 initialise the matrix values
 			@val = dimensions[3]
-			@row_ptr = Array.new(nonzero_count)
-			@col_ind = Array.new(nonzero_count)
+			@row_ptr = dimensions[4]
+			@col_ind = dimensions[5]
 			# 3. check the first nonzero point and check its location; fill as necessary.
 			# 4. repeat and clean
 			# X. debugger statements
 			puts "There are #{nonzero_count} nonzero entities in the array."
 			puts "Dimensions, by column x row, are #{column} x #{row}"
 			puts "Values are: #{@val}"
+			puts "Rows & columns values, re: CSR, are #{@row_ptr} and #{@col_ind}"
 		end
 	end	
 
@@ -48,27 +49,49 @@ class TwoDMatrix
 
 	# Finds the column count, row count and non-zero values in one loop. 
 	# Generate for optimization.
-	def get_col_row_count(array)
+	def convert_to_csr(array)
+		# dimensions
 		row_count = 0
 		col_count = 0
+		# # of nonzero values - used for dim count
 		nonzero_count = 0
+		# nonzero values
 		value_array = Array.new
-		array.each_index do |i|
+		# generate row_ptr values
+		# goal of row_ptr: if
+		row_ptr = Array.new
+		row_val = 0
+		row_prev_sum = 0; # wrt. csr - the number of values in the previous rows combined
+		# generate col_ind values
+		col_ind = Array.new
+		col_val = 0
+
+		# processing
+		array.each_index do |i| # each row
+			col_val = 0 # eg. for pos [0, 1, 2, 3] it goes 0, 1, 2, 3
 			col_tmp = 0
 			row_count += 1
+			row_prev_sum = row_val
 			subarray = array[i]
-			subarray.each_index do |x|
+			subarray.each_index do |x| # each column entry in row
 				col_tmp += 1
 				if array[i][x] != 0
+					# use value in CSR
 		  		nonzero_count += 1
 		  		value_array << array[i][x]
+		  		col_ind << col_val
+		  		row_ptr << row_prev_sum
+		  		row_val += 1
 		  	end
+		  	col_val += 1 # eg. col_val add at the end
 			end
 			if col_tmp >= col_count
 				col_count = col_tmp
 			end
 		end
-		return [col_count, row_count, nonzero_count, value_array]
+		row_prev_sum = row_val
+		row_ptr << row_prev_sum
+		return [col_count, row_count, nonzero_count, value_array, row_ptr, col_ind]
 	end
 
 	# Identifies the 'column' value of an array (eg. the number of entries in a column)
