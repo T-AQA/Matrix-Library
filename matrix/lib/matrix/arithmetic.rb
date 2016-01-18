@@ -1,22 +1,22 @@
 module Matrix    
     module Arithmetic
-        def dot_multiply(value)
+        def scalar_multiply(value)
             puts value
         end
         
-        def dot_add(value)
+        def scalar_add(value)
 
         end
 
-        def dot_substract(value)
+        def scalar_substract(value)
 
         end
 
-        def dot_devision(value)
+        def scalar_devision(value)
 
         end
 
-        def dot_exp(value)
+        def scalar_exp(value)
 
         end
 
