@@ -19,8 +19,11 @@ class TwoDMatrix
 
 	# Builds when given a 2d array - to be true CSR conversion
 	def build(array) # assume this array is 2d eg. [0 0 2] [1 0 2] [1 0 0]
-		if depth(array) == 2
+		if depth(array) == 2 # 2d verification
 			puts "Array dim is correct.\nBuilding CSR format."
+			# sample design
+			# 1. set col_ind = 0 (0/1/2), row_ptr = 0
+			# 2. identify the dimensions of the array (3x3, 2x4, etc.) store row_val = row# and col_val = col#
 		end
 	end	
 
