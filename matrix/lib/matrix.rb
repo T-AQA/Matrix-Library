@@ -37,8 +37,7 @@ class TwoDMatrix
 			# X. debugger statements
 			puts "There are #{nonzero_count} nonzero entities in the array."
 			puts "Dimensions, by column x row, are #{column} x #{row}"
-			puts "Values are: #{@val}"
-			puts "Rows & columns values, re: CSR, are #{@row_ptr} and #{@col_ind}"
+			puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
 		end
 	end	
 
