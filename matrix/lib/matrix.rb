@@ -24,6 +24,12 @@ class TwoDMatrix
 			# sample design
 			# 1. set col_ind = 0 (0/1/2), row_ptr = 0
 			# 2. identify the dimensions of the array (3x3, 2x4, etc.) store row_val = row# and col_val = col#
+			count = count_nonzero(array)
+			rowcol = dimensions(array)
+			column = rowcol[0]
+			row = rowcol[1]
+			puts "There are #{count} nonzero entities in the array."
+			puts "Dimensions, by column x row, are #{column} x #{row}"
 			# 3. check the first nonzero point and check its location; fill as necessary.
 			# 4. repeat and clean
 		end
@@ -66,10 +72,24 @@ class TwoDMatrix
 		return max_count
 	end
 
+	def count_nonzero(array) 
+		max_count = 0
+		array.each_index do |i|
+			subarray = array[i]
+		  subarray.each_index do |x|
+		  	if array[i][x] != 0
+		  		max_count += 1
+		  	end
+		  end
+		end
+		return max_count
+	end
+
+	# Finds column and row value of an array. 
 	def dimensions(array)
 		column = max_col(array)
 		row = max_row(array)
-		puts "Dimensions, by column x row, are #{column} x #{row}"
+		return [column, row]
 	end
 
 	# Code taken from http://stackoverflow.com/questions/9545613/getting-dimension-of-multidimensional-array-in-ruby
