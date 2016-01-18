@@ -22,6 +22,7 @@ class TwoDMatrix
 
 	##
 	# SPARSE MATRIX ATTRIBUTE OPERATORS 
+	# matrix attributes and overloaded operators
 	#
 
 	# equals override for matrix operations
@@ -41,6 +42,7 @@ class TwoDMatrix
 
 	##
 	# MATRIX GENERATION FUNCTIONS 
+	# generation of csr matrix
 	#
 
 	# Builds when given a 2d array to CSR
@@ -115,7 +117,8 @@ class TwoDMatrix
 	end
 
 	##
-	# ADDITIONAL FUNCTIONS
+	# ARRAY FUNCTIONS
+	# for pre-processing of matrix
 	#
 
 	# Identifies the 'column' value of an array (eg. the number of entries in a column)
