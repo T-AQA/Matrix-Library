@@ -1,14 +1,14 @@
 require "matrix/version"
-require "matrix/attributes"
-require "matrix/arithmatic"
+require "matrix/properties"
+require "matrix/arithmetic"
     
 module Matrix
 
 end
 
 class D
-    include Matrix::Attributes
-    include Matrix::Arithmatic
+    include Matrix::Properties
+    include Matrix::Arithmetic
 
     def initialize()
         @array = 1

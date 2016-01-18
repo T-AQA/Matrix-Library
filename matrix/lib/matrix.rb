@@ -1,4 +1,8 @@
 require "matrix/version"
+require "matrix/properties"
+require "matrix/arithmetic"
+require "matrix/functions"
+require "matrix/decompositions"
 
 module Matrix
 	# The current website ref. Used for verification of rb systems.
@@ -7,6 +11,11 @@ end
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
+	include Matrix::Properties
+	include Matrix::Arithmetic
+	include Matrix::Functions
+	include Matrix::Decompositions
+
 	# The current website ref. Used for verification of rb systems.
 	Url = "https://github.com/Team-Aqua/Matrix-Library/"
 
