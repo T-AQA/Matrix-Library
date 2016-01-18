@@ -1,7 +1,7 @@
 module Matrix    
     module Arithmetic
         def dot_multiply(value)
-
+            puts value
         end
         
         def dot_add(value)
@@ -24,23 +24,23 @@ module Matrix
 
         end
 
-        def array_multiply(array)
+        def matrix_multiply(matrix)
 
         end
         
-        def array_add(array)
+        def matrix_add(matrix)
 
         end
 
-        def array_substract(array)
+        def matrix_substract(matrix)
 
         end
 
-        def array_devision(array)
+        def matrix_devision(matrix)
 
         end
 
-        def array_exp(array)
+        def matrix_exp(matrix)
 
         end
     end 
