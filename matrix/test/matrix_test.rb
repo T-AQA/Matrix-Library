@@ -28,7 +28,7 @@ class DemoTest < Minitest::Test
   end
 
   def test_dimensions
-      #assert_equal @matrixSparse3x3.dimensions(), [3, 3]
+      assert_equal @matrixSparse3x3.dimensions(), [3, 3]
   end
 
 end
