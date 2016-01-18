@@ -17,6 +17,15 @@ class TwoDMatrix
 		@val = nil
 	end
 
+	# equals override for matrix operations
+	def ==(o)
+    o.class == self.class && o.state == state
+  end
+
+  def state
+    [@val, @row_ptr, @col_ind]
+  end
+
 	# Builds when given a 2d array - to be true CSR conversion
 	def build_from_array(array) # assume this array is 2d eg. [0 0 2] [1 0 2] [1 0 0]
 		if depth(array) == 2 # 2d verification
@@ -37,14 +46,16 @@ class TwoDMatrix
 			# X. debugger statements
 			puts "There are #{nonzero_count} nonzero entities in the array."
 			puts "Dimensions, by column x row, are #{column} x #{row}"
-			puts "Values are: #{@val}"
-			puts "Rows & columns values, re: CSR, are #{@row_ptr} and #{@col_ind}"
+			puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
 		end
 	end	
 
 	# Builds array using user-generated CSR values
-	def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
+	def build_from_csr(row_ptr, col_ind, val) # , col_siz, row_siz for options 
 		# generate 
+		@val = val
+		@row_ptr = row_ptr
+		@col_ind = col_ind
 	end
 
 	# Finds the column count, row count and non-zero values in one loop. 
@@ -76,7 +87,7 @@ class TwoDMatrix
 			subarray.each_index do |x| # each column entry in row
 				col_tmp += 1
 				if array[i][x] != 0
-					# use value in CSR
+					# use nonzero value in CSR
 		  		nonzero_count += 1
 		  		value_array << array[i][x]
 		  		col_ind << col_val
