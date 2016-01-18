@@ -24,20 +24,52 @@ class TwoDMatrix
 			# sample design
 			# 1. set col_ind = 0 (0/1/2), row_ptr = 0
 			# 2. identify the dimensions of the array (3x3, 2x4, etc.) store row_val = row# and col_val = col#
-			count = count_nonzero(array) 
-			rowcol = dimensions(array)
-			column = rowcol[0] # Replace with: array[1].length no need for additional method.
-			row = rowcol[1] # Replace with: array.length
-			puts "There are #{count} nonzero entities in the array."
-			puts "Dimensions, by column x row, are #{column} x #{row}"
+
+			dimensions = get_col_row_count(array)
+			column = dimensions[0] # Replace with: array[1].length no need for additional method.
+			row = dimensions[1] # Replace with: array.length
+			nonzero_count = dimensions[2]
+			# 2.1 initialise the matrix values
+			@val = dimensions[3]
+			@row_ptr = Array.new(nonzero_count)
+			@col_ind = Array.new(nonzero_count)
 			# 3. check the first nonzero point and check its location; fill as necessary.
 			# 4. repeat and clean
+			# X. debugger statements
+			puts "There are #{nonzero_count} nonzero entities in the array."
+			puts "Dimensions, by column x row, are #{column} x #{row}"
+			puts "Values are: #{@val}"
 		end
 	end	
 
 	# Builds array using user-generated CSR values
 	def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
 		# generate 
+	end
+
+	# Finds the column count, row count and non-zero values in one loop. 
+	# Generate for optimization.
+	def get_col_row_count(array)
+		row_count = 0
+		col_count = 0
+		nonzero_count = 0
+		value_array = Array.new
+		array.each_index do |i|
+			col_tmp = 0
+			row_count += 1
+			subarray = array[i]
+			subarray.each_index do |x|
+				col_tmp += 1
+				if array[i][x] != 0
+		  		nonzero_count += 1
+		  		value_array << array[i][x]
+		  	end
+			end
+			if col_tmp >= col_count
+				col_count = col_tmp
+			end
+		end
+		return [col_count, row_count, nonzero_count, value_array]
 	end
 
 	# Identifies the 'column' value of an array (eg. the number of entries in a column)
