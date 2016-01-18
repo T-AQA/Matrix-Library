@@ -94,6 +94,7 @@ class TwoDMatrix
 			col_tmp = 0
 			row_count += 1
 			row_prev_sum = row_val
+			row_ptr << row_prev_sum # ref: http://op2.github.io/PyOP2/linear_algebra.html
 			subarray = array[i]
 			subarray.each_index do |x| # each column entry in row
 				col_tmp += 1
@@ -102,7 +103,6 @@ class TwoDMatrix
 		  		nonzero_count += 1
 		  		value_array << array[i][x]
 		  		col_ind << col_val
-		  		row_ptr << row_prev_sum
 		  		row_val += 1
 		  	end
 		  	col_val += 1 # eg. col_val add at the end
