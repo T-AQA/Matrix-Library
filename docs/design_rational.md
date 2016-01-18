@@ -7,10 +7,10 @@ http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf
 
 # Design Questions
 ##### What is a sparse matrix and what features should it possess?
-Matrix in which most of the elements are zero.
+A sparse matrix is a matrix in which most of the elements are zero.
 
 ##### What sources of information should you consult to derive features? Do analogies exist? If so with what?
-We can use professionally founded references such as Matlab, as well as WolframAlpha's widgets, in order to ascertain which functions are popular for matrix operations.
+We can use professionally founded references such as Matlab, as well as WolframAlpha's widgets and Ruby's built in matrix class, in order to ascertain which functions are popular for matrix operations. Analogies exist with matlab's sparce matrix functions and with Ruby's matrix class.
 
 ##### Who is likely to be the user of a sparse matrix package? What features are they likely to demand?
 This package is likely targeted for two classes of users. The first are programmers that would like to use sparse matrix operations in their processing. The second are math students with basic knowledge in ruby, that could apply the package processing for their own work.
@@ -47,7 +47,7 @@ TBD - Initial design proposes test-driven development, but design process will l
 	2. Reuse/modify class.
 
 ##### Is iteration a good technique for sparse matrix manipulation? Is “custom” iteration required for this problem? 
-TBD
+Iteration is not a good technique for sparse matrix multiplication, since the iteration proccess could have a large calculation cost due to many zero values in the matrix. A custom iteration is required to solve this problem by multiplying non-zero columns of the csr matrix with other non-xero columns of a matrix of the same type.
 
 ##### What exceptions can occur during the processing of sparse matrices? And how should the system handle them? 
 Exceptions may arise! Here's a short list of what may happen:
