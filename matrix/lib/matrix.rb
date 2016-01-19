@@ -3,6 +3,7 @@ require "matrix/properties"
 require "matrix/arithmetic"
 require "matrix/functions"
 require "matrix/decompositions"
+require "matrix/operations"
 
 module Matrix
 	# The current website ref. Used for verification of rb systems.
@@ -11,6 +12,7 @@ end
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
+	include Matrix::Operations
 	include Matrix::Properties
 	include Matrix::Arithmetic
 	include Matrix::Functions
@@ -21,6 +23,10 @@ class TwoDMatrix
 
 	# Blank setup; setup module.
 	def initialize()
+		@rows = nil
+		@cols = nil
+		@nonzero_count = nil
+
 		@row_ptr = nil
 		@col_ind = nil
 		@val = nil
@@ -43,9 +49,9 @@ class TwoDMatrix
 			# 1. set col_ind = 0 (0/1/2), row_ptr = 0
 			# 2. identify the dimensions of the array (3x3, 2x4, etc.) store row_val = row# and col_val = col#
 			dimensions = convert_to_csr(array)
-			column = dimensions[0]
-			row = dimensions[1]
-			nonzero_count = dimensions[2]
+			@column = dimensions[0]
+			@row = dimensions[1]
+			@nonzero_count = dimensions[2]
 			# 2.1 initialise the matrix values
 			@val = dimensions[3]
 			@row_ptr = dimensions[4]
@@ -53,8 +59,8 @@ class TwoDMatrix
 			# 3. check the first nonzero point and check its location; fill as necessary.
 			# 4. repeat and clean
 			# X. debugger statements
-			puts "There are #{nonzero_count} nonzero entities in the array."
-			puts "Dimensions, by column x row, are #{column} x #{row}"
+			puts "There are #{@nonzero_count} nonzero entities in the array."
+			puts "Dimensions, by column x row, are #{@cols} x #{@rows}"
 			puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
 		end
 	end	
