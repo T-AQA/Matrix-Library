@@ -9,11 +9,17 @@ module Matrix
     def scalar_add(value)
       # create an identity matrix with the value
       # matrix_add the new identity matrix to the given matrix
+      @val.each_index do |i|
+        @val[i] = @val[i] + value
+      end
     end
 
     def scalar_subtract(value)
       # create an identity matrix with the value
       # matrix_subtract the new identity matrix to the given matrix
+      @val.each_index do |i|
+        @val[i] = @val[i] - value
+      end
     end
 
     def scalar_division(value)
