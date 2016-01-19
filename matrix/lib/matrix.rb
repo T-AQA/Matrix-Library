@@ -75,7 +75,7 @@ class TwoDMatrix
 	# Builds when given a 2d array to CSR
 	def build_from_array(array)
 		if depth(array) == 2
-			puts "Array dim is correct.\nBuilding CSR format."
+			#puts "Array dim is correct.\nBuilding CSR format."
 			
 			dimensions = convert_to_csr(array)
 			@columns = dimensions[0]
@@ -85,9 +85,9 @@ class TwoDMatrix
 			@row_ptr = dimensions[4]
 			@col_ind = dimensions[5]
 
-			puts "There are #{nonzero_count} nonzero entities in the array."
-			puts "Dimensions, by column x row, are #{@columns} x #{@rows}"
-			puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
+			#puts "There are #{nonzero_count} nonzero entities in the array."
+			#puts "Dimensions, by column x row, are #{@columns} x #{@rows}"
+			#puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
 			return true
 		end
 		return false
