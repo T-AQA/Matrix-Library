@@ -1,5 +1,6 @@
 module Matrix    
   module Arithmetic
+
     def scalar_multiply(value)
       @val.each_index do |i|
         @val[i] = @val[i] * value
@@ -82,9 +83,23 @@ module Matrix
     def multiply_csr(matrix)
       return matrix.matrix_multiply(self.decompose())
     end 
+
+    def is_same_dim(matrix)
+      return self.dimensions() == matrix.dimensions()
+    end
     
     def matrix_add(matrix)
-
+      if self.is_same_dim(matrix)
+        res = Array.new(@rows) { Array.new(@columns, 0) }
+        # remove the first index from both of the 
+        arraya = self.decompose()
+        arrayb = matrix.decompose()
+        puts "endarray: #{arraya + arrayb}"
+        self.convert_to_csr(arraya + arrayb) # DOESN'T WORK RIGHT NOW 
+        return true
+      end 
+      puts "Matrix does not have same dimensions; cannot add."
+      return false
     end
 
     def matrix_subtract(matrix)
@@ -101,6 +116,17 @@ module Matrix
 
     def matrix_exp(matrix)
 
+    end
+
+    # Identifies the 'row' value of an array (eg. the number of entries in a row)
+    # Helper function, will clean after.
+    def max_row(array)
+      values = array
+      max_count = 0
+      values.each_index do |i|
+        max_count += 1
+      end
+      return max_count
     end
 
   end 
