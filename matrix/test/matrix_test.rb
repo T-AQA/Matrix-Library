@@ -10,8 +10,8 @@ class UrlTest < Minitest::Test
 end
 
 class DemoTest < Minitest::Test
-	def setup 
-		@matrix = TwoDMatrix.new
+  def setup 
+    @matrix = TwoDMatrix.new
 
     @matrixDense3x3 = TwoDMatrix.new
     @matrixDense3x3.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
@@ -21,7 +21,7 @@ class DemoTest < Minitest::Test
 
     @matrixTrigonal3x3 = TwoDMatrix.new
     @matrixTrigonal3x3.build_from_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
-	end
+  end
 
   def test_build_from_array
     assert @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])

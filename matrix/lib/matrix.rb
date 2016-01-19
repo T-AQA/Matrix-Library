@@ -7,44 +7,44 @@ require "matrix/operations"
 require "matrix/helpers"
 
 module Matrix
-	# The current website ref. Used for verification of rb systems.
-	Url = "https://github.com/Team-Aqua/Matrix-Library/"
+  # The current website ref. Used for verification of rb systems.
+  Url = "https://github.com/Team-Aqua/Matrix-Library/"
 end
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
-	include Matrix::Operations
-	include Matrix::Properties
-	include Matrix::Arithmetic
-	include Matrix::Functions
-	include Matrix::Decompositions
-	include Matrix::Helpers
+  include Matrix::Operations
+  include Matrix::Properties
+  include Matrix::Arithmetic
+  include Matrix::Functions
+  include Matrix::Decompositions
+  include Matrix::Helpers
 
-	# The current website ref. Used for verification of rb systems.
-	Url = "https://github.com/Team-Aqua/Matrix-Library/"
-	attr_reader :row_ptr, :col_ind, :val, :rows, :columns, :ndim
+  # The current website ref. Used for verification of rb systems.
+  Url = "https://github.com/Team-Aqua/Matrix-Library/"
+  attr_reader :row_ptr, :col_ind, :val, :rows, :columns, :ndim
 
-	# Blank setup; setup module.
-	def initialize()
-		@rows = nil
-		@cols = nil
-		@nonzero_count = nil
+  # Blank setup; setup module.
+  def initialize()
+    @rows = nil
+    @cols = nil
+    @nonzero_count = nil
 
-		@row_ptr = nil
-		@col_ind = nil
-		@val = nil
-		@rows = 0
-		@columns = 0
-		@ndim = 2
-	end
+    @row_ptr = nil
+    @col_ind = nil
+    @val = nil
+    @rows = 0
+    @columns = 0
+    @ndim = 2
+  end
 
-	##
-	# SPARSE MATRIX ATTRIBUTE OPERATORS 
-	# matrix attributes and overloaded operators
-	#
+  ##
+  # SPARSE MATRIX ATTRIBUTE OPERATORS 
+  # matrix attributes and overloaded operators
+  #
 
-	# equals override for matrix operations
-	def ==(o)
+  # equals override for matrix operations
+  def ==(o)
     o.class == self.class && o.state == state
   end
 
@@ -54,104 +54,104 @@ class TwoDMatrix
   end
 
   # Finds column and row value of an array. 
-	def dimensions()
-		return [@rows, @columns]
-	end
+  def dimensions()
+    return [@rows, @columns]
+  end
 
-	##
-	# MATRIX DECOMPOSITION FUNCTIONS
-	#
+  ##
+  # MATRIX DECOMPOSITION FUNCTIONS
+  #
 
-	def decompose()
-		res = Array.new(@rows) { Array.new(@columns, 0) }
-		row_counter = 0
-		row_idx = 0
-		@row_ptr.drop(1).each do |i| #eg. 2 4 7 10
-			while row_counter < i 
-				res[row_idx][@col_ind[row_counter]] = @val[row_counter]
-				row_counter += 1
-			end	
-			row_idx += 1
-		end
-		return res
-	end
+  def decompose()
+    res = Array.new(@rows) { Array.new(@columns, 0) }
+    row_counter = 0
+    row_idx = 0
+    @row_ptr.drop(1).each do |i| #eg. 2 4 7 10
+      while row_counter < i 
+        res[row_idx][@col_ind[row_counter]] = @val[row_counter]
+        row_counter += 1
+      end 
+      row_idx += 1
+    end
+    return res
+  end
 
-	##
-	# MATRIX GENERATION FUNCTIONS 
-	# generation of csr matrix
-	#
+  ##
+  # MATRIX GENERATION FUNCTIONS 
+  # generation of csr matrix
+  #
 
-	# Builds when given a 2d array to CSR
-	def build_from_array(array)
-		if depth(array) == 2
-			#puts "Array dim is correct.\nBuilding CSR format."
-			
-			dimensions = convert_to_csr(array)
-			@columns = dimensions[0]
-			@rows = dimensions[1]
-			nonzero_count = dimensions[2] # FIXME: consider removing
-			@val = dimensions[3]
-			@row_ptr = dimensions[4]
-			@col_ind = dimensions[5]
+  # Builds when given a 2d array to CSR
+  def build_from_array(array)
+    if depth(array) == 2
+      #puts "Array dim is correct.\nBuilding CSR format."
+      
+      dimensions = convert_to_csr(array)
+      @columns = dimensions[0]
+      @rows = dimensions[1]
+      nonzero_count = dimensions[2] # FIXME: consider removing
+      @val = dimensions[3]
+      @row_ptr = dimensions[4]
+      @col_ind = dimensions[5]
 
-			#puts "There are #{nonzero_count} nonzero entities in the array."
-			#puts "Dimensions, by column x row, are #{@columns} x #{@rows}"
-			#puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
-			return true
-		end
-		return false
-	end	
+      #puts "There are #{nonzero_count} nonzero entities in the array."
+      #puts "Dimensions, by column x row, are #{@columns} x #{@rows}"
+      #puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
+      return true
+    end
+    return false
+  end 
 
-	# Builds array using user-generated CSR values
-	def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
-		# generate 
-		@val = val
-		@row_ptr = row_ptr
-		@col_ind = col_ind
-		@rows = row_siz
-		@columns = col_siz
-	end
+  # Builds array using user-generated CSR values
+  def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
+    # generate 
+    @val = val
+    @row_ptr = row_ptr
+    @col_ind = col_ind
+    @rows = row_siz
+    @columns = col_siz
+  end
 
-	# Finds the column count, row count and non-zero values in one loop. 
-	def convert_to_csr(array)
-		row_count = 0
-		col_count = 0
-		nonzero_count = 0
+  # Finds the column count, row count and non-zero values in one loop. 
+  def convert_to_csr(array)
+    row_count = 0
+    col_count = 0
+    nonzero_count = 0
 
-		row_val = 0
-		row_prev_sum = 0; 
+    row_val = 0
+    row_prev_sum = 0; 
 
-		col_val = 0
+    col_val = 0
 
-		value_array = Array.new
-		row_ptr = Array.new
-		col_ind = Array.new
-		
-		array.each_index do |i| # each row
-			col_val = 0 # eg. for pos [0, 1, 2, 3] it goes 0, 1, 2, 3
-			col_tmp = 0
-			row_count += 1
-			row_prev_sum = row_val
-			row_ptr << row_prev_sum # ref: http://op2.github.io/PyOP2/linear_algebra.html
-			subarray = array[i]
-			subarray.each_index do |x| # each column entry in row
-				col_tmp += 1
-				if array[i][x] != 0
-					# use nonzero value in CSR
-		  		nonzero_count += 1
-		  		value_array << array[i][x]
-		  		col_ind << col_val
-		  		row_val += 1
-		  	end
-		  	col_val += 1 # eg. col_val add at the end
-			end
-			if col_tmp >= col_count
-				col_count = col_tmp
-			end
-		end
-		row_prev_sum = row_val
-		row_ptr << row_prev_sum
-		return [col_count, row_count, nonzero_count, value_array, row_ptr, col_ind]
-	end
+    value_array = Array.new
+    row_ptr = Array.new
+    col_ind = Array.new
+    
+    array.each_index do |i| # each row
+      col_val = 0 # eg. for pos [0, 1, 2, 3] it goes 0, 1, 2, 3
+      col_tmp = 0
+      row_count += 1
+      row_prev_sum = row_val
+      row_ptr << row_prev_sum # ref: http://op2.github.io/PyOP2/linear_algebra.html
+      subarray = array[i]
+      subarray.each_index do |x| # each column entry in row
+        col_tmp += 1
+        if array[i][x] != 0
+          # use nonzero value in CSR
+          nonzero_count += 1
+          value_array << array[i][x]
+          col_ind << col_val
+          row_val += 1
+        end
+        col_val += 1 # eg. col_val add at the end
+      end
+      if col_tmp >= col_count
+        col_count = col_tmp
+      end
+    end
+    row_prev_sum = row_val
+    row_ptr << row_prev_sum
+    return [col_count, row_count, nonzero_count, value_array, row_ptr, col_ind]
+  end
 
 end
