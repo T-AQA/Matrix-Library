@@ -43,6 +43,30 @@ class TwoDMatrix
   def state
     [@val, @row_ptr, @col_ind, @rows, @columns, @ndim]
   end
+  
+	def row_ptr
+		@row_ptr
+	end 
+
+	def col_ind
+		@col_ind
+	end
+
+	def val
+		@val
+	end
+
+	def rows
+		@rows
+	end
+
+	def columns
+		@columns
+	end
+
+	def ndim
+		@ndim
+	end
 
   # Finds column and row value of an array. 
 	def dimensions()
