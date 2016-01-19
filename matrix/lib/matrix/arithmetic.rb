@@ -49,7 +49,7 @@ module Matrix
 
     # dev based on http://stackoverflow.com/questions/29598299/csr-matrix-matrix-multiplication
     # multiply dense (non-dense) matrix to csr matrix [eg. [1, 2]] x 2d array
-    # WIP
+    # key: the dense matrix is LEFT SIDE, the csr matrix is RIGHT SIDE
     def matrix_multiply(matrix)
       # matrix order, assumes both matrices are square
       res = Array.new(max_row(matrix)) { Array.new(@columns, 0) } # first denotes row, second denotes columns
@@ -80,7 +80,7 @@ module Matrix
 
     # multiply two csr together - ref: http://www.mcs.anl.gov/papers/P5007-0813_1.pdf
     def multiply_csr(matrix)
-      return matrix_multiply(matrix.decompose())
+      return matrix.matrix_multiply(self.decompose())
     end 
     
     def matrix_add(matrix)
