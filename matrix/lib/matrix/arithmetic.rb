@@ -103,50 +103,5 @@ module Matrix
 
     end
 
-    ##
-    # HELPER FUNCTIONS
-    #
-
-    # Identifies the 'column' value of an array (eg. the number of entries in a column)
-    def max_col(array)
-      values = array
-      max_count = 0
-      # Loop over indexes.
-      values.each_index do |i|
-        counter = 0
-        # Get subarray and loop over its indexes also.
-        subarray = values[i]
-        subarray.each_index do |x|
-          counter += 1
-        end
-        if counter > max_count
-          max_count = counter
-        end
-      end
-      return max_count
-    end
-
-    # Identifies the 'row' value of an array (eg. the number of entries in a row)
-    def max_row(array)
-      values = array
-      max_count = 0
-      values.each_index do |i|
-        max_count += 1
-      end
-      return max_count
-    end
-
-    # Counts all elements in array - assumed 2d
-    def count_total(array) 
-      max_count = 0
-      array.each_index do |i|
-        subarray = array[i]
-        subarray.each_index do |x|
-          max_count += 1
-        end
-      end
-      return max_count
-    end
-
   end 
 end
