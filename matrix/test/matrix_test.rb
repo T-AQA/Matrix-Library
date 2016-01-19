@@ -24,11 +24,15 @@ class DemoTest < Minitest::Test
 	end
 
   def test_build_from_array
-      @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    assert @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+  end
+
+  def test_decomposition
+    assert_equal @matrixSparse3x3.decompose(), [[0, 2, 0], [1, 0, 0], [0, 2, 0]]
   end
 
   def test_dimensions
-      assert_equal @matrixSparse3x3.dimensions(), [3, 3]
+    assert_equal @matrixSparse3x3.dimensions(), [3, 3]
   end
 
 end
