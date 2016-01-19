@@ -50,6 +50,24 @@ class TwoDMatrix
 	end
 
 	##
+	# MATRIX DECOMPOSITION FUNCTIONS
+	#
+
+	def decompose()
+		res = Array.new(@rows) { Array.new(@columns, 0) }
+		row_counter = 0
+		row_idx = 0
+		@row_ptr.drop(1).each do |i| #eg. 2 4 7 10
+			while row_counter < i 
+				res[row_idx][@col_ind[row_counter]] = @val[row_counter]
+				row_counter += 1
+			end	
+			row_idx += 1
+		end
+		return res
+	end
+
+	##
 	# MATRIX GENERATION FUNCTIONS 
 	# generation of csr matrix
 	#
@@ -70,7 +88,9 @@ class TwoDMatrix
 			puts "There are #{nonzero_count} nonzero entities in the array."
 			puts "Dimensions, by column x row, are #{@columns} x #{@rows}"
 			puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
+			return true
 		end
+		return false
 	end	
 
 	# Builds array using user-generated CSR values
