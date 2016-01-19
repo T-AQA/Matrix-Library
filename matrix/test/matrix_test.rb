@@ -13,40 +13,57 @@ class DemoTest < Minitest::Test
 	def setup 
 		@matrix = TwoDMatrix.new
 
-        @matrixDense3x3 = TwoDMatrix.new
-        @matrixDense3x3.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    @matrixDense3x3 = TwoDMatrix.new
+    @matrixDense3x3.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
 
-        @matrixSparse3x3 = TwoDMatrix.new
-        @matrixSparse3x3.build_from_array([[0, 2, 0], [1, 0, 0], [0, 2, 0]])
+    @matrixSparse3x3 = TwoDMatrix.new
+    @matrixSparse3x3.build_from_array([[0, 2, 0], [1, 0, 0], [0, 2, 0]])
 
-        @matrixTrigonal3x3 = TwoDMatrix.new
-        @matrixTrigonal3x3.build_from_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    @matrixTrigonal3x3 = TwoDMatrix.new
+    @matrixTrigonal3x3.build_from_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
 	end
 
-	# def test_demo_show
-	# 	multiarray = [[1,2,3], [1,2,3]]
-	# 	puts "**Demo Intro**"
-	# 	puts @matrix.demo_show(multiarray)
-	# 	puts "**End demo intro**"
-	# end
+  def test_build_from_array
+    assert @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+  end
 
-	# def test_demo_by_index
-	# 	multiarray = [[1,2,3], [1,2,3]]
-	# 	puts "**Demo by Index**"
-	# 	puts @matrix.demo_by_index(multiarray)
-	# 	puts "**End demo by index**"
-	# end
+  def test_decomposition
+    assert_equal @matrixSparse3x3.decompose(), [[0, 2, 0], [1, 0, 0], [0, 2, 0]]
+  end
 
-    def test_build_from_array
-        @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
-    end
+  def test_dimensions
+    assert_equal @matrixSparse3x3.dimensions(), [3, 3]
+  end
 
-    def test_dimensions
-        #assert_equal @matrixSparse3x3.dimensions(), [3, 3]
-    end
+end
+
+class AlgorithmTest < Minitest::Test
+  def setup
+    @matrix = TwoDMatrix.new
+    @matrix.build_from_array([[1,2],[3,4]])
+
+    @matrixConst = TwoDMatrix.new
+    @matrixConst.build_from_array([[1,2],[3,4]])
 
     def test_print_full
         assert_output(/0  2  0  \n1  0  0  \n0  2  0  \n/) {@matrixSparse3x3.print_full()}
     end
 
+    @matrixa = TwoDMatrix.new
+    @matrixb = TwoDMatrix.new
+    @matrixa.build_from_array([[1,2],[3,4]])
+    @matrixb.build_from_array([[1,2],[3,4]])
+  end
+
+  def test_multiply_const
+    assert_equal @matrixConst.scalar_multiply(2), [2,4,6,8]
+  end
+
+  def test_multiply_dense
+    assert_equal @matrix.matrix_multiply([[1,2],[3,4]]), [[7, 10], [15, 22]]
+  end
+
+  def test_multiply_matrices
+    assert_equal @matrixa.multiply_csr(@matrixb), [[7, 10], [15, 22]]
+  end
 end
