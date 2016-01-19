@@ -32,3 +32,21 @@ class DemoTest < Minitest::Test
   end
 
 end
+
+class AlgorithmTest < Minitest::Test
+  def setup
+    @matrix = TwoDMatrix.new
+    @matrix.build_from_array([[1,2],[3,4]])
+
+    @matrixConst = TwoDMatrix.new
+    @matrixConst.build_from_array([[1,2],[3,4]])
+  end
+
+  def test_multiply_const
+    assert_equal @matrixConst.scalar_multiply(2), [2,4,6,8]
+  end
+
+  def test_multiply_dense
+    assert_equal @matrix.matrix_multiply([[1,2],[3,4]]), [[7, 10], [15, 22]]
+  end
+end
