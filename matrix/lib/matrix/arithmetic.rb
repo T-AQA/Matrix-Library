@@ -17,15 +17,21 @@ module Matrix
     end
 
     def scalar_division(value)
-
+      @val.each_index do |i|
+        @val[i] = @val[i] / value
+      end
     end
 
     def scalar_exp(value)
-
+      @val.each_index do |i|
+        @val[i] = @val[i] ** value
+      end
     end
 
     def inverse()
-
+      @val.each_index do |i|
+        @val[i] = 1/@val[i]
+      end
     end
 
     def transpose()
