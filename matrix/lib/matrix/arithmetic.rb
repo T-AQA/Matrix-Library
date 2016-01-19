@@ -77,6 +77,11 @@ module Matrix
       end
       return res
     end
+
+    # multiply two csr together - ref: http://www.mcs.anl.gov/papers/P5007-0813_1.pdf
+    def multiply_csr(matrix)
+      return matrix_multiply(matrix.decompose())
+    end 
     
     def matrix_add(matrix)
 
