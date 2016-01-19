@@ -44,6 +44,11 @@ class AlgorithmTest < Minitest::Test
 
     @matrixConst = TwoDMatrix.new
     @matrixConst.build_from_array([[1,2],[3,4]])
+
+    @matrixa = TwoDMatrix.new
+    @matrixb = TwoDMatrix.new
+    @matrixa.build_from_array([[1,2],[3,4]])
+    @matrixb.build_from_array([[1,2],[3,4]])
   end
 
   def test_multiply_const
@@ -52,5 +57,9 @@ class AlgorithmTest < Minitest::Test
 
   def test_multiply_dense
     assert_equal @matrix.matrix_multiply([[1,2],[3,4]]), [[7, 10], [15, 22]]
+  end
+
+  def test_multiply_matrices
+    assert_equal @matrixa.multiply_csr(@matrixb), [[7, 10], [15, 22]]
   end
 end
