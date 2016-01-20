@@ -91,12 +91,24 @@ module Matrix
     def matrix_add(matrix)
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
-        # remove the first index from both of the 
-        arraya = self.decompose()
-        arrayb = matrix.decompose()
-        puts "endarray: #{arraya + arrayb}"
-        self.convert_to_csr(arraya + arrayb) # DOESN'T WORK RIGHT NOW 
-        return true
+        row_idx = 0
+        cnta = 0 # total logged entries for matrix a 
+        cntb = 0
+        while row_idx < @rows # eg. 0 1 2
+          rowa = @row_ptr[row_idx + 1] # eg. 0 2 4 7
+          rowb = matrix.row_ptr[row_idx + 1]
+          while cnta < rowa
+            # keep adding values to res until they're equal
+            res[row_idx][@col_ind[cnta]] += @val[cnta]
+            cnta += 1;
+          end
+          while cntb < rowb
+            res[row_idx][@col_ind[cntb]] += @val[cntb]
+            cntb += 1;
+          end  
+          row_idx += 1;
+        end
+        return res
       end 
       puts "Matrix does not have same dimensions; cannot add."
       return false
