@@ -10,23 +10,35 @@ module Matrix
     def scalar_add(value)
       # create an identity matrix with the value
       # matrix_add the new identity matrix to the given matrix
+      @val.each_index do |i|
+        @val[i] = @val[i] + value
+      end
     end
 
     def scalar_subtract(value)
       # create an identity matrix with the value
       # matrix_subtract the new identity matrix to the given matrix
+      @val.each_index do |i|
+        @val[i] = @val[i] - value
+      end
     end
 
     def scalar_division(value)
-
+      @val.each_index do |i|
+        @val[i] = @val[i] / value
+      end
     end
 
     def scalar_exp(value)
-
+      @val.each_index do |i|
+        @val[i] = @val[i] ** value
+      end
     end
 
     def inverse()
-
+      @val.each_index do |i|
+        @val[i] = 1/@val[i]
+      end
     end
 
     def transpose()
