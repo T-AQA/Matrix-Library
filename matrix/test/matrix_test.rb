@@ -55,15 +55,63 @@ class AlgorithmTest < Minitest::Test
     @matrixb.build_from_array([[1,2],[3,4]])
   end
 
-  def test_multiply_const
+  def test_scalar_multiply
     assert_equal @matrixConst.scalar_multiply(2), [2,4,6,8]
   end
 
-  def test_multiply_dense
-    assert_equal @matrix.matrix_multiply([[1,2],[3,4]]), [[7, 10], [15, 22]]
+  def test_scalar_add
+    assert_equal @matrixConst.scalar_add(2), [3,4,5,6]
   end
 
-  def test_multiply_matrices
+  def test_scalar_subtract
+    assert_equal @matrixConst.scalar_subtract(1), [0,1,2,3]
+  end
+
+  def test_scalar_division
+    assert_equal @matrixConst.scalar_division(2), [0.5, 1.0, 1.5, 2.0] 
+  end
+
+  # FIXME: convert everything to float with .to_f (ref: http://stackoverflow.com/questions/16563758/how-to-initialize-a-variable-to-the-type-double-in-ruby)
+  def test_scalar_exp
+    assert_equal @matrixConst.scalar_exp(2), [1,4,9,16]
+  end
+
+  def test_inverse
+    assert_equal @matrixConst.inverse(), [1.0, 0.5, 0.3333333333333333, 0.25] 
+  end
+
+  # not implemented yet
+  def test_transpose
+    #assert_equal @matrixConst.transpose(), [[1,3],[2,4]]
+  end
+
+  def test_matrix_multiply
     assert_equal @matrixa.multiply_csr(@matrixb), [[7, 10], [15, 22]]
   end
+
+  def test_is_same_dim
+    assert @matrixa.is_same_dim(@matrixb)
+  end
+
+  def test_matrix_add
+    assert_equal @matrixa.matrix_add(@matrixb), [[2,4],[6,8]]
+  end
+
+  def test_matrix_subtract
+    assert_equal @matrixa.matrix_subtract(@matrixb), [[0,0],[0,0]]
+  end
+
+  def test_matrix_left_division
+    # assert_equal @matrixa.matrix_left_division(@matrixb), [[1,0],[0,1]]
+    # we multiply by the inverse of b
+  end  
+
+  def test_matrix_right_division
+    # assert_equal @matrixa.matrix_left_division(@matrixb), [[1,0],[0,1]]
+  end
+
+  def test_matrix_exp
+    # dev
+  end 
+
 end

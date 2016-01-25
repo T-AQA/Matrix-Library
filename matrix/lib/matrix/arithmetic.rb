@@ -25,7 +25,7 @@ module Matrix
 
     def scalar_division(value)
       @val.each_index do |i|
-        @val[i] = @val[i] / value
+        @val[i] = @val[i] / value.to_f
       end
     end
 
@@ -37,7 +37,7 @@ module Matrix
 
     def inverse()
       @val.each_index do |i|
-        @val[i] = 1/@val[i]
+        @val[i] = 1/@val[i].to_f
       end
     end
 
@@ -115,7 +115,7 @@ module Matrix
             cnta += 1;
           end
           while cntb < rowb
-            res[row_idx][@col_ind[cntb]] += @val[cntb]
+            res[row_idx][@col_ind[cntb]] += matrix.val[cntb]
             cntb += 1;
           end  
           row_idx += 1;
@@ -127,15 +127,41 @@ module Matrix
     end
 
     def matrix_subtract(matrix)
-
+      if self.is_same_dim(matrix)
+        res = Array.new(@rows) { Array.new(@columns, 0) }
+        row_idx = 0
+        cnta = 0 # total logged entries for matrix a 
+        cntb = 0
+        while row_idx < @rows # eg. 0 1 2
+          rowa = @row_ptr[row_idx + 1] # eg. 0 2 4 7
+          rowb = matrix.row_ptr[row_idx + 1]
+          while cnta < rowa
+            # keep adding values to res until they're equal
+            res[row_idx][@col_ind[cnta]] += @val[cnta]
+            cnta += 1;
+          end
+          while cntb < rowb
+            res[row_idx][@col_ind[cntb]] -= matrix.val[cntb]
+            cntb += 1;
+          end  
+          row_idx += 1;
+        end
+        return res
+      end 
+      puts "Matrix does not have same dimensions; cannot subtract."
+      return false
     end
 
+    # dev
     def matrix_left_division(matrix)
-
+      matrix.inverse()
+      return self.multiply_csr(matrix)
     end
 
+    # dev
     def matrix_right_division(matrix)
-
+      self.inverse()
+      return matrix.multiply_csr(self)
     end
 
     def matrix_exp(matrix)
