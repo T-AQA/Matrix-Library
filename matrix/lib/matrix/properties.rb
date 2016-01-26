@@ -33,7 +33,7 @@ module Matrix
 
         end
 
-        def regular()
+        def nonsingular()
 
         end
 

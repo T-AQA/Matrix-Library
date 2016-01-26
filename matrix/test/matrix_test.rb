@@ -186,8 +186,8 @@ class PropertiesTest < Minitest::Test
     assert @matrixSparse3x3.real()
   end
 
-	def test_regular
-    assert @matrixTrigonal3x3.regular()
+	def test_nonsingular
+    assert @matrixTrigonal3x3.nonsingular()
   end
 
 	def test_singular
