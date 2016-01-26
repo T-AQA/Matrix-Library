@@ -25,13 +25,5 @@ module CsrMatrix
 
         end
 
-        def transpose()
-
-        end
-
-        def t()
-
-        end
-
     end
 end
