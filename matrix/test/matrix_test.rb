@@ -301,3 +301,31 @@ class FunctionsTest < Minitest::Test
   end
 
 end 
+
+class HelpersTest < Minitest::Test
+
+  def setup
+		@testArray = [[0, 1, 0], [2, 0, 0], [0, 0, 3]]
+  end
+
+  def test_max_col
+    assert_equal max_col(@testArray), 3
+  end
+
+	def test_max_row
+    assert_equal max_row(@testArray), 3
+  end
+
+	def test_nonzero
+    assert_equal nonzero(@testArray), 3
+  end
+
+	def test_depth
+    assert_equals depth(@testArray), 2
+  end
+
+	def test_count_total
+    assert_equals count_total(@testArray), 9
+  end
+
+end
