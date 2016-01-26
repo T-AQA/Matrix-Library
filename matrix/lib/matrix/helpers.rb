@@ -1,6 +1,6 @@
 module Matrix
   module Helpers
-
+  	
 		##
 		# ARRAY FUNCTIONS
 		# for pre-processing of matrix

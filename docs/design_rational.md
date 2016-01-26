@@ -40,9 +40,7 @@ The design patterns are most useful when parsing the array for further processin
 Yes! The goal is to make a generic library operation - as a result, we cannot define all library operations from the development side. However, we know enough about the generic properties of matrices that we can develop the overarching design using generic implementaitons - of which can be exercised using the aforementioned design patterns.
 
 ##### What implementation approach are you using (reuse class, modify class, inherit from class, compose with class, build new standalone class); justify your selection.
-TBD - Initial design proposes test-driven development, but design process will likely be:
-	1. Build new standalone class.
-	2. Reuse/modify class.
+Initial design proposes test-driven development. Once tests are built, new stand alone classes are constructed to fill out all of the functionality of the library.
 
 ##### Is iteration a good technique for sparse matrix manipulation? Is “custom” iteration required for this problem? 
 Iteration is not a good technique for sparse matrix multiplication, since the iteration proccess could have a large calculation cost due to many zero values in the matrix. A custom iteration is required to solve this problem by multiplying non-zero columns of the CRS matrix with other non-xero columns of a matrix of the same type.
