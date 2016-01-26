@@ -98,12 +98,12 @@ class AlgorithmTest < Minitest::Test
   end
 
   def test_matrix_left_division
-    # assert_equal [[1,0],[0,1]], @matrixa.matrix_left_division(@matrixb)
+    assert_equal [[1,0],[0,1]], @matrixa.matrix_left_division(@matrixb)
     # we multiply by the inverse of b
   end  
 
   def test_matrix_right_division
-    # assert_equal [[1,0],[0,1]], @matrixa.matrix_left_division(@matrixb)
+    assert_equal [[1,0],[0,1]], @matrixa.matrix_left_division(@matrixb)
   end
 
   def test_matrix_exp
@@ -145,7 +145,7 @@ class PropertiesTest < Minitest::Test
     @matrixTrigonal3x3.build_from_array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])
 
 		@matrixEmpty3x3 = TwoDMatrix.new
-    @matrixEmpty3x3.build_from_array([[ , , ], [ , , ], [ , , ]])
+    @matrixEmpty3x3.build_from_array([[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]])
 
 		@matrixZero3x3 = TwoDMatrix.new
     @matrixZero3x3.build_from_array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])

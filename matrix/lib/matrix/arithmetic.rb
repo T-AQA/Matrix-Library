@@ -154,14 +154,18 @@ module Matrix
 
     # dev
     def matrix_left_division(matrix)
-      matrix.inverse()
-      return self.multiply_csr(matrix)
+      tmpmatrix = TwoDMatrix.new
+      tmpmatrix = matrix
+      tmpmatrix.inverse()
+      return self.multiply_csr(tmpmatrix)
     end
 
     # dev
     def matrix_right_division(matrix)
-      self.inverse()
-      return matrix.multiply_csr(self)
+      tmpmatrix = TwoDMatrix.new
+      tmpmatrix = self
+      tmpmatrix.inverse()
+      return matrix.multiply_csr(tmpmatrix)
     end
 
     def matrix_exp(matrix)
