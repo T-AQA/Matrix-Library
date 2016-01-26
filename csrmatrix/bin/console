@@ -2,6 +2,7 @@
 
 require "bundler/setup"
 require "matrix"
+require "csrmatrix"
 require "basicMatrix"
 
 # You can add fixtures and/or initialization code here to make experimenting

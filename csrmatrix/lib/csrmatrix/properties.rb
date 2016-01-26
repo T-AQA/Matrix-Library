@@ -1,4 +1,4 @@
-module Matrix
+module CsrMatrix
     module Properties
         
         def diagonal()

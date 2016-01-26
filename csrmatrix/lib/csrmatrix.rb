@@ -1,24 +1,24 @@
-require "matrix/version"
-require "matrix/properties"
-require "matrix/arithmetic"
-require "matrix/functions"
-require "matrix/decompositions"
-require "matrix/operations"
-require "matrix/helpers"
+require "csrmatrix/version"
+require "csrmatrix/properties"
+require "csrmatrix/arithmetic"
+require "csrmatrix/functions"
+require "csrmatrix/decompositions"
+require "csrmatrix/operations"
+require "csrmatrix/helpers"
 
-module Matrix
+module CsrMatrix
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
 end
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
-  include Matrix::Operations
-  include Matrix::Properties
-  include Matrix::Arithmetic
-  include Matrix::Functions
-  include Matrix::Decompositions
-  include Matrix::Helpers
+  include CsrMatrix::Operations
+  include CsrMatrix::Properties
+  include CsrMatrix::Arithmetic
+  include CsrMatrix::Functions
+  include CsrMatrix::Decompositions
+  include CsrMatrix::Helpers
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"

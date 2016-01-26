@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Matrix do
+describe CsrMatrix do
   it 'has a version number' do
-    expect(Matrix::VERSION).not_to be nil
+    expect(CsrMatrix::VERSION).not_to be nil
   end
 
   it 'does something useful' do

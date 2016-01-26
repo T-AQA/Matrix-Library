@@ -1,11 +1,11 @@
 require "minitest/autorun"
-require "matrix"
+require "csrmatrix"
 
 # test with bundle exec rake
 class UrlTest < Minitest::Test
   def test_url
     assert_equal "https://github.com/Team-Aqua/Matrix-Library/", TwoDMatrix::Url
-    assert_equal "https://github.com/Team-Aqua/Matrix-Library/", Matrix::Url
+    assert_equal "https://github.com/Team-Aqua/Matrix-Library/", CsrMatrix::Url
   end
 end
 
@@ -73,7 +73,7 @@ class AlgorithmTest < Minitest::Test
   end
 
   def test_inverse
-    assert_equal [1.0, 0.5, 0.3333333333333333, 0.25], @matrixConst.inverse()
+    assert_equal [(-2/1), (3/2), (1/1), (-1/2)] , @matrixConst.inverse().val
   end
 
   # not implemented yet

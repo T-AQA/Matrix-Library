@@ -1,4 +1,6 @@
-module Matrix    
+require "matrix"
+
+module CsrMatrix    
   module Arithmetic
 
     def scalar_multiply(value)
@@ -36,9 +38,8 @@ module Matrix
     end
 
     def inverse()
-      @val.each_index do |i|
-        @val[i] = 1/@val[i].to_f
-      end
+      m = Matrix.columns(self.decompose)
+      self.build_from_array(m.inv().to_a())
     end
 
     def transpose()
