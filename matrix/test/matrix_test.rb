@@ -283,12 +283,12 @@ class FunctionsTest < Minitest::Test
   end
 
 	def test_trace
-    assert_equal @matrixSparse3x3.trace(), 6
+    assert_equal @matrixDense3x3.trace(), 6
   end
 
 	#alias for trace
 	def test_tr
-    assert_equal @matrixSparse3x3.tr(), 6
+    assert_equal @matrixDense3x3.tr(), 6
   end
 
 	def test_transpose
