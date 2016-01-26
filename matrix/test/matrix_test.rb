@@ -28,11 +28,11 @@ class DemoTest < Minitest::Test
   end
 
   def test_decomposition
-    assert_equal @matrixSparse3x3.decompose(), [[0, 2, 0], [1, 0, 0], [0, 2, 0]]
+    assert_equal [[0, 2, 0], [1, 0, 0], [0, 2, 0]], @matrixSparse3x3.decompose()
   end
 
   def test_dimensions
-    assert_equal @matrixSparse3x3.dimensions(), [3, 3]
+    assert_equal [3, 3], @matrixSparse3x3.dimensions()
   end
 
 end
@@ -52,37 +52,37 @@ class AlgorithmTest < Minitest::Test
   end
 
   def test_scalar_multiply
-    assert_equal @matrixConst.scalar_multiply(2), [2,4,6,8]
+    assert_equal [2,4,6,8], @matrixConst.scalar_multiply(2)
   end
 
   def test_scalar_add
-    assert_equal @matrixConst.scalar_add(2), [3,4,5,6]
+    assert_equal [3,4,5,6], @matrixConst.scalar_add(2)
   end
 
   def test_scalar_subtract
-    assert_equal @matrixConst.scalar_subtract(1), [0,1,2,3]
+    assert_equal [0,1,2,3], @matrixConst.scalar_subtract(1)
   end
 
   def test_scalar_division
-    assert_equal @matrixConst.scalar_division(2), [0.5, 1.0, 1.5, 2.0] 
+    assert_equal [0.5, 1.0, 1.5, 2.0], @matrixConst.scalar_division(2)
   end
 
   # FIXME: convert everything to float with .to_f (ref: http://stackoverflow.com/questions/16563758/how-to-initialize-a-variable-to-the-type-double-in-ruby)
   def test_scalar_exp
-    assert_equal @matrixConst.scalar_exp(2), [1,4,9,16]
+    assert_equal [1,4,9,16], @matrixConst.scalar_exp(2)
   end
 
   def test_inverse
-    assert_equal @matrixConst.inverse(), [1.0, 0.5, 0.3333333333333333, 0.25] 
+    assert_equal [1.0, 0.5, 0.3333333333333333, 0.25], @matrixConst.inverse()
   end
 
   # not implemented yet
   def test_transpose
-    #assert_equal @matrixConst.transpose(), [[1,3],[2,4]]
+    #assert_equal [[1,3],[2,4]], @matrixConst.transpose()
   end
 
   def test_matrix_multiply
-    assert_equal @matrixa.multiply_csr(@matrixb), [[7, 10], [15, 22]]
+    assert_equal [[7, 10], [15, 22]], @matrixa.multiply_csr(@matrixb)
   end
 
   def test_is_same_dim
@@ -90,20 +90,20 @@ class AlgorithmTest < Minitest::Test
   end
 
   def test_matrix_add
-    assert_equal @matrixa.matrix_add(@matrixb), [[2,4],[6,8]]
+    assert_equal [[2,4],[6,8]], @matrixa.matrix_add(@matrixb)
   end
 
   def test_matrix_subtract
-    assert_equal @matrixa.matrix_subtract(@matrixb), [[0,0],[0,0]]
+    assert_equal [[0,0],[0,0]], @matrixa.matrix_subtract(@matrixb)
   end
 
   def test_matrix_left_division
-    # assert_equal @matrixa.matrix_left_division(@matrixb), [[1,0],[0,1]]
+    # assert_equal [[1,0],[0,1]], @matrixa.matrix_left_division(@matrixb)
     # we multiply by the inverse of b
   end  
 
   def test_matrix_right_division
-    # assert_equal @matrixa.matrix_left_division(@matrixb), [[1,0],[0,1]]
+    # assert_equal [[1,0],[0,1]], @matrixa.matrix_left_division(@matrixb)
   end
 
   def test_matrix_exp
@@ -231,21 +231,21 @@ class DecompositionsTest < Minitest::Test
 	#alias for eigensystem
 	#returns a list in the form {eigenvalues, eigenvectors}
   def test_eigen
-    assert_equal @matrixDense3x3.eigen(), [[6, 0, 0], [1, 1, 1], [-3, 0, 1], [-2, 1, 0]]
+		assert_equal [[6, 0, 0], [1, 1, 1], [-3, 0, 1], [-2, 1, 0]], @matrixDense3x3.eigen()
   end
 
 	def test_eigensystem
-    assert_equal @matrixDense3x3.eigensystem(), [[6, 0, 0], [1, 1, 1], [-3, 0, 1], [-2, 1, 0]]
+		assert_equal [[6, 0, 0], [1, 1, 1], [-3, 0, 1], [-2, 1, 0]], @matrixDense3x3.eigensystem()
   end
 
 	#alias for lup_decomposition
 	#Need to look into this for output http://www.wolframalpha.com/input/?i=%5B%5B0%2C+1%2C+0%5D%2C+%5B2%2C+0%2C+0%5D%2C+%5B0%2C+0%2C+3%5D%5D+LU+decomposition
 	def test_lup
-    #assert_equal @matrixSparse3x3.lup(), [L, U, P]
+    #assert_equal [L, U, P], @matrixSparse3x3.lup()
   end
 
 	def test_lup_decomposition
-    #assert_equal @matrixSparse3x3.lup_decomposition(), [L, U, P]
+    #assert_equal [L, U, P], @matrixSparse3x3.lup_decomposition()
   end
 
 end
@@ -266,38 +266,38 @@ class FunctionsTest < Minitest::Test
   end
 
   def test_determinant
-    assert_equal @matrixSparse3x3.determinant(), -6
+		assert_equal -6, @matrixSparse3x3.determinant()
   end
 
 	#alias for determinant
 	def test_det
-    assert_equal @matrixSparse3x3.det(), -6
+		assert_equal -6, @matrixSparse3x3.det()
   end
 
 	def test_rank
-    assert_equal @matrixSparse3x3.rank(), 3
+		assert_equal 3, @matrixSparse3x3.rank()
   end
 
 	def test_round
-    assert_equal @matrixFloat2x2.round(2), [[1.21, 3.22], [0.10, 2.24]]
+		assert_equal [[1.21, 3.22], [0.10, 2.24]], @matrixFloat2x2.round(2)
   end
 
 	def test_trace
-    assert_equal @matrixDense3x3.trace(), 6
+    assert_equal 6, @matrixDense3x3.trace()
   end
 
 	#alias for trace
 	def test_tr
-    assert_equal @matrixDense3x3.tr(), 6
+    assert_equal 6, @matrixDense3x3.tr()
   end
 
 	def test_transpose
-    assert_equal @matrixSparse3x3.transpose(), [[0, 2, 0], [1, 0, 0], [0, 0, 3]]
+    assert_equal [[0, 2, 0], [1, 0, 0], [0, 0, 3]], @matrixSparse3x3.transpose()
   end
 
 	#alias for transpose
 	def test_t
-    assert_equal @matrixSparse3x3.t(), [[0, 2, 0], [1, 0, 0], [0, 0, 3]]
+    assert_equal [[0, 2, 0], [1, 0, 0], [0, 0, 3]], @matrixSparse3x3.t()
   end
 
 end 
@@ -309,23 +309,23 @@ class HelpersTest < Minitest::Test
   end
 
   def test_max_col
-    assert_equal max_col(@testArray), 3
+    assert_equal 3, max_col(@testArray)
   end
 
 	def test_max_row
-    assert_equal max_row(@testArray), 3
+    assert_equal 3, max_row(@testArray)
   end
 
 	def test_nonzero
-    assert_equal nonzero(@testArray), 3
+    assert_equal 3, nonzero(@testArray)
   end
 
 	def test_depth
-    assert_equals depth(@testArray), 2
+    assert_equals 2, depth(@testArray)
   end
 
 	def test_count_total
-    assert_equals count_total(@testArray), 9
+    assert_equals 9, count_total(@testArray)
   end
 
 end
