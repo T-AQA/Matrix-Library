@@ -1,4 +1,4 @@
-module Matrix
+module CsrMatrix
     module Operations
         def get_value(index)
             return @val[index]

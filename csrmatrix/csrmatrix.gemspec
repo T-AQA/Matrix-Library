@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'matrix/version'
+require 'csrmatrix/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "matrix"
-  spec.version       = Matrix::VERSION
+  spec.name          = "csrmatrix"
+  spec.version       = CsrMatrix::VERSION
   spec.authors       = ["Anson Li, Quentin Lautischer, Aaron Plamondon"]
   spec.email         = ["hello@teamaqua.ca"]
 
