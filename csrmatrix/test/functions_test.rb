@@ -30,7 +30,8 @@ class FunctionsTest < Minitest::Test
   end
 
 	def test_round
-		assert_equal [[1.21, 3.22], [0.10, 2.24]], @matrixFloat2x2.round(2)
+    @matrixFloat2x2.round(2)
+		assert_equal [[1.21, 3.22], [0.10, 2.24]], @matrixFloat2x2.decompose()
   end
 
 	def test_trace
@@ -43,12 +44,14 @@ class FunctionsTest < Minitest::Test
   end
 
 	def test_transpose
-    assert_equal [[0, 2, 0], [1, 0, 0], [0, 0, 3]], @matrixSparse3x3.transpose().decompose()
+    @matrixSparse3x3.transpose()
+    assert_equal [[0, 2, 0], [1, 0, 0], [0, 0, 3]], @matrixSparse3x3.decompose
   end
 
 	#alias for transpose
 	def test_t
-    assert_equal [[0, 2, 0], [1, 0, 0], [0, 0, 3]], @matrixSparse3x3.t().decompose()
+    @matrixSparse3x3.t()
+    assert_equal [[0, 2, 0], [1, 0, 0], [0, 0, 3]], @matrixSparse3x3.decompose
   end
 
 end 

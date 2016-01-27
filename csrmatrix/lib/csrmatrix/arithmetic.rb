@@ -43,7 +43,7 @@ module CsrMatrix
     end
 
     def transpose()
-      m = Matrix.columns(self.decompose)
+      m = Matrix.rows(self.decompose)
       self.build_from_array(m.transpose.to_a())
     end
 
