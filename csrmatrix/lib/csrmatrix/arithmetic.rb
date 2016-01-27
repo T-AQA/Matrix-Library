@@ -38,7 +38,7 @@ module CsrMatrix
     end
 
     def inverse()
-      m = Matrix.columns(self.decompose)
+      m = Matrix.rows(self.decompose)
       self.build_from_array(m.inv().to_a())
     end
 

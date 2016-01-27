@@ -38,7 +38,7 @@ class AlgorithmTest < Minitest::Test
 
   def test_inverse
     @matrixConst.inverse()
-    assert_equal [(-2/1), (3/2), (1/1), (-1/2)] , @matrixConst.decompose()
+    assert_equal  [[Rational('-2/1'), Rational('1/1')], [Rational('3/2'), Rational('-1/2')]], @matrixConst.decompose()
   end
 
   # not implemented yet
@@ -64,12 +64,13 @@ class AlgorithmTest < Minitest::Test
   end
 
   def test_matrix_left_division
-    assert_equal [[(0/1), (1/2)], [(-2/1), (5/2)]], @matrixa.matrix_left_division(@matrixb)
+    # assert_equal [[(0/1), (1/2)], [(-2/1), (5/2)]], @matrixa.matrix_left_division(@matrixb)
     # we multiply by the inverse of b
+    assert_equal [[(1), (0)], [(0), (1)]], @matrixa.matrix_left_division(@matrixb)
   end  
 
   def test_matrix_right_division
-    assert_equal [[(0/1), (1/2)], [(-2/1), (5/2)]], @matrixa.matrix_left_division(@matrixb)
+    assert_equal [[(1), (0)], [(0), (1)]], @matrixa.matrix_right_division(@matrixb)
   end
 
   def test_matrix_exp
