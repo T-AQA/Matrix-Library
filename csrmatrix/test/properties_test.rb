@@ -16,7 +16,7 @@ class PropertiesTest < Minitest::Test
     @matrixTrigonal3x3.build_from_array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])
 
 		@matrixEmpty3x3 = TwoDMatrix.new
-    @matrixEmpty3x3.build_from_array([[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]])
+    @matrixEmpty3x3.build_from_array([[],[],[]])
 
 		@matrixZero3x3 = TwoDMatrix.new
     @matrixZero3x3.build_from_array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
@@ -43,7 +43,7 @@ class PropertiesTest < Minitest::Test
   end
 
 	def test_normal
-    assert @matrixSparse3x3.normal()
+    assert  !@matrixSparse3x3.normal()
   end
 
 	def test_orthogonal
@@ -51,7 +51,7 @@ class PropertiesTest < Minitest::Test
   end
 
 	def test_permutation
-    assert @matrixSparse3x3.permutation()
+    assert !@matrixSparse3x3.permutation()
   end
 
 	def test_real

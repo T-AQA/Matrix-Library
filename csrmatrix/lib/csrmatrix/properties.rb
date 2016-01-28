@@ -21,7 +21,7 @@ module CsrMatrix
             return m.lower_triangular?
         end
 
-        def normal()
+        def normal() # if the number of rows or columns is 0
             m = Matrix.rows(self.decompose)
             return m.normal?
         end
