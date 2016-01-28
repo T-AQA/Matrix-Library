@@ -16,7 +16,7 @@ class PropertiesTest < Minitest::Test
     @matrixTrigonal3x3.build_from_array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])
 
 		@matrixEmpty3x3 = TwoDMatrix.new
-    @matrixEmpty3x3.build_from_array([[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]])
+    @matrixEmpty3x3.build_from_array([[],[],[]])
 
 		@matrixZero3x3 = TwoDMatrix.new
     @matrixZero3x3.build_from_array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])

@@ -7,7 +7,7 @@ module CsrMatrix
         
         def eigensystem()
             m = Matrix.rows(self.decompose)
-            a = m.eigensystem().to_a[0].to_a
+            return m.eigensystem().to_a[0].to_a
         end
         
         def lup()
