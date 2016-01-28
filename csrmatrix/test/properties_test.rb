@@ -43,7 +43,7 @@ class PropertiesTest < Minitest::Test
   end
 
 	def test_normal
-    assert @matrixSparse3x3.normal()
+    assert  !@matrixSparse3x3.normal()
   end
 
 	def test_orthogonal
@@ -51,7 +51,7 @@ class PropertiesTest < Minitest::Test
   end
 
 	def test_permutation
-    assert @matrixSparse3x3.permutation()
+    assert !@matrixSparse3x3.permutation()
   end
 
 	def test_real

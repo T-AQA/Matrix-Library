@@ -38,7 +38,7 @@ class AlgorithmTest < Minitest::Test
 
   def test_inverse
     @matrixConst.inverse()
-    assert_equal  [[Rational('-2/1'), Rational('1/1')], [Rational('3/2'), Rational('-1/2')]], @matrixConst.decompose()
+    assert_equal [[Rational('-2/1'), Rational('1/1')], [Rational('3/2'), Rational('-1/2')]], @matrixConst.decompose()
   end
 
   # not implemented yet
