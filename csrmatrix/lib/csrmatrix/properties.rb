@@ -1,76 +1,96 @@
 module CsrMatrix
     module Properties
+
+        # Determines if the matrix represents any lower attribute structures
+        def describe()
+
+        end     
         
-        def diagonal()
+        # Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
+        def diagonal?
             m = Matrix.rows(self.decompose)
             return m.diagonal?
         end
 
-        def empty()
+        # Determines if the matrix is empty; wherein all the values are zero.
+        def empty?
             m = Matrix.rows(self.decompose)
             return m.empty?
         end
 
-        def hermitian()
+        # Determine if the matrix is hermitian.
+        def hermitian?
             m = Matrix.rows(self.decompose)
             return m.hermitian?
         end
 
-        def lower_triangular()
+        # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
+        def lower_triangular?
             m = Matrix.rows(self.decompose)
             return m.lower_triangular?
         end
 
-        def normal() # if the number of rows or columns is 0
+        # Determines if the matrix is normal; wherein if the number of rows or columns is 0
+        def normal? 
             m = Matrix.rows(self.decompose)
             return m.normal?
         end
 
-        def orthogonal()
+        # Determines if the matrix is orthogonal; wherein the rows and columns are orthogonal unit vectors.
+        def orthogonal?
             m = Matrix.rows(self.decompose)
             return m.orthogonal?
         end
 
-        def permutation()
+        # Determines if the matrix is a permutation; wherein it is an nxn version of the identity matrix.
+        def permutation?
             m = Matrix.rows(self.decompose)
             return m.permutation?
         end
 
-        def real()
+        # Determines if the matrix is real; wherein the matrix consists entirely of real numbers.
+        def real?
             m = Matrix.rows(self.decompose)
             return m.real?
         end
 
-        def nonsingular()
-            return !self.singular()
+        # Determines if the matrix is nonsingular
+        def nonsingular?
+            return !self.singular?
         end
 
-        def singular()
+        # Determines if the matrix is singular
+        def singular?
             m = Matrix.rows(self.decompose)
             return m.singular?
         end
 
-        def square()
+        # Determines if the matrix is square
+        def square?
             m = Matrix.rows(self.decompose)
             return m.square?
         end
 
-        def symmetric()
+        # Determines if the matrix is symmetric
+        def symmetric?
             m = Matrix.rows(self.decompose)
             return m.symmetric?
         end
 
-        def unitary()
+        # Determines if the matrix is unitary
+        def unitary?
             m = Matrix.rows(self.decompose)
             return m.unitary?
         end
 
-        def upper_triangular()
+        # Determines if the matrix is upper-triangular
+        def upper_triangular?
             m = Matrix.rows(self.decompose)
             return m.upper_triangular?
         end
 
-        def zero()
+        # Determines if the matrix is zero
+        def zero?
             m = Matrix.rows(self.decompose)
             return m.zero?
         end
