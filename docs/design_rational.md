@@ -4,8 +4,7 @@
 * https://github.com/nslocum/design-patterns-in-ruby
 * http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf
 * http://eigen.tuxfamily.org/dox/group__TutorialSparse.html
-
-[Compressed Row Storage](http://www.netlib.org/utk/people/JackDongarra/etemplates/node373.html)
+* [Compressed Row Storage](http://www.netlib.org/utk/people/JackDongarra/etemplates/node373.html)
 
 # Design Questions
 ##### What is a sparse matrix and what features should it possess?
@@ -54,12 +53,16 @@ Traditional iteration is not a good technique for sparse matrix multiplication, 
 ##### What exceptions can occur during the processing of sparse matrices? And how should the system handle them? 
 Exceptions may arise! Here's a short list of what may happen:
 
-| Exception Types:   						 | System Response:                          |
-|--------------------------------------------|-------------------------------------------|
-| Null matrix        						 | Return NullMatrixException                |
-| + / - of different matrix sizes			 | Return MatrixDimException		  		 |
-| * / ÷ of incorrect matrix sizes			 | Return MatrixDimException				 |
-| Manipulating extremely large numbers	     | Return ArithmeticException				 |
+| Exception Types:   						 	| System Response:                          |
+|-----------------------------------------------|-------------------------------------------|
+| Providing operations on null matrix        	| Stop, return NullMatrixException          |
+| + / - of different matrix sizes			 	| Stop, return MatrixDimException		  	|
+| * / ÷ of incorrect matrix sizes			 	| Stop, return MatrixDimException			|
+| Manipulating extremely large numbers	     	| Stop, return ArithmeticException			|
+| Converting improper matrix to matrix library	| Stop, return MatrixTypeException			|
+| Divide by zero error							| Stop, return DivideByZeroException		|
+| Referencing an index outside of matrix        | Stop, return IndexOutOfRangeException	 	|
+| * / ÷ / exp. by null, nil value 				| Stop, return ArgumentNullException		|
 
 ##### What information does the system require to create a sparse matrix object? Remember you are building for a set of unknown customers – what will they want?
 Customers will likely require:
@@ -72,8 +75,8 @@ Customers will likely require:
 ##### What are the important quality characteristics of a sparse matrix package? Reusability? Efficiency? Efficiency of what?
 The most important qualities of a sparse matrix package are:
 
-1. Reusability - insofar that the structures can be reused over and over.
-2. Efficiency - in both storage and runtime.
+1. Reusable - insofar that the structures can be reused over and over.
+2. Efficient - in both storage and runtime.
 3. Light - we need lightweight process stuctures in order to reduce overhead to a minimum.
 4. Scalable - being able to use this package for large processing structures.
 5. Convertible - can be used with different libraries or operations.

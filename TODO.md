@@ -27,7 +27,8 @@
 	* Delete basicMatrix
 	* Clean up the document to be sent on Feb. 3
 	* Produce comments, in the structure of RDoc
-	* Add exceptions! 
+	* Add exceptions! ref: http://rubylearning.com/satishtalim/ruby_exceptions.html
+	* Add a -convert to matrix library- functionality.
 
 ## FUNCTIONS TO ADD:
 	* LUP / Decomposition
