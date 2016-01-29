@@ -7,12 +7,13 @@ require "csrmatrix/operations"
 require "csrmatrix/helpers"
 
 module CsrMatrix
-  # The current website ref. Used for verification of rb systems.
+  # The current website ref. Used for verificationn of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
 end
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
+  #Need to ensure we include Object Class overwrites.
   include CsrMatrix::Operations
   include CsrMatrix::Properties
   include CsrMatrix::Arithmetic
