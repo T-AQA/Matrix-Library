@@ -1,9 +1,9 @@
 # Domain Knowledge
 
-* https://en.wikipedia.org/wiki/Sparse_matrix
-* https://github.com/nslocum/design-patterns-in-ruby
-* http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf
-* http://eigen.tuxfamily.org/dox/group__TutorialSparse.html
+* [Sparse Matrix](https://en.wikipedia.org/wiki/Sparse_matrix)
+* [Ruby Design Patterns](https://github.com/nslocum/design-patterns-in-ruby)
+* [Sparse Matrix Design Methods](http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf)
+* [Sparse Matrix Tutorial](http://eigen.tuxfamily.org/dox/group__TutorialSparse.html)
 * [Compressed Row Storage](http://www.netlib.org/utk/people/JackDongarra/etemplates/node373.html)
 
 # Design Questions
@@ -48,7 +48,7 @@ Initial design proposes test-driven development. Once tests are built, new stand
 Ultimately, the implementation approach we're using is a mix of 'standalone class' and compose with class' imple. We are producing our own standalone class, while also using modules and other libraries to perform other tasks. We've done this because the standard matrix library has already been constructed; however, we want to build another library to perform at a level more efficient for sparse matrices, while preserving some static functionality that would not have been changed from one implementation to the next.
 
 ##### Is iteration a good technique for sparse matrix manipulation? Is “custom” iteration required for this problem? 
-Traditional iteration is not a good technique for sparse matrix multiplication, since the iteration proccess could have a large calculation cost due to many zero values in the matrix. A custom iteration is required to solve this problem by multiplying non-zero columns of the CRS matrix with other non-xero columns of a matrix of the same type. We can also use custom iterators to process and 'pull' entries from a matrix array for the end users.
+Traditional iteration is not a good technique for sparse matrix multiplication, since the iteration proccess could have a large calculation cost due to many zero values in the matrix. A custom iteration is required to solve this problem by multiplying non-zero columns of the CRS matrix with other non-zero columns of a matrix of the same type. We can also use custom iterators to process and 'pull' entries from a matrix array for the end users.
 
 ##### What exceptions can occur during the processing of sparse matrices? And how should the system handle them? 
 Exceptions may arise! Here's a short list of what may happen:
@@ -69,8 +69,12 @@ Customers will likely require:
 
 1. Input of actual arrays, building the structure row by row.
 	i. Alternatively, building the structure column by column.
-2. Requesting a zero-initialised matrix of specific row and column size.
-3. Requesting an identity matrix of specific size.
+2. Import the array from an object of type Matrix.
+3. Requesting a zero-initialised matrix of specific row and column size.
+4. Requesting an identity matrix of specific size.
+5. Input of an existing CSR matrix.
+
+This allows customers to have a variety of options to create the sparse matrix: it allows the customers to either input their own matrix through a variety of means, or to automatically generate zero-matrices and identity matrices for processing.
 
 ##### What are the important quality characteristics of a sparse matrix package? Reusability? Efficiency? Efficiency of what?
 The most important qualities of a sparse matrix package are:
@@ -81,6 +85,8 @@ The most important qualities of a sparse matrix package are:
 4. Scalable - being able to use this package for large processing structures.
 5. Convertible - can be used with different libraries or operations.
 
+We respect that we may not be the only sparse matrix package available to them. We also respect the fact that consumers need to be able to use this package in conjunction with their existing packages. As a result, we optimise our design characteristics to meet the needs of our customers first - meaning that an efficient, effective and convertible matrix package (as well as having a package which is fast, scalable, and easy to use) is evaluated above all else. 
+
 ##### How do we generalize 2-D matrices to n-D matrices, where n > 2 – um, sounds like an extensible design?
 Yes, the implementation of CSR is extensible design. For example, in a 3-D matrix, We can do this by:
 
@@ -89,5 +95,5 @@ Yes, the implementation of CSR is extensible design. For example, in a 3-D matri
 3. Change values from a 1-D matrix to a 2-D matrix - that is, expanding the 'frame' into a +1D structure
 4. Ensuring / adjusting / our operations to be scalable. (They are inherently scalable, but need to be adjusted if the demand exists)
 
-Therefore, this design is extensible for any number of dimensions - we only need to add an extra column for indices, and to expand the dimensions of the frame involved.
+Therefore, this design is extensible for any number of dimensions - we only need to add an extra column for indices, and to expand the dimensions of the frame involved. We know that the processing conducted for the matrices is already optimised - knowing this, we have to clean our design to make sure the rest of the implementation is scalable, in order to ensure an extensible design.
 

@@ -27,10 +27,7 @@ class TwoDMatrix
 
   # Blank setup; setup module.
   def initialize()
-    @rows = nil
-    @cols = nil
     @nonzero_count = nil
-
     @row_ptr = nil
     @col_ind = nil
     @val = nil
@@ -85,8 +82,6 @@ class TwoDMatrix
   # Builds when given a 2d array to CSR
   def build_from_array(array)
     if depth(array) == 2
-      #puts "Array dim is correct.\nBuilding CSR format."
-      
       dimensions = convert_to_csr(array)
       @columns = dimensions[0]
       @rows = dimensions[1]
@@ -94,14 +89,45 @@ class TwoDMatrix
       @val = dimensions[3]
       @row_ptr = dimensions[4]
       @col_ind = dimensions[5]
-
-      #puts "There are #{nonzero_count} nonzero entities in the array."
-      #puts "Dimensions, by column x row, are #{@columns} x #{@rows}"
-      #puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
       return true
     end
     return false
   end 
+
+  # imports a matrix from a matrix library
+  def build_from_matrix(matrix)
+    build_from_array(matrix.to_a())
+  end 
+
+  # builds a matrix given its rows
+  def build_from_rows(array)
+
+  end
+
+  # builds a matrix given its columns
+  def build_from_columns(array)
+    if depth(array) == 2
+      dimensions = convert_to_csr(array)
+      @columns = dimensions[0]
+      @rows = dimensions[1]
+      nonzero_count = dimensions[2] # FIXME: consider removing
+      @val = dimensions[3]
+      @row_ptr = dimensions[4]
+      @col_ind = dimensions[5]
+      return true
+    end
+    return false
+  end   
+
+  # generates an identity matrix
+  def build_identity_matrix(size)
+
+  end
+
+  # generates a zero matrix
+  def build_zero_matrix(rows, columns)
+
+  end
 
   # Builds array using user-generated CSR values
   def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
