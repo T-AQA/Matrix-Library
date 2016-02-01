@@ -24,7 +24,7 @@ class BuilderTest < Minitest::Unit::TestCase
 
   def test_bad_row_build
     # reference: http://cczona.com/blog/asserting-exceptions-with-minitest/
-    proc { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) }.must_raise(MatrixDimException)
+    proc { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) }.must_raise(MatrixDimException.new)
   end
 
   def test_build_from_matrix

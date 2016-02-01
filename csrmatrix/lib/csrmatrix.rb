@@ -92,10 +92,10 @@ class TwoDMatrix
         @col_ind = dimensions[5]
         return true
       end
-      raise MatrixDimException, "Invalid row/column pairs imported."
+      raise MatrixDimException.new, "Invalid row/column pairs imported."
       return false
     end
-    raise MatrixDimException, "Invalid dimensions."
+    raise MatrixDimException.new, "Invalid dimensions."
     return false
   end 
 
