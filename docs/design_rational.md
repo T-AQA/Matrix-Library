@@ -85,13 +85,13 @@ The most important qualities of a sparse matrix package are:
 4. Scalable - being able to use this package for large processing structures.
 5. Convertible - can be used with different libraries or operations.
 
-We respect that we may not be the only sparse matrix package available to them. We also respect the fact that consumers need to be able to use this package in conjunction with their existing packages. As a result, we optimise our design characteristics to meet the needs of our customers first - meaning that an efficient, effective and convertible matrix package (as well as having a package which is fast, scalable, and easy to use) is evaluated above all else. 
+We respect that this package may not be the only sparse matrix package available to them. We also respect the fact that consumers need to be able to use this package in conjunction with their existing packages. As a result, we optimise our design characteristics to meet the needs of our customers first - meaning that an efficient, effective and convertible matrix package (as well as having a package which is fast, scalable, and easy to use) is evaluated above all else. 
 
 ##### How do we generalize 2-D matrices to n-D matrices, where n > 2 – um, sounds like an extensible design?
 Yes, the implementation of CSR is extensible design. For example, in a 3-D matrix, We can do this by:
 
 1. Adding 'row indices' alongside 'column indices'
-2. Renaming 'row offsets' to 'height offsets'
+2. Renaming 'row offsets' to 'height offsets' and expanding the attributes to incorporate a +1D design
 3. Change values from a 1-D matrix to a 2-D matrix - that is, expanding the 'frame' into a +1D structure
 4. Ensuring / adjusting / our operations to be scalable. (They are inherently scalable, but need to be adjusted if the demand exists)
 
