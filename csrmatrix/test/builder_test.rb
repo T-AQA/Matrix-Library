@@ -1,7 +1,7 @@
 require "minitest/autorun"
 require "csrmatrix"
 
-class BuilderTest < Minitest::Test
+class BuilderTest < Minitest::Unit::TestCase
   def setup 
     @matrix = TwoDMatrix.new
 
@@ -20,6 +20,11 @@ class BuilderTest < Minitest::Test
   def test_build_from_rows
     @matrix.build_from_rows([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
     assert_equal [[1, 1, 1], [2, 2, 2], [3, 3, 3]], @matrix.decompose()
+  end
+
+  def test_bad_row_build
+    # reference: http://cczona.com/blog/asserting-exceptions-with-minitest/
+    proc { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) }.must_raise(MatrixDimException)
   end
 
   def test_build_from_matrix

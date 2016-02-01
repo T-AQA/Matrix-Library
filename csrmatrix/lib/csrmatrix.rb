@@ -82,15 +82,20 @@ class TwoDMatrix
   # Builds when given a 2d array to CSR
   def build_from_array(array)
     if depth(array) == 2
-      dimensions = convert_to_csr(array)
-      @columns = dimensions[0]
-      @rows = dimensions[1]
-      nonzero_count = dimensions[2] # FIXME: consider removing
-      @val = dimensions[3]
-      @row_ptr = dimensions[4]
-      @col_ind = dimensions[5]
-      return true
+      if same_sublength(array)
+        dimensions = convert_to_csr(array)
+        @columns = dimensions[0]
+        @rows = dimensions[1]
+        nonzero_count = dimensions[2] # FIXME: consider removing
+        @val = dimensions[3]
+        @row_ptr = dimensions[4]
+        @col_ind = dimensions[5]
+        return true
+      end
+      raise MatrixDimException, "Invalid row/column pairs imported."
+      return false
     end
+    raise MatrixDimException, "Invalid dimensions."
     return false
   end 
 
@@ -139,6 +144,22 @@ class TwoDMatrix
     @columns = col_siz
   end
 
+  # ensures that all subarrays are of same length
+  def same_sublength(array)
+    val_count = nil
+    test_val = 0
+    array.each_index do |i| # each row
+      if val_count == nil
+        val_count = array[i].length
+      end 
+      test_val = array[i].length
+      if val_count != test_val
+        return false
+      end
+    end
+    return true
+  end
+
   # Finds the column count, row count and non-zero values in one loop. 
   def convert_to_csr(array)
     row_count = 0
@@ -146,7 +167,7 @@ class TwoDMatrix
     nonzero_count = 0
 
     row_val = 0
-    row_prev_sum = 0; 
+    row_prev_sum = 0
 
     col_val = 0
 
