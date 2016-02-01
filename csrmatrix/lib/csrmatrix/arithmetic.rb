@@ -128,7 +128,7 @@ module CsrMatrix
         end
         return res
       end 
-      puts "Matrix does not have same dimensions; cannot add."
+      raise MatrixArithmeticError "Matrix does not have same dimensions; cannot add."
       return false
     end
 
@@ -154,7 +154,7 @@ module CsrMatrix
         end
         return res
       end 
-      puts "Matrix does not have same dimensions; cannot subtract."
+      raise MatrixArithmeticError "Matrix does not have same dimensions; cannot subtract."
       return false
     end
 

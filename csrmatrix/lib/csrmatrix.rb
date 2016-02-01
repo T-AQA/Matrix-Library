@@ -7,12 +7,13 @@ require "csrmatrix/operations"
 require "csrmatrix/helpers"
 
 module CsrMatrix
-  # The current website ref. Used for verification of rb systems.
+  # The current website ref. Used for verificationn of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
 end
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
+  #Need to ensure we include Object Class overwrites.
   include CsrMatrix::Operations
   include CsrMatrix::Properties
   include CsrMatrix::Arithmetic
@@ -26,10 +27,7 @@ class TwoDMatrix
 
   # Blank setup; setup module.
   def initialize()
-    @rows = nil
-    @cols = nil
     @nonzero_count = nil
-
     @row_ptr = nil
     @col_ind = nil
     @val = nil
@@ -84,8 +82,36 @@ class TwoDMatrix
   # Builds when given a 2d array to CSR
   def build_from_array(array)
     if depth(array) == 2
-      #puts "Array dim is correct.\nBuilding CSR format."
-      
+      if same_sublength(array)
+        dimensions = convert_to_csr(array)
+        @columns = dimensions[0]
+        @rows = dimensions[1]
+        nonzero_count = dimensions[2] # FIXME: consider removing
+        @val = dimensions[3]
+        @row_ptr = dimensions[4]
+        @col_ind = dimensions[5]
+        return true
+      end
+      raise MatrixDimException.new, "Invalid row/column pairs imported."
+      return false
+    end
+    raise MatrixDimException.new, "Invalid dimensions."
+    return false
+  end 
+
+  # imports a matrix from a matrix library
+  def build_from_matrix(matrix)
+    build_from_array(matrix.to_a())
+  end 
+
+  # builds a matrix given its rows
+  def build_from_rows(array)
+
+  end
+
+  # builds a matrix given its columns
+  def build_from_columns(array)
+    if depth(array) == 2
       dimensions = convert_to_csr(array)
       @columns = dimensions[0]
       @rows = dimensions[1]
@@ -93,14 +119,20 @@ class TwoDMatrix
       @val = dimensions[3]
       @row_ptr = dimensions[4]
       @col_ind = dimensions[5]
-
-      #puts "There are #{nonzero_count} nonzero entities in the array."
-      #puts "Dimensions, by column x row, are #{@columns} x #{@rows}"
-      #puts "VAL: #{@val}\nROW: #{@row_ptr}\nCOL: #{@col_ind}"
       return true
     end
     return false
-  end 
+  end   
+
+  # generates an identity matrix
+  def build_identity_matrix(size)
+
+  end
+
+  # generates a zero matrix
+  def build_zero_matrix(rows, columns)
+
+  end
 
   # Builds array using user-generated CSR values
   def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
@@ -112,6 +144,22 @@ class TwoDMatrix
     @columns = col_siz
   end
 
+  # ensures that all subarrays are of same length
+  def same_sublength(array)
+    val_count = nil
+    test_val = 0
+    array.each_index do |i| # each row
+      if val_count == nil
+        val_count = array[i].length
+      end 
+      test_val = array[i].length
+      if val_count != test_val
+        return false
+      end
+    end
+    return true
+  end
+
   # Finds the column count, row count and non-zero values in one loop. 
   def convert_to_csr(array)
     row_count = 0
@@ -119,7 +167,7 @@ class TwoDMatrix
     nonzero_count = 0
 
     row_val = 0
-    row_prev_sum = 0; 
+    row_prev_sum = 0
 
     col_val = 0
 
