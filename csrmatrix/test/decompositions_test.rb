@@ -16,11 +16,11 @@ class DecompositionsTest < Minitest::Test
 	#alias for eigensystem
 	#returns a list in the form {eigenvalues, eigenvectors}
   def test_eigen
-		assert_equal [[6, 0, 0], [1, 1, 1], [-3, 0, 1], [-2, 1, 0]], @matrixDense3x3.eigen()
+		assert_equal [[0, 0, 0], [0, 6, 0], [0, 0, 0]], @matrixDense3x3.eigen()
   end
 
-	def test_eigensystem
-		assert_equal [[6, 0, 0], [1, 1, 1], [-3, 0, 1], [-2, 1, 0]], @matrixDense3x3.eigensystem()
+	def test_eigenvalue
+		assert_equal [[0, 0, 0], [0, 6, 0], [0, 0, 0]], @matrixDense3x3.eigenvalue()
   end
 
 	#alias for lup_decomposition
