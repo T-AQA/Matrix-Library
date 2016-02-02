@@ -35,6 +35,7 @@ module CsrMatrix
 			return max_count
 		end
 
+		# Finds all nonzero values in an array.
 		def count_nonzero(array) 
 			max_count = 0
 			array.each_index do |i|
@@ -48,6 +49,7 @@ module CsrMatrix
 			return max_count
 		end
 
+		# Identifies the depth of an array.
 		# Code taken from http://stackoverflow.com/questions/9545613/getting-dimension-of-multidimensional-array-in-ruby
 		def depth(array)
 	    return 0 if array.class != Array
