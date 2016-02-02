@@ -11,7 +11,7 @@ module CsrMatrix
         end
         
         def lup()
-
+            puts "lup"
         end
         
         def lup_decomposition()

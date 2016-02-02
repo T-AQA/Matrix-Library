@@ -3,6 +3,10 @@ require "matrix"
 module CsrMatrix    
   module Arithmetic
 
+    def try_test_this()
+      Class.new.extend(Decompositions).lup()
+    end
+
     def scalar_multiply(value)
       @val.each_index do |i|
         @val[i] = @val[i] * value
