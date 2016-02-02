@@ -17,7 +17,7 @@ module CsrMatrix
 
     def scalar_multiply(value)
       if value == nil
-        raise ArgumentNullException.new, "Multiply by nil error."
+        raise Exceptions::ArgumentNullException.new, "Multiply by nil error."
         return false
       end
       @val.each_index do |i|
@@ -27,7 +27,7 @@ module CsrMatrix
     
     def scalar_add(value)
       if value == nil
-        raise ArgumentNullException.new, "Add by nil error."
+        raise Exceptions::ArgumentNullException.new, "Add by nil error."
         return false
       end
       # create an identity matrix with the value
@@ -39,7 +39,7 @@ module CsrMatrix
 
     def scalar_subtract(value)
       if value == nil
-        raise ArgumentNullException.new, "Subtract by nil error."
+        raise Exceptions::ArgumentNullException.new, "Subtract by nil error."
         return false
       end
       # create an identity matrix with the value
@@ -51,7 +51,7 @@ module CsrMatrix
 
     def scalar_division(value)
       if value == nil
-        raise ArgumentNullException.new, "Divide by nil error."
+        raise Exceptions::ArgumentNullException.new, "Divide by nil error."
         return false
       end
       @val.each_index do |i|
@@ -61,7 +61,7 @@ module CsrMatrix
 
     def scalar_exp(value)
       if value == nil
-        raise ArgumentNullException.new, "Exp. by nil error."
+        raise Exceptions::ArgumentNullException.new, "Exp. by nil error."
         return false
       end
       @val.each_index do |i|
