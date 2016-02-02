@@ -13,10 +13,12 @@ class AlgorithmTest < Minitest::Test
     @matrixb = TwoDMatrix.new
     @matrixc = TwoDMatrix.new
     @matrixd = TwoDMatrix.new
+    @matrixzero = TwoDMatrix.new
     @matrixa.build_from_array([[1,2],[3,4]])
     @matrixb.build_from_array([[1,2],[3,4]])
     @matrixc.build_from_array([[1,2,3],[1,2,3],[1,2,3]])
     @matrixd.build_from_array([[5,6],[7,8]])
+    @matrixzero.build_from_array([[0,1],[1,2]])
 
     @matrixTwoByThree = TwoDMatrix.new
     @matrixTwoByThree.build_from_array([[1,2,3],[4,5,6]])
@@ -102,25 +104,27 @@ class AlgorithmTest < Minitest::Test
   end
 
   # we multiply by the inverse of b
-  def test_matrix_left_division_err
-    assert_raises(CsrMatrix::Exceptions::MatrixDimException) {  @matrixTwoByThree.matrix_left_division(@matrixThreeByTwo) }
+  def test_matrix_multiply_inverse_err
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) {  @matrixTwoByThree.multiply_inverse(@matrixThreeByTwo) }
   end  
 
-  def test_matrix_right_division_err
-    assert_raises(CsrMatrix::Exceptions::MatrixDimException) {  @matrixThreeByTwo.matrix_right_division(@matrixTwoByThree) }
+  def test_matrix_inverse_multiply_err
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) {  @matrixThreeByTwo.inverse_multiply(@matrixTwoByThree) }
   end
 
-  # FIXME: functions are broken right now, need to fix left/right division
-  # http://www.wolframalpha.com/input/?i=%7B%7B1,2%7D,%7B3,4%7D%7D+%2F+%7B%7B5,6%7D,%7B7,8%7D%7D
-  # currently multiplies x by y^-1
-  def test_matrix_left_division
-    assert_equal [[Rational('3/1'), Rational('-2/1')], [Rational('2/1'), Rational('-1/1')]], @matrixa.matrix_left_division(@matrixd)
+  def test_matrix_multiply_inverse
+    assert_equal [[Rational('3/1'), Rational('-2/1')], [Rational('2/1'), Rational('-1/1')]], @matrixa.multiply_inverse(@matrixd)
   end
 
-  # http://www.wolframalpha.com/input/?i=%7B%7B5,6%7D,%7B7,8%7D%7D+*+%7B%7B1,2%7D,%7B3,4%7D%7D%5E-1
-  # multiply y by x^-1
-  def test_matrix_right_division
-    assert_equal [[Rational('-1/1'), Rational('2/1')], [Rational('-2/1'), Rational('3/1')]], @matrixa.matrix_right_division(@matrixd)
+  def test_matrix_inverse_multiply
+    assert_equal [[Rational('-1/1'), Rational('2/1')], [Rational('-2/1'), Rational('3/1')]], @matrixa.inverse_multiply(@matrixd)
   end
 
+  def test_matrix_divide
+    assert_equal [[5.0, 3.0], [2.3333333333333335, 2.0]], @matrixd.matrix_division(@matrixa)
+  end  
+
+  def test_err_divide_by_zero
+    assert_raises(CsrMatrix::Exceptions::DivideByZeroException) {  @matrixd.matrix_division(@matrixzero) }
+  end
 end
