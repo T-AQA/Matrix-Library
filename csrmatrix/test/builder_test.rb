@@ -95,7 +95,8 @@ class BuilderTest < Minitest::Unit::TestCase
   end
 
   def test_build_from_array # essentially build_from_columns right now
-    assert @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
   end
 
   def test_decomposition
