@@ -23,15 +23,4 @@ class DecompositionsTest < Minitest::Test
 		assert_equal [[0, 0, 0], [0, 6, 0], [0, 0, 0]], @matrixDense3x3.eigenvalue()
   end
 
-	#alias for lup_decomposition
-	#returns a list of matrices {L, U}
-	#Reference: http://nucinkis-lab.cc.ic.ac.uk/HELM/workbooks/workbook_30/30_3_lu_decomposition.pdf
-	def test_lup
-    assert_equal [[[1, 0, 0], [3, 1, 0], [2, 1, 1]], [[1, 2, 4], [0, 2, 2], [0, 0, 3]]], @matrixLUP3x3.lup()
-  end
-
-	def test_lup_decomposition
-    assert_equal [[[1, 0, 0], [3, 1, 0], [2, 1, 1]], [[1, 2, 4], [0, 2, 2], [0, 0, 3]]], @matrixLUP3x3.lup_decomposition()
-  end
-
 end
