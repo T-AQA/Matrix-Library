@@ -69,7 +69,7 @@ Exceptions may arise! Here's a short list of what may happen:
 Customers will likely require:
 
 1. Input of actual arrays, building the structure row by row.
-	i. Alternatively, building the structure column by column.
+  * Alternatively, building the structure column by column.
 2. Import the array from an object of type Matrix.
 3. Requesting a zero-initialised matrix of specific row and column size.
 4. Requesting an identity matrix of specific size.

@@ -12,6 +12,10 @@ module CsrMatrix
             return m.diagonal?
         end
 
+        def square?
+            return self.rows == self.columns
+        end
+
         # Determines if the matrix is empty; wherein all the values are zero.
         def empty?
             m = Matrix.rows(self.decompose)
