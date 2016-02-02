@@ -9,7 +9,7 @@ If you want to try it out, install the gem and run `bin/console` for an interact
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'matrix'
+gem 'csrmatrix'
 ```
 
 And then execute:
