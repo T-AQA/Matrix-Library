@@ -27,6 +27,10 @@ class BuilderTest < Minitest::Unit::TestCase
     assert_equal [[1, 1, 1], [2, 2, 2], [3, 3, 3]], @matrix.decompose()
   end
 
+  def test_nil_build
+    assert_raises(CsrMatrix::Exceptions::NullMatrixException) { @matrix.build_from_array([[1, nil, 2],[2, nil, 3]]) } 
+  end
+
   def test_bad_row_build
     # reference: http://cczona.com/blog/asserting-exceptions-with-minitest/
     assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) } 
@@ -91,12 +95,18 @@ class BuilderTest < Minitest::Unit::TestCase
   end
 
   def test_build_from_array # essentially build_from_columns right now
-    assert @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    @matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
   end
 
   def test_decomposition
     assert_equal [[0, 2, 0], [1, 0, 0], [0, 2, 0]], @matrixSparse3x3.decompose()
   end
+
+  def test_decomp_to_matrix
+    @matdecomp = @matrixSparse3x3.decomp_to_matrix()
+    assert_equal Matrix[[0, 2, 0], [1, 0, 0], [0, 2, 0]], @matdecomp
+  end 
 
   def test_dimensions
     assert_equal [3, 3], @matrixSparse3x3.dimensions()

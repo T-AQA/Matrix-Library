@@ -64,12 +64,13 @@ Exceptions may arise! Here's a short list of what may happen:
 | Divide by zero error							| Stop, return DivideByZeroException		|
 | Referencing an index outside of matrix        | Stop, return IndexOutOfRangeException	 	|
 | * / ÷ / exp. by null, nil value 				| Stop, return ArgumentNullException		|
+| Finding properties on a non square matrix 				| Stop, return MatrixDimException		|
 
 ##### What information does the system require to create a sparse matrix object? Remember you are building for a set of unknown customers – what will they want?
 Customers will likely require:
 
 1. Input of actual arrays, building the structure row by row.
-..i. Alternatively, building the structure column by column.
+  * Alternatively, building the structure column by column.
 2. Import the array from an object of type Matrix.
 3. Requesting a zero-initialised matrix of specific row and column size.
 4. Requesting an identity matrix of specific size.
@@ -96,5 +97,5 @@ Yes, the implementation of CSR is extensible design. For example, in a 3-D matri
 3. Change values from a 1-D matrix to a 2-D matrix - that is, expanding the 'frame' into a +1D structure
 4. Ensuring / adjusting / our operations to be scalable. (They are inherently scalable, but need to be adjusted if the demand exists)
 
-Therefore, this design is extensible for any number of dimensions - we only need to add an extra column for indices, and to expand the dimensions of the frame involved. We know that the processing conducted for the matrices is already optimised - knowing this, we have to clean our design to make sure the rest of the implementation is scalable, in order to ensure an extensible design.
+Therefore, this design is extensible for any number of dimensions - we only need to add an extra column for indices, and to expand the dimensions of the frame involved. We know that the processing conducted for the matrices is already optimised - knowing this, we have to clean our design to make sure the rest of the implementation is scalable, in order to ensure an extensible design. However, this won't fix the largest issue - the implementation of the existing matrix library. With regards to this, we will likely have to identify workarounds (or possibly build our own custom code to support this development) if extending our design to ND+ is planned.
 

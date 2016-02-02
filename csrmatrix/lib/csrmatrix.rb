@@ -57,6 +57,10 @@ class TwoDMatrix
   def dimensions()
     return [@rows, @columns]
   end
+  
+  def square?
+    return self.rows == self.columns
+  end
 
   ##
   # MATRIX DECOMPOSITION FUNCTIONS
@@ -76,6 +80,11 @@ class TwoDMatrix
     return res
   end
 
+  def decomp_to_matrix()
+    @matrix = Matrix.rows(self.decompose())
+    return @matrix
+  end
+
   ##
   # MATRIX GENERATION FUNCTIONS 
   # generation of csr matrix
@@ -87,6 +96,10 @@ class TwoDMatrix
       if depth(array) == 2
         if same_sublength(array)
           dimensions = convert_to_csr(array)
+          if dimensions == false # error raised, return to top
+            raise NullMatrixException.new, "Null value entered when building."
+            return false
+          end
           @columns = dimensions[0]
           @rows = dimensions[1]
           nonzero_count = dimensions[2] # FIXME: consider removing
@@ -118,6 +131,7 @@ class TwoDMatrix
     build_from_array(array)
     self.transpose()
   end
+
 
   # builds a matrix given its columns ;; redirect to array build
   def build_from_columns(array)
@@ -193,6 +207,9 @@ class TwoDMatrix
         col_tmp += 1
         if array[i][x] != 0
           # use nonzero value in CSR
+          if array[i][x] == nil
+            return false
+          end
           nonzero_count += 1
           value_array << array[i][x]
           col_ind << col_val

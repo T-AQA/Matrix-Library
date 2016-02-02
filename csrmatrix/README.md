@@ -22,7 +22,100 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+## Usage
+#### Construction
+
+Start by building the matrix object. This will be a simple shell, on which we can perform our operations on:
+
+```ruby 
+@matrix = TwoDMatrix.new
+ => #<TwoDMatrix:0x007fa5b2083ba8 @nonzero_count=nil, @row_ptr=nil, @col_ind=nil, @val=nil, @rows=0, @columns=0, @ndim=2> 
+```
+
+Then, we can fill it out using a variety of manners - either building the functions from arrays:
+
+```ruby 
+@matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]]) 
+@matrix.build_from_rows([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+@matrix.build_from_columns([[1, 2, 3], [1, 2, 3], [1, 2, 3]]) 
+@matrix.build_from_csr([0, 3, 6, 9],[0, 1, 2, 0, 1, 2, 0, 1, 2],[1, 2, 3, 1, 2, 3, 1, 2, 3],3,3)
+```
+
+Or from an existing matrix using Ruby's matrix library:
+```ruby
+@MatrixBuild = Matrix.rows([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+@matrix.build_from_matrix(@MatrixBuild)
+```
+
+Or by generating a zero or identity matrix:
+```ruby
+@matrix.build_zero_matrix(3, 2)
+@matrix.build_identity_matrix(3)
+```
+
+#### Properties 
+CsrMatrix offers many property checks for matrices. Test the system by using the following code:
+```ruby
+@matrixTrigonal3x3.diagonal?
+```
+
+The list of usable properties, as of this point, are as follows:
+```ruby
+.diagonal? .empty? .lower_triangular? .normal? .orthogonal? .permutation? .real? .nonsingular? .singular? .square? .symmetric? .unitary? .upper_ .triangular? .zero?
+```
+
+#### Arithmetic
+CsrMatrix offers the full suite of standard arithmetic processes for matrices. With regards to scalar operations:
+```ruby
+@matrixConst.scalar_multiply(2)
+@matrixConst.scalar_add(2)
+@matrixConst.scalar_subtract(1)
+@matrixConst.scalar_division(2)
+@matrixConst.scalar_exp(2)
+```
+
+As for matrix-to-matrix processes:
+```ruby 
+@matrixa.multiply_csr(@matrixb)
+@matrixa.matrix_add(@matrixb)
+@matrixa.is_same_dim(@matrixb)
+@matrixa.matrix_add(@matrixb)
+@matrixa.matrix_subtract(@matrixb)
+@matrixa.matrix_left_division(@matrixd)
+@matrixa.matrix_right_division(@matrixd)
+```
+
+And for others:
+```ruby 
+@matrixConst.inverse()
+@matrixConst.transpose()
+```
+
+#### Other
+CsrMatrix offers standard display and assorted property assertion functions for your sparse matrix:
+
+```ruby 
+@matrixSparse3x3.print_full()
+@matrixSparse3x3.print_sparse()
+@matrixSparse3x3.get_value(4)
+@matrixSparse3x3.index(1,1)
+@matrixSparse3x3.det()
+@matrixSparse3x3.determinant()
+@matrixSparse3x3.rank()
+@matrixFloat2x2.decompose()
+@matrixDense3x3.trace()
+@matrixDense3x3.tr()
+@matrixSparse3x3.transpose()
+@matrixSparse3x3.t()
+```
+
+#### Exporting CsrMatrix
+If you would like to integrate the matrix with your other code, you can simply disassemble it and reconstruct it at your leisure:
+
+```ruby
+@matrix.decompose()
+@matrix.decomp_to_matrix()
+```
 
 ## Development
 

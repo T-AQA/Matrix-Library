@@ -3,13 +3,21 @@ require "csrmatrix/exceptions"
 
 module CsrMatrix    
   module Arithmetic
-    class MatrixDimException < StandardError; end      
-    class ArgumentNullException < StandardError; end
-    class MatrixTypeException < StandardError; end     
+
+    def self.included(exceptions)
+      exceptions.send :include, Exceptions
+    end
+
+    # class MatrixDimException < StandardError; end      
+    # class ArgumentNullException < StandardError; end
+    # class MatrixTypeException < StandardError; end     
+
+    # REFERENCE: To use module functions in module
+    # Class.new.extend(Decompositions).lup()
 
     def scalar_multiply(value)
       if value == nil
-        raise ArgumentNullException.new, "Multiply by nil error."
+        raise Exceptions::ArgumentNullException.new, "Multiply by nil error."
         return false
       end
       @val.each_index do |i|
@@ -19,7 +27,7 @@ module CsrMatrix
     
     def scalar_add(value)
       if value == nil
-        raise ArgumentNullException.new, "Add by nil error."
+        raise Exceptions::ArgumentNullException.new, "Add by nil error."
         return false
       end
       # create an identity matrix with the value
@@ -31,7 +39,7 @@ module CsrMatrix
 
     def scalar_subtract(value)
       if value == nil
-        raise ArgumentNullException.new, "Subtract by nil error."
+        raise Exceptions::ArgumentNullException.new, "Subtract by nil error."
         return false
       end
       # create an identity matrix with the value
@@ -43,7 +51,7 @@ module CsrMatrix
 
     def scalar_division(value)
       if value == nil
-        raise ArgumentNullException.new, "Divide by nil error."
+        raise Exceptions::ArgumentNullException.new, "Divide by nil error."
         return false
       end
       @val.each_index do |i|
@@ -53,7 +61,7 @@ module CsrMatrix
 
     def scalar_exp(value)
       if value == nil
-        raise ArgumentNullException.new, "Exp. by nil error."
+        raise Exceptions::ArgumentNullException.new, "Exp. by nil error."
         return false
       end
       @val.each_index do |i|
@@ -127,10 +135,6 @@ module CsrMatrix
       return matrix.matrix_multiply(self.decompose())
     end 
 
-    def square?
-      return self.rows == self.columns
-    end
-
     # helper function to determine deim count is equal
     def is_same_dim(matrix)
       return self.dimensions() == matrix.dimensions()
@@ -158,7 +162,7 @@ module CsrMatrix
         end
         return res
       end 
-      raise MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
+      raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
       return false
     end
 
@@ -184,7 +188,7 @@ module CsrMatrix
         end
         return res
       end 
-      raise MatrixDimException.new, "Matrix does not have same dimensions; cannot subtract."
+      raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot subtract."
       return false
     end
 
@@ -192,11 +196,11 @@ module CsrMatrix
     # FIXME: Possibly consider rewording for context:
     def matrix_left_division(matrix)
       if !matrix.is_a?(TwoDMatrix)
-        raise MatrixTypeException.new, "Matrix is not usable type."
+        raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
       end
       if !matrix.square? || !self.square?
-        raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
+        raise Exceptions::MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
         return false
       end
       tmpmatrix = TwoDMatrix.new
@@ -209,11 +213,11 @@ module CsrMatrix
     # FIXME: Possibly consider rewording for context: not doing x / y; doing x * y^-1
     def matrix_right_division(matrix)
       if !matrix.is_a?(TwoDMatrix)
-        raise MatrixTypeException.new, "Matrix is not usable type."
+        raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
       end
       if !matrix.square? || !self.square?
-        raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
+        raise Exceptions::MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
         return false
       end
       tmpmatrix = TwoDMatrix.new

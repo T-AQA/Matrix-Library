@@ -6,6 +6,7 @@ module CsrMatrix
             m.det()
         end
 
+				#alias for determinant
         def det()
             self.determinant()
         end
