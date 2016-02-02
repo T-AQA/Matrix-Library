@@ -3,6 +3,7 @@
 	* Construct builder design pattern on construction on matrix: https://github.com/nslocum/design-patterns-in-ruby
 	* Build iterator design pattern for Ruby
 	* MUST ADD Abstract Factory and Delegate design patterns to code
+	* MUST ADD Add sanitizing to code - make sure all entries are arrays/numeric/matrix/etc.
 
 ##### Arithmetic
 	* Produce a new matrix after processing - can use with composite design pattern
