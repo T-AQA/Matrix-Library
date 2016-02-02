@@ -162,7 +162,7 @@ module CsrMatrix
         end
         return res
       end 
-      raise MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
+      raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
       return false
     end
 
@@ -188,7 +188,7 @@ module CsrMatrix
         end
         return res
       end 
-      raise MatrixDimException.new, "Matrix does not have same dimensions; cannot subtract."
+      raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot subtract."
       return false
     end
 
@@ -196,11 +196,11 @@ module CsrMatrix
     # FIXME: Possibly consider rewording for context:
     def matrix_left_division(matrix)
       if !matrix.is_a?(TwoDMatrix)
-        raise MatrixTypeException.new, "Matrix is not usable type."
+        raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
       end
       if !matrix.square? || !self.square?
-        raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
+        raise Exceptions::MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
         return false
       end
       tmpmatrix = TwoDMatrix.new
@@ -213,11 +213,11 @@ module CsrMatrix
     # FIXME: Possibly consider rewording for context: not doing x / y; doing x * y^-1
     def matrix_right_division(matrix)
       if !matrix.is_a?(TwoDMatrix)
-        raise MatrixTypeException.new, "Matrix is not usable type."
+        raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
       end
       if !matrix.square? || !self.square?
-        raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
+        raise Exceptions::MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
         return false
       end
       tmpmatrix = TwoDMatrix.new

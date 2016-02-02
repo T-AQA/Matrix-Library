@@ -74,40 +74,40 @@ class AlgorithmTest < Minitest::Test
   end
 
   def test_err_add
-    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) { @matrixa.matrix_add(@matrixc) }
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixa.matrix_add(@matrixc) }
   end
 
   def test_err_subtract
-    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) { @matrixa.matrix_subtract(@matrixc) }
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixa.matrix_subtract(@matrixc) }
   end
 
   def scalar_err_multiply
-    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_multiply(nil) }
+    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_multiply(nil) }
   end
 
   def scalar_err_add
-    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_add(nil) }
+    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_add(nil) }
   end
 
   def scalar_err_subtract
-    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_subtract(nil) }
+    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_subtract(nil) }
   end
 
   def scalar_err_divide
-    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_divide(nil) }
+    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_divide(nil) }
   end
 
   def scalar_err_exp
-    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_exp(nil) }
+    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_exp(nil) }
   end
 
   # we multiply by the inverse of b
   def test_matrix_left_division_err
-    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) {  @matrixTwoByThree.matrix_left_division(@matrixThreeByTwo) }
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) {  @matrixTwoByThree.matrix_left_division(@matrixThreeByTwo) }
   end  
 
   def test_matrix_right_division_err
-    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) {  @matrixThreeByTwo.matrix_right_division(@matrixTwoByThree) }
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) {  @matrixThreeByTwo.matrix_right_division(@matrixTwoByThree) }
   end
 
   # FIXME: functions are broken right now, need to fix left/right division
