@@ -91,6 +91,10 @@ class TwoDMatrix
       if depth(array) == 2
         if same_sublength(array)
           dimensions = convert_to_csr(array)
+          if dimensions == false # error raised, return to top
+            raise NullMatrixException.new, "Null value entered when building."
+            return false
+          end
           @columns = dimensions[0]
           @rows = dimensions[1]
           nonzero_count = dimensions[2] # FIXME: consider removing
@@ -198,6 +202,9 @@ class TwoDMatrix
         col_tmp += 1
         if array[i][x] != 0
           # use nonzero value in CSR
+          if array[i][x] == nil
+            return false
+          end
           nonzero_count += 1
           value_array << array[i][x]
           col_ind << col_val

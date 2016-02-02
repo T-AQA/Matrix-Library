@@ -27,6 +27,10 @@ class BuilderTest < Minitest::Unit::TestCase
     assert_equal [[1, 1, 1], [2, 2, 2], [3, 3, 3]], @matrix.decompose()
   end
 
+  def test_nil_build
+    assert_raises(CsrMatrix::Exceptions::NullMatrixException) { @matrix.build_from_array([[1, nil, 2],[2, nil, 3]]) } 
+  end
+
   def test_bad_row_build
     # reference: http://cczona.com/blog/asserting-exceptions-with-minitest/
     assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) } 
