@@ -64,6 +64,7 @@ Exceptions may arise! Here's a short list of what may happen:
 | Divide by zero error							| Stop, return DivideByZeroException		|
 | Referencing an index outside of matrix        | Stop, return IndexOutOfRangeException	 	|
 | * / ÷ / exp. by null, nil value 				| Stop, return ArgumentNullException		|
+| Finding properties on a non square matrix 				| Stop, return MatrixDimException		|
 
 ##### What information does the system require to create a sparse matrix object? Remember you are building for a set of unknown customers – what will they want?
 Customers will likely require:
