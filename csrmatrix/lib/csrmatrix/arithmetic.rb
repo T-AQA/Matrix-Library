@@ -3,13 +3,17 @@ require "csrmatrix/exceptions"
 
 module CsrMatrix    
   module Arithmetic
-    class MatrixDimException < StandardError; end      
-    class ArgumentNullException < StandardError; end
-    class MatrixTypeException < StandardError; end     
 
-    def try_test_this()
-      Class.new.extend(Decompositions).lup()
+    def self.included(exceptions)
+      exceptions.send :include, Exceptions
     end
+
+    # class MatrixDimException < StandardError; end      
+    # class ArgumentNullException < StandardError; end
+    # class MatrixTypeException < StandardError; end     
+
+    # REFERENCE: To use module functions in module
+    # Class.new.extend(Decompositions).lup()
 
     def scalar_multiply(value)
       if value == nil
@@ -130,10 +134,6 @@ module CsrMatrix
     def multiply_csr(matrix)
       return matrix.matrix_multiply(self.decompose())
     end 
-
-    def square?
-      return self.rows == self.columns
-    end
 
     # helper function to determine deim count is equal
     def is_same_dim(matrix)

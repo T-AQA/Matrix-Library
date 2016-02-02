@@ -57,6 +57,10 @@ class TwoDMatrix
   def dimensions()
     return [@rows, @columns]
   end
+  
+  def square?
+    return self.rows == self.columns
+  end
 
   ##
   # MATRIX DECOMPOSITION FUNCTIONS
@@ -118,6 +122,7 @@ class TwoDMatrix
     build_from_array(array)
     self.transpose()
   end
+
 
   # builds a matrix given its columns ;; redirect to array build
   def build_from_columns(array)

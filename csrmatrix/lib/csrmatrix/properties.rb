@@ -1,19 +1,14 @@
 module CsrMatrix
     module Properties
 
-        # Determines if the matrix represents any lower attribute structures
-        def describe()
-
-        end     
+        def self.included(exceptions)
+          exceptions.send :include, Exceptions
+        end 
         
         # Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
         def diagonal?
             m = Matrix.rows(self.decompose)
             return m.diagonal?
-        end
-
-        def square?
-            return self.rows == self.columns
         end
 
         # Determines if the matrix is empty; wherein all the values are zero.
