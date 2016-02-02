@@ -112,6 +112,7 @@ If you would like to integrate the matrix with your other code, you can simply d
 
 ```ruby
 @matrix.decompose()
+@matrix.decomp_to_matrix()
 ```
 
 ## Development
