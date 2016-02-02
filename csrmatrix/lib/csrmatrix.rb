@@ -80,6 +80,11 @@ class TwoDMatrix
     return res
   end
 
+  def decomp_to_matrix()
+    @matrix = Matrix.rows(self.decompose())
+    return @matrix
+  end
+
   ##
   # MATRIX GENERATION FUNCTIONS 
   # generation of csr matrix

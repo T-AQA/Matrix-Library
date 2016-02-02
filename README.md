@@ -79,8 +79,9 @@ As for matrix-to-matrix processes:
 @matrixa.is_same_dim(@matrixb)
 @matrixa.matrix_add(@matrixb)
 @matrixa.matrix_subtract(@matrixb)
-@matrixa.matrix_left_division(@matrixd)
-@matrixa.matrix_right_division(@matrixd)
+@matrixa.inverse_multiply(@matrixd)
+@matrixa.multiply_inverse(@matrixd)
+@matrixa.matrix_division(@matrixd)
 ```
 
 And for others:
@@ -112,6 +113,7 @@ If you would like to integrate the matrix with your other code, you can simply d
 
 ```ruby
 @matrix.decompose()
+@matrix.decomp_to_matrix()
 ```
 
 ## Development

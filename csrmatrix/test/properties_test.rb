@@ -59,7 +59,7 @@ class PropertiesTest < Minitest::Test
   end
 
 	def test_normal
-    assert !@matrixSparse3x3.normal?
+    assert @matrixTrigonal3x3.normal?
   end
 
 	def test_invalid_normal

@@ -17,7 +17,7 @@ module CsrMatrix
 
     def scalar_multiply(value)
       if value == nil
-        raise ArgumentNullException.new, "Multiply by nil error."
+        raise Exceptions::ArgumentNullException.new, "Multiply by nil error."
         return false
       end
       @val.each_index do |i|
@@ -27,7 +27,7 @@ module CsrMatrix
     
     def scalar_add(value)
       if value == nil
-        raise ArgumentNullException.new, "Add by nil error."
+        raise Exceptions::ArgumentNullException.new, "Add by nil error."
         return false
       end
       # create an identity matrix with the value
@@ -39,7 +39,7 @@ module CsrMatrix
 
     def scalar_subtract(value)
       if value == nil
-        raise ArgumentNullException.new, "Subtract by nil error."
+        raise Exceptions::ArgumentNullException.new, "Subtract by nil error."
         return false
       end
       # create an identity matrix with the value
@@ -51,7 +51,7 @@ module CsrMatrix
 
     def scalar_division(value)
       if value == nil
-        raise ArgumentNullException.new, "Divide by nil error."
+        raise Exceptions::ArgumentNullException.new, "Divide by nil error."
         return false
       end
       @val.each_index do |i|
@@ -61,7 +61,7 @@ module CsrMatrix
 
     def scalar_exp(value)
       if value == nil
-        raise ArgumentNullException.new, "Exp. by nil error."
+        raise Exceptions::ArgumentNullException.new, "Exp. by nil error."
         return false
       end
       @val.each_index do |i|
@@ -194,7 +194,7 @@ module CsrMatrix
 
     # multiply y by x^-1; y * x^-1
     # FIXME: Possibly consider rewording for context:
-    def matrix_left_division(matrix)
+    def multiply_inverse(matrix)
       if !matrix.is_a?(TwoDMatrix)
         raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
@@ -211,7 +211,7 @@ module CsrMatrix
 
     # multiply x by y^-1; x * y^-1 
     # FIXME: Possibly consider rewording for context: not doing x / y; doing x * y^-1
-    def matrix_right_division(matrix)
+    def inverse_multiply(matrix)
       if !matrix.is_a?(TwoDMatrix)
         raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
@@ -224,6 +224,36 @@ module CsrMatrix
       tmpmatrix = self
       tmpmatrix.inverse()
       return matrix.multiply_csr(tmpmatrix)
+    end
+
+     def matrix_division(matrix)
+      if self.is_same_dim(matrix)
+        res = Array.new(@rows) { Array.new(@columns, 0) }
+        row_idx = 0
+        cnta = 0 # total logged entries for matrix a 
+        cntb = 0
+        while row_idx < @rows # eg. 0 1 2
+          rowa = @row_ptr[row_idx + 1] # eg. 0 2 4 7
+          rowb = matrix.row_ptr[row_idx + 1]
+          while cnta < rowa
+            # keep adding values to res until they're equal
+            res[row_idx][@col_ind[cnta]] += @val[cnta]
+            cnta += 1;
+          end
+          while cntb < rowb
+            if matrix.val[cntb] == 0
+              raise Exceptions::DivideByZeroException.new, "Cannot divide by zero."
+              return false
+            end 
+            res[row_idx][@col_ind[cntb]] = res[row_idx][@col_ind[cntb]].to_f / matrix.val[cntb]
+            cntb += 1;
+          end  
+          row_idx += 1;
+        end
+        return res
+      end 
+      raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
+      return false
     end
 
     # Identifies the 'row' value of an array (eg. the number of entries in a row)

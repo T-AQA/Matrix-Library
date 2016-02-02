@@ -103,6 +103,11 @@ class BuilderTest < Minitest::Unit::TestCase
     assert_equal [[0, 2, 0], [1, 0, 0], [0, 2, 0]], @matrixSparse3x3.decompose()
   end
 
+  def test_decomp_to_matrix
+    @matdecomp = @matrixSparse3x3.decomp_to_matrix()
+    assert_equal Matrix[[0, 2, 0], [1, 0, 0], [0, 2, 0]], @matdecomp
+  end 
+
   def test_dimensions
     assert_equal [3, 3], @matrixSparse3x3.dimensions()
   end
