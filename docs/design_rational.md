@@ -5,6 +5,7 @@
 * [Sparse Matrix Design Methods](http://www.bu.edu/pasi/files/2011/01/NathanBell1-10-1000.pdf)
 * [Sparse Matrix Tutorial](http://eigen.tuxfamily.org/dox/group__TutorialSparse.html)
 * [Compressed Row Storage](http://www.netlib.org/utk/people/JackDongarra/etemplates/node373.html)
+* [Ruby Quick Ref](http://www.zenspider.com/Languages/Ruby/QuickRef.html)
 
 # Design Questions
 ##### What is a sparse matrix and what features should it possess?
