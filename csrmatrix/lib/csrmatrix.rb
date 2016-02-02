@@ -83,27 +83,34 @@ class TwoDMatrix
 
   # Builds when given a 2d array to CSR
   def build_from_array(array)
-    if depth(array) == 2
-      if same_sublength(array)
-        dimensions = convert_to_csr(array)
-        @columns = dimensions[0]
-        @rows = dimensions[1]
-        nonzero_count = dimensions[2] # FIXME: consider removing
-        @val = dimensions[3]
-        @row_ptr = dimensions[4]
-        @col_ind = dimensions[5]
-        return true
+    if array.is_a?(Array)
+      if depth(array) == 2
+        if same_sublength(array)
+          dimensions = convert_to_csr(array)
+          @columns = dimensions[0]
+          @rows = dimensions[1]
+          nonzero_count = dimensions[2] # FIXME: consider removing
+          @val = dimensions[3]
+          @row_ptr = dimensions[4]
+          @col_ind = dimensions[5]
+          return true
+        end
+        raise MatrixDimException.new, "Invalid row/column pairs imported."
+        return false
       end
-      raise MatrixDimException.new, "Invalid row/column pairs imported."
+      raise MatrixDimException.new, "Invalid dimensions."
       return false
     end
-    raise MatrixDimException.new, "Invalid dimensions."
-    return false
+    raise MatrixTypeException.new, "Wrong type convert to matrix"
   end 
 
   # imports a matrix from a matrix library
   def build_from_matrix(matrix)
-    build_from_array(matrix.to_a())
+    if matrix.is_a?(Matrix)
+      build_from_array(matrix.to_a())
+      return true
+    end
+    raise MatrixTypeException.new, "Wrong type convert to matrix."
   end 
 
   # builds a matrix given its rows
@@ -112,29 +119,31 @@ class TwoDMatrix
     self.transpose()
   end
 
-  # builds a matrix given its columns
+  # builds a matrix given its columns ;; redirect to array build
   def build_from_columns(array)
-    if depth(array) == 2
-      dimensions = convert_to_csr(array)
-      @columns = dimensions[0]
-      @rows = dimensions[1]
-      nonzero_count = dimensions[2] # FIXME: consider removing
-      @val = dimensions[3]
-      @row_ptr = dimensions[4]
-      @col_ind = dimensions[5]
-      return true
-    end
-    return false
+    self.build_from_array(array)
   end   
 
   # generates an identity matrix
   def build_identity_matrix(size)
-
+    # FIXME: test code: replace with CSR identity gen
+    if size.is_a?(Numeric)
+      self.build_from_array(Matrix.identity(size).to_a())
+      return true
+    end
+    raise MatrixTypeException.new, "Wrong type convert to matrix."
+    return false
   end
 
   # generates a zero matrix
-  def build_zero_matrix(rows, columns)
-
+  def build_zero_matrix(rows, columns = rows)
+    # FIXME: test code: replace with CSR zero gen
+    if rows.is_a?(Numeric) && columns.is_a?(Numeric)
+      self.build_from_array(Matrix.zero(rows, columns).to_a())
+      return true
+    end
+    raise MatrixTypeException.new, "Wrong type convert to matrix."
+    return false
   end
 
   # Builds array using user-generated CSR values
@@ -156,19 +165,6 @@ class TwoDMatrix
       end
     end
     return true
-
-    # val_count = nil
-    # test_val = 0
-    # array.each_index do |i| # each row
-    #   if val_count == nil
-    #     val_count = array[i].length
-    #   end 
-    #   test_val = array[i].length
-    #   if val_count != test_val
-    #     return false
-    #   end
-    # end
-    # return true
   end
 
   # Finds the column count, row count and non-zero values in one loop. 
