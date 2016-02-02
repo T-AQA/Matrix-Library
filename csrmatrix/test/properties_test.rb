@@ -9,6 +9,9 @@ class PropertiesTest < Minitest::Test
     @matrixDense3x3 = TwoDMatrix.new
     @matrixDense3x3.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
 
+		@matrixNotSquare2x3 = TwoDMatrix.new
+		@matrixNotSquare2x3.build_from_array([[1, 2], [1, 2], [1, 2]])
+
     @matrixSparse3x3 = TwoDMatrix.new
     @matrixSparse3x3.build_from_array([[0, 1, 0], [2, 0, 0], [0, 0, 3]])
 
@@ -56,15 +59,27 @@ class PropertiesTest < Minitest::Test
   end
 
 	def test_normal
-    assert  !@matrixSparse3x3.normal?
+    assert !@matrixSparse3x3.normal?
+  end
+
+	def test_invalid_normal
+		assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixNotSquare2x3.normal? }
   end
 
 	def test_orthogonal
     assert @matrixTrigonal3x3.orthogonal?
   end
 
+		def test_invalid_orthogonal
+		assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixNotSquare2x3.orthogonal? }
+  end
+
 	def test_permutation
     assert !@matrixSparse3x3.permutation?
+  end
+
+	def test_invalid_permutation
+		assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixNotSquare2x3.permutation? }
   end
 
 	def test_real
@@ -87,8 +102,16 @@ class PropertiesTest < Minitest::Test
     assert @matrixTrigonal3x3.symmetric?
   end
 
+	def test_invalid_symmetric
+		assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixNotSquare2x3.symmetric? }
+  end
+
 	def test_unitary
     assert @matrixTrigonal3x3.unitary?
+  end
+
+	def test_invalid_unitary
+		assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixNotSquare2x3.unitary? }
   end
 
 	def test_upper_triangle
