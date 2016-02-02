@@ -34,6 +34,9 @@ module CsrMatrix
 
         # Determines if the matrix is normal; wherein if the number of rows or columns is 0
         def normal? 
+						if !self.square?
+							raise MatrixDimException.new, "Matrix is not square."
+                        end
             m = Matrix.rows(self.decompose)
             return m.normal?
         end
