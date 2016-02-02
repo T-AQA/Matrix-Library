@@ -17,6 +17,11 @@ class BuilderTest < Minitest::Unit::TestCase
     @MatrixBuild = Matrix.rows([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
   end
 
+  def test_same_sublength_method
+    assert !@matrix.same_sublength([[2,3],[3,3,3]])
+    assert @matrix.same_sublength([[2,3],[3,3]])
+  end
+
   def test_build_from_rows
     @matrix.build_from_rows([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
     assert_equal [[1, 1, 1], [2, 2, 2], [3, 3, 3]], @matrix.decompose()
@@ -24,7 +29,7 @@ class BuilderTest < Minitest::Unit::TestCase
 
   def test_bad_row_build
     # reference: http://cczona.com/blog/asserting-exceptions-with-minitest/
-    proc { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) }.must_raise(MatrixDimException.new)
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) } 
   end
 
   def test_build_from_matrix

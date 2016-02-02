@@ -5,6 +5,7 @@ require "csrmatrix/functions"
 require "csrmatrix/decompositions"
 require "csrmatrix/operations"
 require "csrmatrix/helpers"
+require "csrmatrix/exceptions"
 
 module CsrMatrix
   # The current website ref. Used for verificationn of rb systems.
@@ -20,6 +21,7 @@ class TwoDMatrix
   include CsrMatrix::Functions
   include CsrMatrix::Decompositions
   include CsrMatrix::Helpers
+  include CsrMatrix::Exceptions
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
@@ -106,7 +108,8 @@ class TwoDMatrix
 
   # builds a matrix given its rows
   def build_from_rows(array)
-
+    build_from_array(array)
+    self.transpose()
   end
 
   # builds a matrix given its columns
@@ -146,18 +149,26 @@ class TwoDMatrix
 
   # ensures that all subarrays are of same length
   def same_sublength(array)
-    val_count = nil
-    test_val = 0
-    array.each_index do |i| # each row
-      if val_count == nil
-        val_count = array[i].length
-      end 
-      test_val = array[i].length
-      if val_count != test_val
-        return false
+    testLength = array[0].length
+    array.each do |subarray|
+      if(subarray.length != testLength)
+          return false
       end
     end
     return true
+
+    # val_count = nil
+    # test_val = 0
+    # array.each_index do |i| # each row
+    #   if val_count == nil
+    #     val_count = array[i].length
+    #   end 
+    #   test_val = array[i].length
+    #   if val_count != test_val
+    #     return false
+    #   end
+    # end
+    # return true
   end
 
   # Finds the column count, row count and non-zero values in one loop. 
