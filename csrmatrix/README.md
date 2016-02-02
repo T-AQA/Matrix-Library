@@ -81,8 +81,9 @@ As for matrix-to-matrix processes:
 @matrixa.is_same_dim(@matrixb)
 @matrixa.matrix_add(@matrixb)
 @matrixa.matrix_subtract(@matrixb)
-@matrixa.matrix_left_division(@matrixd)
-@matrixa.matrix_right_division(@matrixd)
+@matrixa.matrix_inverse_multiply(@matrixd)
+@matrixa.matrix_multiply_inverse(@matrixd)
+@matrixa.matrix_division(@matrixd)
 ```
 
 And for others:

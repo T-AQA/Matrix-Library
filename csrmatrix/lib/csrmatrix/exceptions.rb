@@ -6,9 +6,6 @@ module CsrMatrix
         # Occurs when a sparse matrix operation occurs wherein its dimensions result in the operation being unavailable.   
         class MatrixDimException < StandardError; end      
 
-        # Occurs when there's a standard arithmetic exception.
-        class ArithmeticException < StandardError; end     
-
         # Occurs when the matrix builder expects a specific type; and is provided the wrong type to generate the sparse matrix.
         class MatrixTypeException < StandardError; end 
 
@@ -17,7 +14,7 @@ module CsrMatrix
 
         # Occurs when index queried is out of range of the matrix.
         class IndexOutOfRangeException < StandardError; end
-
+        
         # Occurs when the sparse matrix is used in processing against a null / nil value.
         class ArgumentNullException < StandardError; end   
     end
