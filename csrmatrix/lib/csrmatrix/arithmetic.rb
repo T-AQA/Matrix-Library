@@ -127,13 +127,13 @@ module CsrMatrix
       return matrix.matrix_multiply(self.decompose())
     end 
 
+    def square?
+      return self.rows == self.columns
+    end
+
     # helper function to determine deim count is equal
     def is_same_dim(matrix)
       return self.dimensions() == matrix.dimensions()
-    end
-
-    def is_square()
-      return self.rows == self.columns
     end
 
     def matrix_add(matrix)
@@ -195,7 +195,7 @@ module CsrMatrix
         raise MatrixTypeException.new, "Matrix is not usable type."
         return false
       end
-      if !matrix.is_square() || !self.is_square()
+      if !matrix.square? || !self.square?
         raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
         return false
       end
@@ -212,7 +212,7 @@ module CsrMatrix
         raise MatrixTypeException.new, "Matrix is not usable type."
         return false
       end
-      if !matrix.is_square() || !self.is_square()
+      if !matrix.square? || !self.square?
         raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
         return false
       end
