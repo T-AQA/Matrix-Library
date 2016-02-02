@@ -25,6 +25,19 @@ class PropertiesTest < Minitest::Test
 		#@matrixHermitian3x3.build_from_array([[2, 2+i, 4], [2-i, 3, i], [4, -i, 1]])
   end
 
+  def test_index
+    assert_equal 1, @matrixDense3x3.index(1) # first nonzero? entry
+  end
+
+  def test_twod_index
+    assert_equal 2, @matrixDense3x3.index(2, 1) # row 2 column 1
+  end 
+
+  def test_invalid_index
+    assert_raises(CsrMatrix::Exceptions::IndexOutOfRangeException) { @matrixDense3x3.index(10) }
+    assert_raises(CsrMatrix::Exceptions::IndexOutOfRangeException) { @matrixDense3x3.index(4, 3) } 
+  end
+
   def test_diagonal
     assert @matrixTrigonal3x3.diagonal?
   end

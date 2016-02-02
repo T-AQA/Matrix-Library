@@ -1,15 +1,27 @@
 require "matrix"
+require "csrmatrix/exceptions"
 
 module CsrMatrix    
   module Arithmetic
+    class MatrixDimException < StandardError; end      
+    class ArgumentNullException < StandardError; end
+    class MatrixTypeException < StandardError; end     
 
     def scalar_multiply(value)
+      if value == nil
+        raise ArgumentNullException.new, "Multiply by nil error."
+        return false
+      end
       @val.each_index do |i|
         @val[i] = @val[i] * value
       end
     end
     
     def scalar_add(value)
+      if value == nil
+        raise ArgumentNullException.new, "Add by nil error."
+        return false
+      end
       # create an identity matrix with the value
       # matrix_add the new identity matrix to the given matrix
       @val.each_index do |i|
@@ -18,6 +30,10 @@ module CsrMatrix
     end
 
     def scalar_subtract(value)
+      if value == nil
+        raise ArgumentNullException.new, "Subtract by nil error."
+        return false
+      end
       # create an identity matrix with the value
       # matrix_subtract the new identity matrix to the given matrix
       @val.each_index do |i|
@@ -26,12 +42,20 @@ module CsrMatrix
     end
 
     def scalar_division(value)
+      if value == nil
+        raise ArgumentNullException.new, "Divide by nil error."
+        return false
+      end
       @val.each_index do |i|
         @val[i] = @val[i] / value.to_f
       end
     end
 
     def scalar_exp(value)
+      if value == nil
+        raise ArgumentNullException.new, "Exp. by nil error."
+        return false
+      end
       @val.each_index do |i|
         @val[i] = @val[i] ** value
       end
@@ -42,6 +66,7 @@ module CsrMatrix
       self.build_from_array(m.inv().to_a())
     end
 
+    # FIXME: Convert with CSR functions
     def transpose()
       m = Matrix.rows(self.decompose)
       self.build_from_array(m.transpose.to_a())
@@ -102,10 +127,15 @@ module CsrMatrix
       return matrix.matrix_multiply(self.decompose())
     end 
 
+    # helper function to determine deim count is equal
     def is_same_dim(matrix)
       return self.dimensions() == matrix.dimensions()
     end
-    
+
+    def is_square()
+      return self.rows == self.columns
+    end
+
     def matrix_add(matrix)
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
@@ -128,7 +158,7 @@ module CsrMatrix
         end
         return res
       end 
-      raise MatrixArithmeticError "Matrix does not have same dimensions; cannot add."
+      raise MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
       return false
     end
 
@@ -154,28 +184,42 @@ module CsrMatrix
         end
         return res
       end 
-      raise MatrixArithmeticError "Matrix does not have same dimensions; cannot subtract."
+      raise MatrixDimException.new, "Matrix does not have same dimensions; cannot subtract."
       return false
     end
 
-    # dev
+    # multiply y by x^-1; y * x^-1
+    # FIXME: Possibly consider rewording for context:
     def matrix_left_division(matrix)
+      if !matrix.is_a?(TwoDMatrix)
+        raise MatrixTypeException.new, "Matrix is not usable type."
+        return false
+      end
+      if !matrix.is_square() || !self.is_square()
+        raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
+        return false
+      end
       tmpmatrix = TwoDMatrix.new
       tmpmatrix = matrix
       tmpmatrix.inverse()
       return self.multiply_csr(tmpmatrix)
     end
 
-    # dev
+    # multiply x by y^-1; x * y^-1 
+    # FIXME: Possibly consider rewording for context: not doing x / y; doing x * y^-1
     def matrix_right_division(matrix)
+      if !matrix.is_a?(TwoDMatrix)
+        raise MatrixTypeException.new, "Matrix is not usable type."
+        return false
+      end
+      if !matrix.is_square() || !self.is_square()
+        raise MatrixDimException.new, "Matrices does not have usable dimensions; cannot divide."
+        return false
+      end
       tmpmatrix = TwoDMatrix.new
       tmpmatrix = self
       tmpmatrix.inverse()
       return matrix.multiply_csr(tmpmatrix)
-    end
-
-    def matrix_exp(matrix)
-
     end
 
     # Identifies the 'row' value of an array (eg. the number of entries in a row)

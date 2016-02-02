@@ -11,8 +11,18 @@ class AlgorithmTest < Minitest::Test
 
     @matrixa = TwoDMatrix.new
     @matrixb = TwoDMatrix.new
+    @matrixc = TwoDMatrix.new
+    @matrixd = TwoDMatrix.new
     @matrixa.build_from_array([[1,2],[3,4]])
     @matrixb.build_from_array([[1,2],[3,4]])
+    @matrixc.build_from_array([[1,2,3],[1,2,3],[1,2,3]])
+    @matrixd.build_from_array([[5,6],[7,8]])
+
+    @matrixTwoByThree = TwoDMatrix.new
+    @matrixTwoByThree.build_from_array([[1,2,3],[4,5,6]])
+
+    @matrixThreeByTwo = TwoDMatrix.new
+    @matrixThreeByTwo.build_from_array([[1,2],[3,4],[5,6]])
   end
 
   def test_scalar_multiply
@@ -63,18 +73,54 @@ class AlgorithmTest < Minitest::Test
     assert_equal [[0,0],[0,0]], @matrixa.matrix_subtract(@matrixb)
   end
 
-  def test_matrix_left_division
-    # assert_equal [[(0/1), (1/2)], [(-2/1), (5/2)]], @matrixa.matrix_left_division(@matrixb)
-    # we multiply by the inverse of b
-    assert_equal [[(1), (0)], [(0), (1)]], @matrixa.matrix_left_division(@matrixb)
-  end  
-
-  def test_matrix_right_division
-    assert_equal [[(1), (0)], [(0), (1)]], @matrixa.matrix_right_division(@matrixb)
+  def test_err_add
+    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) { @matrixa.matrix_add(@matrixc) }
   end
 
-  def test_matrix_exp
-    # dev
-  end 
+  def test_err_subtract
+    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) { @matrixa.matrix_subtract(@matrixc) }
+  end
+
+  def scalar_err_multiply
+    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_multiply(nil) }
+  end
+
+  def scalar_err_add
+    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_add(nil) }
+  end
+
+  def scalar_err_subtract
+    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_subtract(nil) }
+  end
+
+  def scalar_err_divide
+    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_divide(nil) }
+  end
+
+  def scalar_err_exp
+    assert_raises(CsrMatrix::Arithmetic::ArgumentNullException) { @matrixa.scalar_exp(nil) }
+  end
+
+  # we multiply by the inverse of b
+  def test_matrix_left_division_err
+    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) {  @matrixTwoByThree.matrix_left_division(@matrixThreeByTwo) }
+  end  
+
+  def test_matrix_right_division_err
+    assert_raises(CsrMatrix::Arithmetic::MatrixDimException) {  @matrixThreeByTwo.matrix_right_division(@matrixTwoByThree) }
+  end
+
+  # FIXME: functions are broken right now, need to fix left/right division
+  # http://www.wolframalpha.com/input/?i=%7B%7B1,2%7D,%7B3,4%7D%7D+%2F+%7B%7B5,6%7D,%7B7,8%7D%7D
+  # currently multiplies x by y^-1
+  def test_matrix_left_division
+    assert_equal [[Rational('3/1'), Rational('-2/1')], [Rational('2/1'), Rational('-1/1')]], @matrixa.matrix_left_division(@matrixd)
+  end
+
+  # http://www.wolframalpha.com/input/?i=%7B%7B5,6%7D,%7B7,8%7D%7D+*+%7B%7B1,2%7D,%7B3,4%7D%7D%5E-1
+  # multiply y by x^-1
+  def test_matrix_right_division
+    assert_equal [[Rational('-1/1'), Rational('2/1')], [Rational('-2/1'), Rational('3/1')]], @matrixa.matrix_right_division(@matrixd)
+  end
 
 end

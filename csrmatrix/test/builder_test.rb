@@ -37,10 +37,38 @@ class BuilderTest < Minitest::Unit::TestCase
     assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
   end
 
+  def test_wrong_type_matrix
+    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_matrix(4) } 
+  end  
+
   def test_build_from_columns
     @matrix.build_from_columns([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
     assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
   end
+
+  def test_bad_column_build
+    assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrix.build_from_columns([[1, 2, 3], [2, 3], [2, 3]]) } 
+  end
+
+  def test_wrong_type_build
+    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_array(4) } 
+  end
+
+  def test_wrong_type_column
+    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_columns(4) } 
+  end
+
+  def test_wrong_type_rows
+    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_rows(4) } 
+  end
+
+  def test_wrong_type_identity
+    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_identity_matrix([4, 4]) } 
+  end
+
+  def test_wrong_type_zero
+    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_zero_matrix([4, 4]) } 
+  end  
 
   def test_build_identity_matrix
     @matrix.build_identity_matrix(3) #rows, columns are same
@@ -50,6 +78,11 @@ class BuilderTest < Minitest::Unit::TestCase
   def test_build_zero_matrix
     @matrix.build_zero_matrix(3, 2) #rows, columns
     assert_equal [[0, 0], [0, 0], [0, 0]], @matrix.decompose()
+  end
+
+  def test_build_zero_matrix_one
+    @matrix.build_zero_matrix(2) #rows, columns
+    assert_equal [[0, 0], [0, 0]], @matrix.decompose()
   end
 
   def test_build_from_csr
