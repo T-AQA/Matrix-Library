@@ -19,6 +19,8 @@ module CsrMatrix
 
         # Determine if the matrix is hermitian.
         def hermitian?
+						if !self.square?
+							raise MatrixDimException.new, "Matrix is not square."
             m = Matrix.rows(self.decompose)
             return m.hermitian?
         end
@@ -31,18 +33,24 @@ module CsrMatrix
 
         # Determines if the matrix is normal; wherein if the number of rows or columns is 0
         def normal? 
+						if !self.square?
+							raise MatrixDimException.new, "Matrix is not square."
             m = Matrix.rows(self.decompose)
             return m.normal?
         end
 
         # Determines if the matrix is orthogonal; wherein the rows and columns are orthogonal unit vectors.
         def orthogonal?
+						if !self.square?
+							raise MatrixDimException.new, "Matrix is not square."
             m = Matrix.rows(self.decompose)
             return m.orthogonal?
         end
 
         # Determines if the matrix is a permutation; wherein it is an nxn version of the identity matrix.
         def permutation?
+						if !self.square?
+							raise MatrixDimException.new, "Matrix is not square."
             m = Matrix.rows(self.decompose)
             return m.permutation?
         end
@@ -72,12 +80,16 @@ module CsrMatrix
 
         # Determines if the matrix is symmetric
         def symmetric?
+						if !self.square?
+							raise MatrixDimException.new, "Matrix is not square."
             m = Matrix.rows(self.decompose)
             return m.symmetric?
         end
 
         # Determines if the matrix is unitary
         def unitary?
+						if !self.square?
+							raise MatrixDimException.new, "Matrix is not square."
             m = Matrix.rows(self.decompose)
             return m.unitary?
         end
