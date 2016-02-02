@@ -62,6 +62,51 @@ class TwoDMatrix
     return self.rows == self.columns
   end
 
+  def checkInputBounds(row, col)
+    if row > @rows
+      raise IndexOutOfRangeException.new, "Row index too large"
+      return false
+    elsif col > @columns
+      raise IndexOutOfRangeException.new, "Column index too large"
+      return false
+    elsif row < 0
+      raise IndexOutOfRangeException.new, "Row index too small"
+      return false
+    elsif col < 0
+      raise IndexOutOfRangeException.new, "Column index too small"
+      return false
+    else
+      return true
+    end
+  end
+
+  def index(row, col=nil)
+    if col == nil
+        if @val.count < row
+          raise IndexOutOfRangeException.new, "Index out of Bounds"
+          return false
+        end
+
+      return @val[row-1]
+    else
+      if !checkInputBounds(row, col)
+        raise IndexOutOfRangeException.new, "Index out of Bounds"
+        return false
+      end
+
+      num_elm_in_prev = row_ptr[row-1]
+      num_elm_in_row = row_ptr[row] - num_elm_in_prev
+        
+      (0...num_elm_in_row).each do | x |
+        if ( col-1 == @col_ind[num_elm_in_prev+x] )
+          return @val[num_elm_in_prev+x]
+        end
+      end
+      return 0
+    end
+  end
+
+
   ##
   # MATRIX DECOMPOSITION FUNCTIONS
   #
