@@ -22,7 +22,32 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Start by building the matrix object. This will be a simple shell, on which we can perform our operations on:
+
+```ruby 
+@matrix = TwoDMatrix.new
+ => #<TwoDMatrix:0x007fa5b2083ba8 @nonzero_count=nil, @row_ptr=nil, @col_ind=nil, @val=nil, @rows=0, @columns=0, @ndim=2> 
+```
+
+Then, we can fill it out using a variety of manners - either building the functions from arrays:
+
+```ruby 
+@matrix.build_from_array([[1, 2, 3], [1, 2, 3], [1, 2, 3]]) 
+@matrix.build_from_rows([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+@matrix.build_from_columns([[1, 2, 3], [1, 2, 3], [1, 2, 3]]) 
+```
+
+Or from an existing matrix using Ruby's matrix library:
+```ruby
+@MatrixBuild = Matrix.rows([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+@matrix.build_from_matrix(@MatrixBuild)
+```
+
+Or by generating a zero or identity matrix:
+```ruby
+@matrix.build_zero_matrix(3, 2)
+@matrix.build_identity_matrix(3)
+```
 
 ## Development
 
