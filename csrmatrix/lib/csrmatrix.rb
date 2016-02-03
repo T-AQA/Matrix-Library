@@ -55,20 +55,26 @@ class TwoDMatrix
   def state
     # returns the current state of the csrmatrix
     # pre self
-    # post [@value, @row_pointer, @ column_index, @rows, @columns, @dimension]
+    # post [@value, @row_pointer, @column_index, @rows, @columns, @dimension]
     [@val, @row_ptr, @col_ind, @rows, @columns, @ndim]
   end
 
   # Finds column and row value of an array. 
   def dimensions()
+    # returns the dimensions of the csrmatrix
+    # post [@rows, @columns]
     return [@rows, @columns]
   end
   
   def square?
+    # returns whether or not the system is square
+    # post true if matrix is square
     return self.rows == self.columns
   end
 
   def checkInputBounds(row, col)
+    # checks whether or not the index searched is within bounds
+    # post true if within bounds, false if not within bounds
     if row > @rows
       raise IndexOutOfRangeException.new, "Row index too large"
       return false
