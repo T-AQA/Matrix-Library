@@ -45,11 +45,17 @@ class TwoDMatrix
 
   # equals override for matrix operations
   def ==(o)
+		# equals overide to check if object o equals self
+		# pre 	o, self
+		# post	true if o is_a csrmatrix and o == self
     o.class == self.class && o.state == state
   end
 
   # FIXME: convert to protected value
   def state
+		# returns the current state of the csrmatrix
+		# pre self
+		# post [@value, @row_pointer, @ column_index, @rows, @columns, @dimention]
     [@val, @row_ptr, @col_ind, @rows, @columns, @ndim]
   end
 
@@ -228,6 +234,7 @@ class TwoDMatrix
 
   # Finds the column count, row count and non-zero values in one loop. 
   def convert_to_csr(array)
+		
     row_count = 0
     col_count = 0
     nonzero_count = 0
