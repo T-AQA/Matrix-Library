@@ -10,7 +10,7 @@ require "csrmatrix/exceptions"
 module CsrMatrix
   # The current website ref. Used for verificationn of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
-end 
+end # CsrMatrix
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
