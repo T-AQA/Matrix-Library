@@ -8,112 +8,140 @@ module CsrMatrix
         exceptions.send :include, Exceptions
       end 
       
-      # Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
       def diagonal?
+          # Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
+          # pre   existing matrix (matrix.not_null?)
+          # post  boolean 
           m = Matrix.rows(self.decompose)
           return m.diagonal?
-      end
+      end # diagonal?
 
-      # Determines if the matrix is empty; wherein all the values are zero.
       def empty?
-          m = Matrix.rows(self.decompose)
-          return m.empty?
-      end
+        # Determines if the matrix is empty; wherein all the values are zero.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        m = Matrix.rows(self.decompose)
+        return m.empty?
+      end # empty?
 
-      # Determine if the matrix is hermitian.
       def hermitian?
+        # Determine if the matrix is hermitian.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
 		    if !self.square?
 			    raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
         m = Matrix.rows(self.decompose)
         return m.hermitian?
-      end
+      end # hermitian?
 
-      # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
       def lower_triangular?
-          m = Matrix.rows(self.decompose)
-          return m.lower_triangular?
-      end
+        # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        m = Matrix.rows(self.decompose)
+        return m.lower_triangular?
+      end # lower_triangular?
 
-      # Determines if the matrix is normal; wherein if the number of rows or columns is 0
       def normal? 
+        # Determines if the matrix is normal
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
   			if !self.square?
   			  raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
         m = Matrix.rows(self.decompose)
         return m.normal?
-      end
+      end # normal?
 
-      # Determines if the matrix is orthogonal; wherein the rows and columns are orthogonal unit vectors.
       def orthogonal?
+        # Determines if the matrix is orthogonal; wherein the rows and columns are orthogonal unit vectors.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
         if !self.square?
           raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
         m = Matrix.rows(self.decompose)
         return m.orthogonal?
-      end
+      end # orthogonal?
 
-      # Determines if the matrix is a permutation; wherein it is an nxn version of the identity matrix.
       def permutation?
+        # Determines if the matrix is a permutation; wherein it is an nxn version of the identity matrix.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
 		    if !self.square?
 			    raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
         m = Matrix.rows(self.decompose)
         return m.permutation?
-      end
+      end # permutation?
 
-      # Determines if the matrix is real; wherein the matrix consists entirely of real numbers.
       def real?
-          m = Matrix.rows(self.decompose)
-          return m.real?
-      end
+        # Determines if the matrix is real; wherein the matrix consists entirely of real numbers.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        m = Matrix.rows(self.decompose)
+        return m.real?
+      end # real?
 
-      # Determines if the matrix is nonsingular
       def nonsingular?
-          return !self.singular?
-      end
+        # Determines if the matrix is nonsingular ; simply the inverse of the singular function
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        return !self.singular?
+      end # nonsingular?
 
-      # Determines if the matrix is singular
       def singular?
-          m = Matrix.rows(self.decompose)
-          return m.singular?
-      end
+        # Determines if the matrix is singular
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        m = Matrix.rows(self.decompose)
+        return m.singular?
+      end # singular?
 
-      # Determines if the matrix is symmetric
       def symmetric?
+        # Determines if the matrix is symmetric
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
   			if !self.square?
   				raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
         m = Matrix.rows(self.decompose)
         return m.symmetric?
-      end
+      end # symmetric? 
 
-      # Determines if the matrix is unitary
       def unitary?
+        # Determines if the matrix is unitary
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
   			if !self.square?
   				raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
         m = Matrix.rows(self.decompose)
         return m.unitary?
-      end
+      end # unitary?
 
-      # Determines if the matrix is upper-triangular
       def upper_triangular?
+        # Determines if the matrix is upper-triangular
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
           m = Matrix.rows(self.decompose)
           return m.upper_triangular?
-      end
+      end # upper triangular?
 
-      # Determines if the matrix is zero
       def zero?
-          m = Matrix.rows(self.decompose)
-          return m.zero?
-      end
+        # Determines if the matrix is zero
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        m = Matrix.rows(self.decompose)
+        return m.zero?
+      end # zero?
 
-    end
-end
+    end # properties
+end # csrmatrix
