@@ -12,7 +12,7 @@ module CsrMatrix
     # multiply the matrix by a scalar value
     def scalar_multiply(value)
       # multiply the matrix by a scalar value
-      # pre   value to multiply, existing matrix
+      # pre   value to multiply, existing matrix (matrix.not_null)
       # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Multiply by nil error."
@@ -25,7 +25,7 @@ module CsrMatrix
     
     def scalar_add(value)
       # manipulate the matrix by adding a value at each index
-      # pre   value to add by, existing matrix
+      # pre   value to add by, existing matrix (matrix.not_null)
       # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Add by nil error."
@@ -38,7 +38,7 @@ module CsrMatrix
 
     def scalar_subtract(value)
       # manipulate the matrix by subtracting the value at each index
-      # pre   value to subtract by, existing matrix
+      # pre   value to subtract by, existing matrix (matrix.not_null)
       # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Subtract by nil error."
@@ -51,7 +51,7 @@ module CsrMatrix
 
     def scalar_division(value)
       # manipulate the matrix by dividing the value at each index
-      # pre   value to divide by, existing matrix
+      # pre   value to divide by, existing matrix (matrix.not_null)
       # post  boolean, updated matrix (in floats, if previously was not)
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Divide by nil error."
@@ -64,7 +64,7 @@ module CsrMatrix
 
     def scalar_exp(value)
       # manipulate teh matrix by finding the exponential at each index
-      # pre   value to set exponent by, existing matrix
+      # pre   value to set exponent by, existing matrix (matrix.not_null)
       # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Exp. by nil error."
@@ -77,7 +77,7 @@ module CsrMatrix
 
     def inverse()
       # sets the inverse of this matrix
-      # pre   existing matrix
+      # pre   existing matrix (matrix.not_null)
       # post  inverted matrix
       m = Matrix.rows(self.decompose)
       self.build_from_array(m.inv().to_a())
@@ -85,7 +85,7 @@ module CsrMatrix
 
     def transpose()
       # transposes the matrix 
-      # pre   existing matrix
+      # pre   existing matrix (matrix.not_null)
       # post  array of decomposed matrix values
       m = Matrix.rows(self.decompose)
       self.build_from_array(m.transpose.to_a())
@@ -93,7 +93,7 @@ module CsrMatrix
 
     def t()
       # transposes the matrix 
-      # pre   existing matrix
+      # pre   existing matrix (matrix.not_null)
       # post  array of decomposed matrix values
       self.transpose()
     end
@@ -119,7 +119,7 @@ module CsrMatrix
     # dev based on http://stackoverflow.com/questions/29598299/csr-matrix-matrix-multiplication
     def matrix_multiply(matrix)
       # multiply dense (non-dense) matrix to csr matrix [eg. [1, 2]] x 2d array
-      # pre   matrix to multiply, existing matrix
+      # pre   matrix to multiply, existing matrix (matrix.not_null)
       # post  array holding resulting matrix
       res = Array.new(max_row(matrix)) { Array.new(@columns, 0) } # first denotes row, second denotes columns
       n = matrix.length
@@ -149,21 +149,21 @@ module CsrMatrix
 
     def multiply_csr(matrix)
       # multiply two csr together - ref: http://www.mcs.anl.gov/papers/P5007-0813_1.pdf
-      # pre   matrix to multiply, existing matrix
+      # pre   matrix to multiply, existing matrix (matrix.not_null)
       # post  array holding decomposed result
       return matrix.matrix_multiply(self.decompose())
     end 
 
     def is_same_dim(matrix)
       # helper function to determine deim count is equal
-      # pre   matrix to test, existing matrix
+      # pre   matrix to test, existing matrix (matrix.not_null)
       # post  boolean
       return self.dimensions() == matrix.dimensions()
     end
 
     def matrix_add(matrix)
       # adds a matrix to existing matrix
-      # pre   matrix to add, existing matrix
+      # pre   matrix to add, existing matrix (matrix.not_null)
       # post  boolean, resulting matrix
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
@@ -192,7 +192,7 @@ module CsrMatrix
 
     def matrix_subtract(matrix)
       # subtracts a matrix to existing matrix
-      # pre   matrix to add, existing matrix
+      # pre   matrix to add, existing matrix (matrix.not_null)
       # post  boolean, resulting matrix
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
@@ -222,7 +222,7 @@ module CsrMatrix
     def multiply_inverse(matrix)
       # divides (multiply by the inverse of ) a matrix to existing matrix
       # sets y * x^-1, where x is your matrix and y is the accepted matrix
-      # pre   matrix to divide, existing matrix
+      # pre   matrix to divide, existing matrix (matrix.not_null)
       # post  boolean, resulting matrix
       if !matrix.is_a?(TwoDMatrix)
         raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
@@ -242,7 +242,7 @@ module CsrMatrix
     def inverse_multiply(matrix)
       # divides (multiply by the inverse of ) a matrix to existing matrix
       # sets x * y^-1, where x is your matrix and y is the accepted matrix
-      # pre   matrix to divide, existing matrix
+      # pre   matrix to divide, existing matrix (matrix.not_null)
       # post  boolean, resulting matrix
       if !matrix.is_a?(TwoDMatrix)
         raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
@@ -260,7 +260,7 @@ module CsrMatrix
 
      def matrix_division(matrix)
       # linear division of one matrix to the next
-      # pre   matrix to divide, existing matrix
+      # pre   matrix to divide, existing matrix (matrix.not_null)
       # post  boolean, resulting matrix
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }

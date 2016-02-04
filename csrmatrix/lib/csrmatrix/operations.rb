@@ -1,10 +1,16 @@
 module CsrMatrix
     module Operations
         def get_value(index)
+            # gets the value off of the index of matrix
+            # pre   int index present
+            # post  value at index value
             return @val[index]
-        end
+        end # get_value
 
         def print_full()
+            # prints the full matrix for user
+            # pre   existing matrix (matrix.not_null)
+            # post  matrix in plaintext
             full_matrix = self.decompose()
             full_matrix.each do | row |
                 row.each do | val |
@@ -12,32 +18,12 @@ module CsrMatrix
                 end
                 puts ""
             end
-
-            # print @col_ind
-            # item_count = 0
-            # cur_num_val = 0
-            # col_ptr = 0
-
-            # (0...@rows).each do |row_index|
-            #     puts "Row Index: #{row_index} "
-            #     cur_num_val = @row_ptr[row_index+1]  - item_count
-            #     puts "Number of Value in Row: #{cur_num_val} "
-            #     (0...@columns).each do |col_index|
-            #         print "Indexing with: #{item_count} --> "
-            #         if (col_index == @col_ind[item_count])
-            #             print "#{@val[item_count + col_index]}  "
-            #             item_count += 1
-            #         else
-            #             print "0  "
-            #         end
-            #     end
-            #     print "\n"
-
-            #    #item_count = @row_ptr[row_index+1]
-            #end
-        end
+        end # print_full
 
         def print_sparse()
+            # prints all nonzero values of matrix for user
+            # pre   existing matrix (matrix.not_null)
+            # post  sparse matrix in plaintext
             full_matrix = self.decompose()
             full_matrix.each do | row |
                 row.each do | val |
@@ -49,6 +35,6 @@ module CsrMatrix
                 end
                 puts ""
             end
-        end    
-    end
-end
+        end # print_sparse   
+    end # operations
+end # csrmatrix
