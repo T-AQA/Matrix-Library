@@ -28,7 +28,15 @@ class TwoDMatrix
   attr_reader :row_ptr, :col_ind, :val, :rows, :columns, :ndim
 
   # Blank setup; setup module.
-  def initialize()
+  def initialize()	
+		# invariant
+		# @nonzero_count.is_a?(array) and @nonzero_count.count() >= 0
+		# @row_pointer.is_a?(array) and @row_pointer.count() >= 0
+		# @col_ind.is_a?(array) and @col_ind.count() >= 0
+		# @val.is_a?(array) and @val.count() >= 0
+		# @rows >= 0
+		# @columns >= 0
+		# @dimension == 2
     @nonzero_count = nil
     @row_ptr = nil
     @col_ind = nil
@@ -61,6 +69,9 @@ class TwoDMatrix
 
   # Finds column and row value of an array. 
   def dimensions()
+		# finds the dimensions of the array
+		# pre self
+		# post [self.rows, self.columns]
     return [@rows, @columns]
   end
   

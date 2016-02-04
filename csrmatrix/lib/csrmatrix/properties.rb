@@ -83,12 +83,6 @@ module CsrMatrix
           return m.singular?
       end
 
-      # Determines if the matrix is square
-      def square?
-          m = Matrix.rows(self.decompose)
-          return m.square?
-      end
-
       # Determines if the matrix is symmetric
       def symmetric?
   			if !self.square?
