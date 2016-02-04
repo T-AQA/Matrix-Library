@@ -19,7 +19,7 @@ module CsrMatrix
 
         def rank()
             # identifies the rank of a matrix
-            # pre   existing matrix (matrix.not_null)
+            # pre   existing matrix (matrix.not_null?)
             # post  rank of the matrix
             m = Matrix.rows(self.decompose)
             m.rank()
@@ -27,7 +27,7 @@ module CsrMatrix
 
         def round(ndig = 0)
             # identifies the round of a matrix (that is, each value rounded by a specific degree)
-            # pre   integer of degree, existing matrix (matrix.not_null)
+            # pre   integer of degree, existing matrix (matrix.not_null?)
             # post  rounded array
             m = Matrix.rows(self.decompose)
             self.build_from_array(m.round(ndig).to_a())
@@ -35,7 +35,7 @@ module CsrMatrix
 
         def trace()
             # identifies the trace of the matrix
-            # pre   existing matrix (matrix.not_null)
+            # pre   existing matrix (matrix.not_null?)
             # post  trace
             m = Matrix.rows(self.decompose)
             m.trace()
@@ -44,10 +44,10 @@ module CsrMatrix
         def tr()
             # alias for trace
             # identifies the trace of the matrix
-            # pre   existing matrix (matrix.not_null)
+            # pre   existing matrix (matrix.not_null?)
             # post  trace
             self.trace()
         end # tr
 
-    end # functions
-end # csrmatrix
+    end # Functions
+end # CsrMatrix
