@@ -143,5 +143,5 @@ module CsrMatrix
         return m.zero?
       end # zero?
 
-    end # properties
-end # csrmatrix
+    end # Properties
+end # CsrMatrix
