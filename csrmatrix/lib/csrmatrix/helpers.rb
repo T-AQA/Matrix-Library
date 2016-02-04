@@ -56,8 +56,8 @@ module CsrMatrix
 		end # count_nonzero
 
 		def depth(array)
-			# Identifies the depth of an array.
 			# Code from http://stackoverflow.com/questions/9545613/getting-dimension-of-multidimensional-array-in-ruby
+			# Identifies the depth of an array.
 			# pre 	array
 			# post 	int depth of array
 	    return 0 if array.class != Array
@@ -85,5 +85,5 @@ module CsrMatrix
       return max_count
     end # count_total
 	
-  end # helpers
-end # csrmatrix
+  end # Helpers
+end # CsrMatrix
