@@ -9,7 +9,7 @@ module CsrMatrix
 
         def print_full()
             # prints the full matrix for user
-            # pre   existing matrix (matrix.not_null)
+            # pre   existing matrix (matrix.not_null?)
             # post  matrix in plaintext
             full_matrix = self.decompose()
             full_matrix.each do | row |
@@ -22,7 +22,7 @@ module CsrMatrix
 
         def print_sparse()
             # prints all nonzero values of matrix for user
-            # pre   existing matrix (matrix.not_null)
+            # pre   existing matrix (matrix.not_null?)
             # post  sparse matrix in plaintext
             full_matrix = self.decompose()
             full_matrix.each do | row |
@@ -36,5 +36,5 @@ module CsrMatrix
                 puts ""
             end
         end # print_sparse   
-    end # operations
-end # csrmatrix
+    end # Operations
+end # CsrMatrix
