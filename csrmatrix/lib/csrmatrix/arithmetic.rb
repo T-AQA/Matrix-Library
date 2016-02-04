@@ -303,5 +303,5 @@ module CsrMatrix
       return max_count
     end # max_row
 
-  end 
-end
+  end # Arithmetic
+end # CsrMatrix
