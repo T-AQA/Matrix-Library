@@ -53,33 +53,36 @@ class TwoDMatrix
 
   # equals override for matrix operations
   def ==(o)
-		# equals overide to check if object o equals self
-		# pre 	o, self
-		# post	true if o is_a csrmatrix and o == self
+    # equals overide to check if object o equals self
+    # pre   o, self
+    # post  true if o is_a csrmatrix and o == self
     o.class == self.class && o.state == state
   end
 
   # FIXME: convert to protected value
   def state
-		# returns the current state of the csrmatrix
-		# pre self
-		# post [@value, @row_pointer, @ column_index, @rows, @columns, @dimention]
+    # returns the current state of the csrmatrix
+    # pre self
+    # post [@value, @row_pointer, @column_index, @rows, @columns, @dimension]
     [@val, @row_ptr, @col_ind, @rows, @columns, @ndim]
   end
 
   # Finds column and row value of an array. 
   def dimensions()
-		# finds the dimensions of the array
-		# pre self
-		# post [self.rows, self.columns]
+    # returns the dimensions of the csrmatrix
+    # post [@rows, @columns]
     return [@rows, @columns]
   end
   
   def square?
+    # returns whether or not the system is square
+    # post true if matrix is square
     return self.rows == self.columns
   end
 
   def checkInputBounds(row, col)
+    # checks whether or not the index searched is within bounds
+    # post true if within bounds, false if not within bounds
     if row > @rows
       raise IndexOutOfRangeException.new, "Row index too large"
       return false
