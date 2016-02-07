@@ -9,19 +9,26 @@ module CsrMatrix
       end 
       
       def diagonal?
-          # Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
-          # pre   existing matrix (matrix.not_null?)
-          # post  boolean 
-          m = Matrix.rows(self.decompose)
-          return m.diagonal?
+      	# Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        for i in 0..self.columns-1
+					puts self.row_ptr[i+1]
+					if (self.col_ind[i] != i) || (self.row_ptr[i+1] != i+1)
+						return false
+					end
+				end
+				return true
       end # diagonal?
 
       def empty?
         # Determines if the matrix is empty; wherein all the values are zero.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.empty?
+				if self.val.count() == 0
+					return true
+				end
+				return false
       end # empty?
 
       def hermitian?
@@ -139,8 +146,12 @@ module CsrMatrix
         # Determines if the matrix is zero
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.zero?
+        for value in self.val
+					if value != 0
+						return false
+					end
+				end
+				return true
       end # zero?
 
     end # Properties
