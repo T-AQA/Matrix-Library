@@ -3,16 +3,22 @@ module CsrMatrix
         include Contracts::Core
         include Contracts::Builtin
 
-        Contract Contracts::Send[:not_null?] => Contracts::Num
+        def self.included(exceptions)
+            exceptions.send :include, Exceptions
+        end
+
         def determinant()
             # identifies the determinant of a matrix
             # pre   existing matrix
             # post  determinant of the matrix
+            if !self.is_same_dim()
+                raise Exceptions::MatrixDimException.new, "Matrix is not square."
+                return false
+            end
             m = Matrix.rows(self.decompose)
             return m.det()
         end # determinant
 
-        Contract Contracts::Send[:not_null?] => Contracts::Num
         def det()
             # alias for determinant
             # identifies the determinant of a matrix
