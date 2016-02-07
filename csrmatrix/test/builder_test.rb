@@ -1,7 +1,7 @@
 require "minitest/autorun"
 require "csrmatrix"
 
-class BuilderTest < Minitest::Unit::TestCase
+class BuilderTest < Minitest::Test
   def setup 
     @matrix = TwoDMatrix.new
 
