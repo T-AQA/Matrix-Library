@@ -49,11 +49,6 @@ class PropertiesTest < Minitest::Test
     assert @matrixEmpty3x3.empty?
   end
 
-	def test_hermitian
-    # FIXME: no imaginary character construction yet
-    # assert @matrixHermitian3x3.hermitian()
-  end
-
 	def test_lower_triangle
     assert @matrixTrigonal3x3.lower_triangular?
   end

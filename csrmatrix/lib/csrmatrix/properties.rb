@@ -31,18 +31,6 @@ module CsrMatrix
 				return false
       end # empty?
 
-      def hermitian?
-        # Determine if the matrix is hermitian.
-        # pre   existing matrix (matrix.not_null?)
-        # post  boolean 
-		    if !self.square?
-			    raise Exceptions::MatrixDimException.new, "Matrix is not square."
-          return false
-        end
-        m = Matrix.rows(self.decompose)
-        return m.hermitian?
-      end # hermitian?
-
       def lower_triangular?
         # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
         # pre   existing matrix (matrix.not_null?)
