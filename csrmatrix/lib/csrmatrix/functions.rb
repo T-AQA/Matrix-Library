@@ -36,13 +36,13 @@ module CsrMatrix
             return m.rank()
         end # rank
 
-        Contract Contracts::Num => Contracts::Bool
         def round(ndig = 0)
             # identifies the round of a matrix (that is, each value rounded by a specific degree)
             # pre   integer of degree, existing matrix (matrix.not_null?)
             # post  rounded array
-            m = Matrix.rows(self.decompose)
-            return self.build_from_array(m.round(ndig).to_a())
+            for i in 0..self.val.count-1
+                self.val[i] = self.val[i].round(ndig)
+            end    
         end # round
 
         Contract Contracts::Send[:not_null?] => Contracts::Num
