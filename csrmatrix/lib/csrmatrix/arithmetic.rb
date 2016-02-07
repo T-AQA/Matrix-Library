@@ -1,21 +1,21 @@
 require "matrix"
 require "csrmatrix/exceptions"
+require "contracts"
 
 module CsrMatrix    
   module Arithmetic
-
+    include Contracts::Core
+    # Brings in exception module for exception testing
     def self.included(exceptions)
       exceptions.send :include, Exceptions
     end
 
-    # class MatrixDimException < StandardError; end      
-    # class ArgumentNullException < StandardError; end
-    # class MatrixTypeException < StandardError; end     
-
-    # REFERENCE: To use module functions in module
-    # Class.new.extend(Decompositions).lup()
-
+    # multiply the matrix by a scalar value
+    # Contract Contracts::Num => nil
     def scalar_multiply(value)
+      # multiply the matrix by a scalar value
+      # pre   value to multiply, existing matrix (matrix.not_null?)
+      # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Multiply by nil error."
         return false
@@ -23,33 +23,38 @@ module CsrMatrix
       @val.each_index do |i|
         @val[i] = @val[i] * value
       end
-    end
+    end # scalar_multiply
     
     def scalar_add(value)
+      # manipulate the matrix by adding a value at each index
+      # pre   value to add by, existing matrix (matrix.not_null?)
+      # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Add by nil error."
         return false
       end
-      # create an identity matrix with the value
-      # matrix_add the new identity matrix to the given matrix
       @val.each_index do |i|
         @val[i] = @val[i] + value
       end
-    end
+    end # scalar_add
 
     def scalar_subtract(value)
+      # manipulate the matrix by subtracting the value at each index
+      # pre   value to subtract by, existing matrix (matrix.not_null?)
+      # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Subtract by nil error."
         return false
       end
-      # create an identity matrix with the value
-      # matrix_subtract the new identity matrix to the given matrix
       @val.each_index do |i|
         @val[i] = @val[i] - value
       end
-    end
+    end # scalar_subtract
 
     def scalar_division(value)
+      # manipulate the matrix by dividing the value at each index
+      # pre   value to divide by, existing matrix (matrix.not_null?)
+      # post  boolean, updated matrix (in floats, if previously was not)
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Divide by nil error."
         return false
@@ -57,9 +62,12 @@ module CsrMatrix
       @val.each_index do |i|
         @val[i] = @val[i] / value.to_f
       end
-    end
+    end # scalar_division
 
     def scalar_exp(value)
+      # manipulate the matrix by finding the exponential at each index
+      # pre   value to set exponent by, existing matrix (matrix.not_null?)
+      # post  boolean, updated matrix
       if value == nil
         raise Exceptions::ArgumentNullException.new, "Exp. by nil error."
         return false
@@ -67,25 +75,37 @@ module CsrMatrix
       @val.each_index do |i|
         @val[i] = @val[i] ** value
       end
-    end
+    end # scalar_exp
 
+    Contract Contracts::Send[:not_null?] => Contracts::Bool
     def inverse()
+      # sets the inverse of this matrix
+      # pre   existing matrix (matrix.not_null?)
+      # post  inverted matrix
       m = Matrix.rows(self.decompose)
       self.build_from_array(m.inv().to_a())
-    end
+    end # inverse
 
-    # FIXME: Convert with CSR functions
     def transpose()
+      # transpose the matrix 
+      # pre   existing matrix (matrix.not_null?)
+      # post  array of decomposed matrix values
       m = Matrix.rows(self.decompose)
       self.build_from_array(m.transpose.to_a())
-    end
+    end # transpose
 
     def t()
+      # transpose the matrix 
+      # pre   existing matrix (matrix.not_null?)
+      # post  array of decomposed matrix values
       self.transpose()
-    end
+    end # t
 
     def matrix_vector(vector) 
       # dev based on http://www.mathcs.emory.edu/~cheung/Courses/561/Syllabus/3-C/sparse.html
+      # multiplies the matrix by a vector value (in array form)
+      # pre   vector
+      # post  array, with results
       result = Array.new(vector.length, 0)
       i = 0
       while i < vector.length do
@@ -97,13 +117,13 @@ module CsrMatrix
         i += 1
       end   
       return result
-    end   
+    end # matrix_vector
 
     # dev based on http://stackoverflow.com/questions/29598299/csr-matrix-matrix-multiplication
-    # multiply dense (non-dense) matrix to csr matrix [eg. [1, 2]] x 2d array
-    # key: the dense matrix is LEFT SIDE, the csr matrix is RIGHT SIDE
     def matrix_multiply(matrix)
-      # matrix order, assumes both matrices are square
+      # multiply dense (non-dense) matrix to csr matrix [eg. [1, 2]] x 2d array
+      # pre   matrix to multiply, existing matrix (matrix.not_null?)
+      # post  array holding resulting matrix
       res = Array.new(max_row(matrix)) { Array.new(@columns, 0) } # first denotes row, second denotes columns
       n = matrix.length
       i = 0
@@ -128,19 +148,26 @@ module CsrMatrix
         i += 1
       end
       return res
-    end
+    end # matrix_multiply
 
-    # multiply two csr together - ref: http://www.mcs.anl.gov/papers/P5007-0813_1.pdf
     def multiply_csr(matrix)
+      # multiply two csr together - ref: http://www.mcs.anl.gov/papers/P5007-0813_1.pdf
+      # pre   matrix to multiply, existing matrix (matrix.not_null?)
+      # post  array holding decomposed result
       return matrix.matrix_multiply(self.decompose())
-    end 
+    end # multiply_csr
 
-    # helper function to determine deim count is equal
     def is_same_dim(matrix)
+      # helper function to determine dim count is equal
+      # pre   matrix to test, existing matrix (matrix.not_null?)
+      # post  boolean
       return self.dimensions() == matrix.dimensions()
-    end
+    end # is_same_dim
 
     def matrix_add(matrix)
+      # adds a matrix to existing matrix
+      # pre   matrix to add, existing matrix (matrix.not_null?)
+      # post  boolean, resulting matrix
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
         row_idx = 0
@@ -164,9 +191,12 @@ module CsrMatrix
       end 
       raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
       return false
-    end
+    end # matrix_add
 
     def matrix_subtract(matrix)
+      # subtracts a matrix to existing matrix
+      # pre   matrix to add, existing matrix (matrix.not_null?)
+      # post  boolean, resulting matrix
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
         row_idx = 0
@@ -190,11 +220,13 @@ module CsrMatrix
       end 
       raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot subtract."
       return false
-    end
+    end # matrix_subtract
 
-    # multiply y by x^-1; y * x^-1
-    # FIXME: Possibly consider rewording for context:
     def multiply_inverse(matrix)
+      # divides (multiply by the inverse of ) a matrix to existing matrix
+      # sets y * x^-1, where x is your matrix and y is the accepted matrix
+      # pre   matrix to divide, existing matrix (matrix.not_null?)
+      # post  boolean, resulting matrix
       if !matrix.is_a?(TwoDMatrix)
         raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
@@ -207,11 +239,14 @@ module CsrMatrix
       tmpmatrix = matrix
       tmpmatrix.inverse()
       return self.multiply_csr(tmpmatrix)
-    end
+    end # matrix_inverse
 
     # multiply x by y^-1; x * y^-1 
-    # FIXME: Possibly consider rewording for context: not doing x / y; doing x * y^-1
     def inverse_multiply(matrix)
+      # divides (multiply by the inverse of ) a matrix to existing matrix
+      # sets x * y^-1, where x is your matrix and y is the accepted matrix
+      # pre   matrix to divide, existing matrix (matrix.not_null?)
+      # post  boolean, resulting matrix
       if !matrix.is_a?(TwoDMatrix)
         raise Exceptions::MatrixTypeException.new, "Matrix is not usable type."
         return false
@@ -224,9 +259,12 @@ module CsrMatrix
       tmpmatrix = self
       tmpmatrix.inverse()
       return matrix.multiply_csr(tmpmatrix)
-    end
+    end # inverse_multiply
 
-     def matrix_division(matrix)
+    def matrix_division(matrix)
+      # linear division of one matrix to the next
+      # pre   matrix to divide, existing matrix (matrix.not_null?)
+      # post  boolean, resulting matrix
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
         row_idx = 0
@@ -254,18 +292,19 @@ module CsrMatrix
       end 
       raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
       return false
-    end
+    end # matrix_division
 
-    # Identifies the 'row' value of an array (eg. the number of entries in a row)
-    # Helper function, will clean after.
     def max_row(array)
+      # Identifies the 'row' value of an array (eg. the number of entries in a row)
+      # pre   array
+      # post  integer of row count
       values = array
       max_count = 0
       values.each_index do |i|
         max_count += 1
       end
       return max_count
-    end
+    end # max_row
 
-  end 
-end
+  end # Arithmetic
+end # CsrMatrix

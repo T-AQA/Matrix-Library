@@ -33,7 +33,7 @@ class PropertiesTest < Minitest::Test
   end
 
   def test_twod_index
-    assert_equal 2, @matrixDense3x3.index(2, 1) # row 2 column 1
+    assert_equal 1, @matrixDense3x3.index(2, 1) # row 2 column 1
   end 
 
   def test_invalid_index
