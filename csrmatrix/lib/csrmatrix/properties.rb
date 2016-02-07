@@ -12,7 +12,6 @@ module CsrMatrix
       	# Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-				puts row_ptr
         for i in 0..self.columns-1
 					if (self.col_ind[i] != i) || (self.row_ptr[i] != i)
 						return false
@@ -85,8 +84,12 @@ module CsrMatrix
         # Determines if the matrix is real; wherein the matrix consists entirely of real numbers.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.real?
+        for value in self.val
+					if !value.is_a? Numeric
+						return false
+					end
+				end
+				return true
       end # real?
 
       def nonsingular?
