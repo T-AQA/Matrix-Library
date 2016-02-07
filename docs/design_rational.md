@@ -6,6 +6,8 @@
 * [Sparse Matrix Tutorial](http://eigen.tuxfamily.org/dox/group__TutorialSparse.html)
 * [Compressed Row Storage](http://www.netlib.org/utk/people/JackDongarra/etemplates/node373.html)
 * [Ruby Quick Ref](http://www.zenspider.com/Languages/Ruby/QuickRef.html)
+* [Contracts Documentation](http://egonschiele.github.io/contracts.ruby/)
+* [Contracts Tutorial](http://julienblanchard.com/2015/contracts-with-ruby/)
 
 # Design Questions
 ##### What is a sparse matrix and what features should it possess?
