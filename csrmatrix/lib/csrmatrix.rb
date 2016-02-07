@@ -28,6 +28,7 @@ class TwoDMatrix
 
   #invariant(@rows) { @rows < 0} Will cause fails
   invariant(@rows) { @rows >= 0}
+  invariant(self) {real?}
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
