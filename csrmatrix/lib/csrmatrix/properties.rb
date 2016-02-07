@@ -52,6 +52,7 @@ module CsrMatrix
   			  raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
+
         m = Matrix.rows(self.decompose)
         return m.normal?
       end # normal?
@@ -64,8 +65,23 @@ module CsrMatrix
           raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
-        m = Matrix.rows(self.decompose)
-        return m.orthogonal?
+	
+				# transpose the existing matrix
+				@matrix_transpose = TwoDMatrix.new
+				@matrix_transpose.build_from_csr(self.row_ptr, self.col_ind, self.val, self.columns, self.rows)
+				@matrix_transpose.transpose()
+
+				# build an orthogonal matrix
+				@matrix_orthogonal = TwoDMatrix.new
+				@matrix_orthogonal.build_from_array(self.multiply_csr(@matrix_transpose))
+				
+				# test the values in the orthogonal matrix
+				for i in 0..@matrix_orthogonal.val.count()-1
+					if @matrix_orthogonal.val[i] != 1
+						return false
+					end
+				end
+				return true
       end # orthogonal?
 
       def permutation?
