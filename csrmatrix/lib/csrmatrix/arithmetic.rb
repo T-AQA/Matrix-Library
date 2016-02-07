@@ -1,15 +1,17 @@
 require "matrix"
 require "csrmatrix/exceptions"
+require "contracts"
 
 module CsrMatrix    
   module Arithmetic
-
+    include Contracts::Core
     # Brings in exception module for exception testing
     def self.included(exceptions)
       exceptions.send :include, Exceptions
     end
 
     # multiply the matrix by a scalar value
+    # Contract Contracts::Num => nil
     def scalar_multiply(value)
       # multiply the matrix by a scalar value
       # pre   value to multiply, existing matrix (matrix.not_null?)
@@ -75,6 +77,7 @@ module CsrMatrix
       end
     end # scalar_exp
 
+    Contract Contracts::Send[:not_null?] => Contracts::Bool
     def inverse()
       # sets the inverse of this matrix
       # pre   existing matrix (matrix.not_null?)

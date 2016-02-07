@@ -6,6 +6,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    contracts (0.13.0)
     diff-lcs (1.2.5)
     minitest (5.8.3)
     rake (10.5.0)
@@ -28,6 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.11)
+  contracts
   csrmatrix!
   minitest
   rake (~> 10.0)

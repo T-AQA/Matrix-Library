@@ -6,6 +6,7 @@ require "csrmatrix/decompositions"
 require "csrmatrix/operations"
 require "csrmatrix/helpers"
 require "csrmatrix/exceptions"
+require "contracts"
 
 module CsrMatrix
   # The current website ref. Used for verificationn of rb systems.
@@ -22,6 +23,11 @@ class TwoDMatrix
   include CsrMatrix::Decompositions
   include CsrMatrix::Helpers
   include CsrMatrix::Exceptions
+  include Contracts::Core
+  include Contracts::Invariants
+
+  #invariant(@rows) { @rows < 0} Will cause fails
+  invariant(@rows) { @rows >= 0}
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
