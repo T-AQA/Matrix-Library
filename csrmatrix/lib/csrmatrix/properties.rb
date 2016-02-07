@@ -13,8 +13,7 @@ module CsrMatrix
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
         for i in 0..self.columns-1
-					puts self.row_ptr[i+1]
-					if (self.col_ind[i] != i) || (self.row_ptr[i+1] != i+1)
+					if (self.col_ind[i] != i) || (self.row_ptr[i] != i)
 						return false
 					end
 				end
@@ -31,24 +30,18 @@ module CsrMatrix
 				return false
       end # empty?
 
-      def hermitian?
-        # Determine if the matrix is hermitian.
-        # pre   existing matrix (matrix.not_null?)
-        # post  boolean 
-		    if !self.square?
-			    raise Exceptions::MatrixDimException.new, "Matrix is not square."
-          return false
-        end
-        m = Matrix.rows(self.decompose)
-        return m.hermitian?
-      end # hermitian?
-
       def lower_triangular?
         # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.lower_triangular?
+				for i in 0..self.columns-1
+					for column_index in row_ptr[i]..row_ptr[i+1]-1
+						if (self.col_ind[column_index] > i)
+							return false
+						end
+					end
+				end
+				return true
       end # lower_triangular?
 
       def normal? 
@@ -59,6 +52,7 @@ module CsrMatrix
   			  raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
+
         m = Matrix.rows(self.decompose)
         return m.normal?
       end # normal?
@@ -71,8 +65,23 @@ module CsrMatrix
           raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
-        m = Matrix.rows(self.decompose)
-        return m.orthogonal?
+	
+				# transpose the existing matrix
+				@matrix_transpose = TwoDMatrix.new
+				@matrix_transpose.build_from_csr(self.row_ptr, self.col_ind, self.val, self.columns, self.rows)
+				@matrix_transpose.transpose()
+
+				# build an orthogonal matrix
+				@matrix_orthogonal = TwoDMatrix.new
+				@matrix_orthogonal.build_from_array(self.multiply_csr(@matrix_transpose))
+				
+				# test the values in the orthogonal matrix
+				for i in 0..@matrix_orthogonal.val.count()-1
+					if @matrix_orthogonal.val[i] != 1
+						return false
+					end
+				end
+				return true
       end # orthogonal?
 
       def permutation?
@@ -91,8 +100,12 @@ module CsrMatrix
         # Determines if the matrix is real; wherein the matrix consists entirely of real numbers.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.real?
+        for value in self.val
+					if !value.is_a? Numeric
+						return false
+					end
+				end
+				return true
       end # real?
 
       def nonsingular?
@@ -138,8 +151,14 @@ module CsrMatrix
         # Determines if the matrix is upper-triangular
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-          m = Matrix.rows(self.decompose)
-          return m.upper_triangular?
+        for i in 0..self.columns-1
+					for column_index in row_ptr[i]..row_ptr[i+1]-1
+						if (self.col_ind[column_index] < i)
+							return false
+						end
+					end
+				end
+				return true
       end # upper triangular?
 
       def zero?

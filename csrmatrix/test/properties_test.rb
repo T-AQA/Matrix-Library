@@ -49,11 +49,6 @@ class PropertiesTest < Minitest::Test
     assert @matrixEmpty3x3.empty?
   end
 
-	def test_hermitian
-    # FIXME: no imaginary character construction yet
-    # assert @matrixHermitian3x3.hermitian()
-  end
-
 	def test_lower_triangle
     assert @matrixTrigonal3x3.lower_triangular?
   end
@@ -114,8 +109,8 @@ class PropertiesTest < Minitest::Test
 		assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixNotSquare2x3.unitary? }
   end
 
-	def test_upper_triangle
-    assert @matrixTrigonal3x3.symmetric?
+	def test_upper_triangular
+    assert @matrixTrigonal3x3.upper_triangular?
   end
 
 	def test_zero
