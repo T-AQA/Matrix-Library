@@ -114,8 +114,8 @@ class PropertiesTest < Minitest::Test
 		assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixNotSquare2x3.unitary? }
   end
 
-	def test_upper_triangle
-    assert @matrixTrigonal3x3.symmetric?
+	def test_upper_triangular
+    assert @matrixTrigonal3x3.upper_triangular?
   end
 
 	def test_zero

@@ -12,9 +12,9 @@ module CsrMatrix
       	# Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
+				puts row_ptr
         for i in 0..self.columns-1
-					puts self.row_ptr[i+1]
-					if (self.col_ind[i] != i) || (self.row_ptr[i+1] != i+1)
+					if (self.col_ind[i] != i) || (self.row_ptr[i] != i)
 						return false
 					end
 				end
@@ -47,8 +47,14 @@ module CsrMatrix
         # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.lower_triangular?
+				for i in 0..self.columns-1
+					for column_index in row_ptr[i]..row_ptr[i+1]-1
+						if (self.col_ind[column_index] > i)
+							return false
+						end
+					end
+				end
+				return true
       end # lower_triangular?
 
       def normal? 
@@ -138,8 +144,14 @@ module CsrMatrix
         # Determines if the matrix is upper-triangular
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-          m = Matrix.rows(self.decompose)
-          return m.upper_triangular?
+        for i in 0..self.columns-1
+					for column_index in row_ptr[i]..row_ptr[i+1]-1
+						if (self.col_ind[column_index] < i)
+							return false
+						end
+					end
+				end
+				return true
       end # upper triangular?
 
       def zero?
