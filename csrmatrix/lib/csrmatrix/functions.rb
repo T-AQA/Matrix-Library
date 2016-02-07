@@ -11,7 +11,7 @@ module CsrMatrix
             # identifies the determinant of a matrix
             # pre   existing matrix
             # post  determinant of the matrix
-            if !self.is_same_dim()
+            if !self.square?()
                 raise Exceptions::MatrixDimException.new, "Matrix is not square."
                 return false
             end
