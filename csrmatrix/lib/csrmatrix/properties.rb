@@ -9,39 +9,39 @@ module CsrMatrix
       end 
       
       def diagonal?
-          # Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
-          # pre   existing matrix (matrix.not_null?)
-          # post  boolean 
-          m = Matrix.rows(self.decompose)
-          return m.diagonal?
+      	# Determines if the matrix is diagonal; wherein the values outside the main diagonal are all zero.
+        # pre   existing matrix (matrix.not_null?)
+        # post  boolean 
+        for i in 0..self.columns-1
+					if (self.col_ind[i] != i) || (self.row_ptr[i] != i)
+						return false
+					end
+				end
+				return true
       end # diagonal?
 
       def empty?
         # Determines if the matrix is empty; wherein all the values are zero.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.empty?
+				if self.val.count() == 0
+					return true
+				end
+				return false
       end # empty?
-
-      def hermitian?
-        # Determine if the matrix is hermitian.
-        # pre   existing matrix (matrix.not_null?)
-        # post  boolean 
-		    if !self.square?
-			    raise Exceptions::MatrixDimException.new, "Matrix is not square."
-          return false
-        end
-        m = Matrix.rows(self.decompose)
-        return m.hermitian?
-      end # hermitian?
 
       def lower_triangular?
         # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.lower_triangular?
+				for i in 0..self.columns-1
+					for column_index in row_ptr[i]..row_ptr[i+1]-1
+						if (self.col_ind[column_index] > i)
+							return false
+						end
+					end
+				end
+				return true
       end # lower_triangular?
 
       def normal? 
@@ -84,8 +84,12 @@ module CsrMatrix
         # Determines if the matrix is real; wherein the matrix consists entirely of real numbers.
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.real?
+        for value in self.val
+					if !value.is_a? Numeric
+						return false
+					end
+				end
+				return true
       end # real?
 
       def nonsingular?
@@ -131,16 +135,26 @@ module CsrMatrix
         # Determines if the matrix is upper-triangular
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-          m = Matrix.rows(self.decompose)
-          return m.upper_triangular?
+        for i in 0..self.columns-1
+					for column_index in row_ptr[i]..row_ptr[i+1]-1
+						if (self.col_ind[column_index] < i)
+							return false
+						end
+					end
+				end
+				return true
       end # upper triangular?
 
       def zero?
         # Determines if the matrix is zero
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.zero?
+        for value in self.val
+					if value != 0
+						return false
+					end
+				end
+				return true
       end # zero?
 
     end # Properties
