@@ -176,6 +176,7 @@ class TwoDMatrix
   #
 
   # Builds when given a 2d array to CSR
+  Contract Contracts::ArrayOf[Contracts::ArrayOf[Contracts::Num]] => Contracts::Bool
   def build_from_array(array)
 		# builds a csr matrix from a 2d array
 		# pre  array
