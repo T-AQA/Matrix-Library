@@ -187,14 +187,6 @@ class TwoDMatrix
     #END Contracts: Pre
 
     @columns, @rows, nonzero_count, @val, @row_ptr, @col_ind = convert_to_csr(array)
-
-    # dimensions = convert_to_csr(array)
-    # @columns = dimensions[0]
-    # @rows = dimensions[1]
-    # nonzero_count = dimensions[2] # FIXME: consider removing
-    # @val = dimensions[3]
-    # @row_ptr = dimensions[4]
-    # @col_ind = dimensions[5]
     return true
   end # build_from_array
 

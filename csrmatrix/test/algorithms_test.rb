@@ -88,7 +88,7 @@ class AlgorithmTest < Minitest::Test
   end
 
   def scalar_err_add
-    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_add(nil) }
+    assert_raises(ParamContractErrordfsr) { @matrixa.scalar_add(nil) }
   end
 
   def scalar_err_subtract

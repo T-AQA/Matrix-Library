@@ -10,29 +10,17 @@ module CsrMatrix
       exceptions.send :include, Exceptions
     end
 
-    # multiply the matrix by a scalar value
-    # Contract Contracts::Num => nil
+    Contract Contracts::Num => Contracts::ArrayOf[Contracts::Num]
     def scalar_multiply(value)
       # multiply the matrix by a scalar value
-      # pre   value to multiply, existing matrix (matrix.not_null?)
-      # post  boolean, updated matrix
-      if value == nil
-        raise Exceptions::ArgumentNullException.new, "Multiply by nil error."
-        return false
-      end
       @val.each_index do |i|
         @val[i] = @val[i] * value
       end
     end # scalar_multiply
     
+    Contract Contracts::Num => Contracts::ArrayOf[Contracts::Num]
     def scalar_add(value)
       # manipulate the matrix by adding a value at each index
-      # pre   value to add by, existing matrix (matrix.not_null?)
-      # post  boolean, updated matrix
-      if value == nil
-        raise Exceptions::ArgumentNullException.new, "Add by nil error."
-        return false
-      end
       @val.each_index do |i|
         @val[i] = @val[i] + value
       end
