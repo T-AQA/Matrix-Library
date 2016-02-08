@@ -254,6 +254,34 @@ class TwoDMatrix
     return [col_count, row_count, nonzero_count, value_array, row_ptr, col_ind]
   end # convert_to_csr
 
+  # builds matrix dependent on input
+  def build(type, data, extra = nil)
+    case type 
+      when "matrix"
+        self.build_from_matrix(data)
+      when "row", "rows"
+        self.build_from_rows(data)
+      when "array"
+        self.build_from_array(data)
+      when "column", "columns"
+        self.build_from_columns(data)
+      when "identity", "i", "unit"
+        if extra != nil 
+          self.build_identity_matrix(data, extra)
+        else
+          self.build_identity_matrix(data)
+        end
+      when "zero"
+        self.build_zero_matrix(data)
+      when "csr"
+        self.build_from_csr(data[0], data[1], data[2], data[3], data[4])
+      else 
+        raise MatrixTypeException.new, "Bad build type, no build response."
+        return false;
+      end 
+      return true;
+  end   
+
   # imports a matrix from a matrix library
   def build_from_matrix(matrix)
 		# builds a csr matrix a ruby matrix

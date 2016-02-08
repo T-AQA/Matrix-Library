@@ -7,3 +7,4 @@
 /matrix/pkg/
 /matrix/spec/reports/
 /matrix/tmp/
+/matrix/*.rb~

@@ -6,7 +6,7 @@ module CsrMatrix
 				# returns a list in the form {eigenvalues, eigenvectors}
 				# pre 	existing matrix (matrix.not_null?)
 				# post 	eigenvalues of the matrix
-    		eigenvalue()
+    		self.eigenvalue()
 			end # eigen
         
 			def eigenvalue()
