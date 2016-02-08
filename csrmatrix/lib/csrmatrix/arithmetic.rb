@@ -90,15 +90,49 @@ module CsrMatrix
       # transpose the matrix 
       # pre   existing matrix (matrix.not_null?)
       # post  array of decomposed matrix values
-      m = Matrix.rows(self.decompose)
-      self.build_from_array(m.transpose.to_a())
+
+			new_row_ptr = Array.new(self.columns+1, 0)
+			new_col_ind = Array.new(self.col_ind.count(), 0)
+			new_val = Array.new(self.val.count(), 0)
+			current_row = 0
+			current_column = 0
+	
+			for i in 0..self.columns-1
+				for j in 0..self.col_ind.count(i)-1
+					# get the row
+					index = self.col_ind.find_index(i)
+					self.col_ind[index] = -1
+					for k in 1..self.row_ptr.count()-1
+						if self.row_ptr[k-1] <= index && index < self.row_ptr[k]
+							current_row = k
+							break
+						end
+					end
+
+					# update values
+					new_row_ptr[i+1] += 1
+					new_val[current_column] = val[index]
+					new_col_ind[current_column] = current_row-1
+					current_column += 1
+				end
+			end
+
+			# fill in row_ptr
+			for i in 1..self.rows-1
+				self.row_ptr[i] = new_row_ptr[i] + new_row_ptr[i-1]
+			end	
+
+			@col_ind = new_col_ind
+			@val = new_val
     end # transpose
 
     def t()
       # transpose the matrix 
       # pre   existing matrix (matrix.not_null?)
       # post  array of decomposed matrix values
-      self.transpose()
+			m = Matrix.rows(self.decompose)
+      self.build_from_array(m.transpose.to_a())
+      #self.transpose()
     end # t
 
     def matrix_vector(vector) 
