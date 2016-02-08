@@ -2,7 +2,7 @@ require "minitest/autorun"
 require "csrmatrix"
 # require "contracts"
 
-class BuilderTest < Minitest::Unit::TestCase
+class BuilderTest < Minitest::Test
 
   def setup 
     @matrix = TwoDMatrix.new
