@@ -4,6 +4,8 @@ require "csrmatrix"
 class OperationsTest < Minitest::Test
 
   def setup
+    @matrixnull = TwoDMatrix.new
+
     @matrix = TwoDMatrix.new
     @matrix.build_from_array([[1,2],[3,4]])
     
@@ -20,6 +22,10 @@ class OperationsTest < Minitest::Test
       @matrixSparse3x3.print_full()
     }
 
+  end
+
+  def test_index
+    assert_raises(InvariantError) { @matrixnull.index(1) }
   end
 
 end 

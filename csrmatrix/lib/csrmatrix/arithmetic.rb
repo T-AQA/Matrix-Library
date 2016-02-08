@@ -14,6 +14,10 @@ module CsrMatrix
     Contract Contracts::Num => Contracts::ArrayOf[Contracts::Num]
     def scalar_multiply(value)
       # multiply the matrix by a scalar value
+      if (self.val == nil)
+        raise Exceptions::MatrixDimException.new, "Matrix does not have same dimensions; cannot add."
+      end
+
       @val.each_index do |i|
         @val[i] = @val[i] * value
       end

@@ -29,7 +29,7 @@ class TwoDMatrix
   #invariant(@rows) { @rows < 0} Will cause fails
   invariant(@rows) { @rows >= 0}
   # invariant(self) {real?}
-  invariant(:val) {val}
+  invariant(:val) {self.val != nil}
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
@@ -113,6 +113,7 @@ class TwoDMatrix
     end
   end # checkInputBounds
 
+  Contract Contracts::Nat, Contracts::Or[Contracts::Nat, nil] => Contracts::Num 
   def index(row, col=nil)
 		# gets the index in the matrix at row, col
 		# pre  	row
@@ -144,6 +145,9 @@ class TwoDMatrix
     end
   end # index
 
+  def insert(row, col, val)
+    #insert value into matrix
+  end
 
   ##
   # MATRIX DECOMPOSITION FUNCTIONS
@@ -196,7 +200,7 @@ class TwoDMatrix
     # converts a given array to csr format
     # pre  array
 
-    
+
     # post csrmatrix from array
     row_count = 0
     col_count = 0
