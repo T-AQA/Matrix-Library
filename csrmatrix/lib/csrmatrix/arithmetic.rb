@@ -65,15 +65,49 @@ module CsrMatrix
       # transpose the matrix 
       # pre   existing matrix (matrix.not_null?)
       # post  array of decomposed matrix values
-      m = Matrix.rows(self.decompose)
-      self.build_from_array(m.transpose.to_a())
+
+			new_row_ptr = Array.new(self.columns+1, 0)
+			new_col_ind = Array.new(self.col_ind.count(), 0)
+			new_val = Array.new(self.val.count(), 0)
+			current_row = 0
+			current_column = 0
+	
+			for i in 0..self.columns-1
+				for j in 0..self.col_ind.count(i)-1
+					# get the row
+					index = self.col_ind.find_index(i)
+					self.col_ind[index] = -1
+					for k in 1..self.row_ptr.count()-1
+						if self.row_ptr[k-1] <= index && index < self.row_ptr[k]
+							current_row = k
+							break
+						end
+					end
+
+					# update values
+					new_row_ptr[i+1] += 1
+					new_val[current_column] = val[index]
+					new_col_ind[current_column] = current_row-1
+					current_column += 1
+				end
+			end
+
+			# fill in row_ptr
+			for i in 1..self.rows-1
+				self.row_ptr[i] = new_row_ptr[i] + new_row_ptr[i-1]
+			end	
+
+			@col_ind = new_col_ind
+			@val = new_val
     end # transpose
 
     def t()
       # transpose the matrix 
       # pre   existing matrix (matrix.not_null?)
       # post  array of decomposed matrix values
-      self.transpose()
+			m = Matrix.rows(self.decompose)
+      self.build_from_array(m.transpose.to_a())
+      #self.transpose()
     end # t
 
     def matrix_vector(vector) 
@@ -236,21 +270,10 @@ module CsrMatrix
       return matrix.multiply_csr(tmpmatrix)
     end # inverse_multiply
 
-    def count_in_dim()
-      # helper function, identifies the number of expected values in matrix
-      # eg. 2x2 matrix returns 4 values
-      # pre   existing matrix (matrix.not_null?)
-      # post  boolean
-      return self.rows * self.columns
-    end
-
     def matrix_division(matrix)
       # linear division of one matrix to the next
       # pre   matrix to divide, existing matrix (matrix.not_null?)
       # post  boolean, resulting matrix
-      if matrix.val.count() != matrix.count_in_dim()
-        raise Exceptions::DivideByZeroException.new, "Calculations return divide by zero error."
-      end 
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
         row_idx = 0
@@ -265,6 +288,10 @@ module CsrMatrix
             cnta += 1;
           end
           while cntb < rowb
+            if matrix.val[cntb] == 0
+              raise Exceptions::DivideByZeroException.new, "Cannot divide by zero."
+              return false
+            end 
             res[row_idx][@col_ind[cntb]] = res[row_idx][@col_ind[cntb]].to_f / matrix.val[cntb]
             cntb += 1;
           end  

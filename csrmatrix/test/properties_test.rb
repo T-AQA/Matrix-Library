@@ -18,6 +18,9 @@ class PropertiesTest < Minitest::Test
     @matrixTrigonal3x3 = TwoDMatrix.new
     @matrixTrigonal3x3.build_from_array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])
 
+		@matrixSymmetric3x3 = TwoDMatrix.new
+    @matrixSymmetric3x3.build_from_array([[-1, 2, 5], [2, -1, 0], [5, 0, -1]])
+
 		@matrixEmpty3x3 = TwoDMatrix.new
     @matrixEmpty3x3.build_from_array([[],[],[]])
 
@@ -94,7 +97,7 @@ class PropertiesTest < Minitest::Test
   end
 
 	def test_symmetric
-    assert @matrixTrigonal3x3.symmetric?
+    assert @matrixSymmetric3x3.symmetric?
   end
 
 	def test_invalid_symmetric
