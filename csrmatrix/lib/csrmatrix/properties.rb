@@ -92,6 +92,13 @@ module CsrMatrix
 				return true
       end # real?
 
+      def not_null?
+        if self.val == nil
+          return false
+        end
+        return true
+      end
+
       def nonsingular?
         # Determines if the matrix is nonsingular ; simply the inverse of the singular function
         # pre   existing matrix (matrix.not_null?)

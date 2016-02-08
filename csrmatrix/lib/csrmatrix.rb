@@ -29,6 +29,7 @@ class TwoDMatrix
   #invariant(@rows) { @rows < 0} Will cause fails
   invariant(@rows) { @rows >= 0}
   invariant(self) {real?}
+  invariant(self) {not_null?}
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
@@ -178,33 +179,23 @@ class TwoDMatrix
   # Builds when given a 2d array to CSR
   Contract Contracts::ArrayOf[Contracts::ArrayOf[Contracts::Num]] => Contracts::Bool
   def build_from_array(array)
-		# builds a csr matrix from a 2d array
-		# pre  array
-		# post csrmatrix from array
-		#			 true on success, false on failure.
-    if array.is_a?(Array)
-      if depth(array) == 2
-        if same_sublength(array)
-          dimensions = convert_to_csr(array)
-          if dimensions == false # error raised, return to top
-            raise NullMatrixException.new, "Null value entered when building."
-            return false
-          end
-          @columns = dimensions[0]
-          @rows = dimensions[1]
-          nonzero_count = dimensions[2] # FIXME: consider removing
-          @val = dimensions[3]
-          @row_ptr = dimensions[4]
-          @col_ind = dimensions[5]
-          return true
-        end
-        raise MatrixDimException.new, "Invalid row/column pairs imported."
-        return false
-      end
-      raise MatrixDimException.new, "Invalid dimensions."
+		#Contracts: Pre
+    if !same_sublength(array)
+      raise MatrixDimException.new, "Invalid row/column pairs imported."
       return false
     end
-    raise MatrixTypeException.new, "Wrong type convert to matrix"
+    #END Contracts: Pre
+
+    @columns, @rows, nonzero_count, @val, @row_ptr, @col_ind = convert_to_csr(array)
+
+    # dimensions = convert_to_csr(array)
+    # @columns = dimensions[0]
+    # @rows = dimensions[1]
+    # nonzero_count = dimensions[2] # FIXME: consider removing
+    # @val = dimensions[3]
+    # @row_ptr = dimensions[4]
+    # @col_ind = dimensions[5]
+    return true
   end # build_from_array
 
   # imports a matrix from a matrix library
@@ -282,6 +273,7 @@ class TwoDMatrix
   end # build_from_csr
 
   # ensures that all subarrays are of same length
+
   def same_sublength(array)
 		# ensures that all sub arrays have the same length
 		# pre  self, array

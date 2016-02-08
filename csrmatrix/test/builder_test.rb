@@ -1,7 +1,9 @@
 require "minitest/autorun"
 require "csrmatrix"
+# require "contracts"
 
 class BuilderTest < Minitest::Unit::TestCase
+
   def setup 
     @matrix = TwoDMatrix.new
 
@@ -28,7 +30,7 @@ class BuilderTest < Minitest::Unit::TestCase
   end
 
   def test_nil_build
-    assert_raises(CsrMatrix::Exceptions::NullMatrixException) { @matrix.build_from_array([[1, nil, 2],[2, nil, 3]]) } 
+    assert_raises(ParamContractError) { @matrix.build_from_array([[1, nil, 2],[2, nil, 3]]) } 
   end
 
   def test_bad_row_build
@@ -55,15 +57,15 @@ class BuilderTest < Minitest::Unit::TestCase
   end
 
   def test_wrong_type_build
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_array(4) } 
+    assert_raises(ParamContractError) { @matrix.build_from_array(4) } 
   end
 
   def test_wrong_type_column
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_columns(4) } 
+    assert_raises(ParamContractError) { @matrix.build_from_columns(4) } 
   end
 
   def test_wrong_type_rows
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_rows(4) } 
+    assert_raises(ParamContractError) { @matrix.build_from_rows(4) } 
   end
 
   def test_wrong_type_identity
