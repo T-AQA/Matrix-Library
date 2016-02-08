@@ -109,7 +109,7 @@ module CsrMatrix
       end # real?
 
       def not_null?
-        if self.val == nil
+        if @val == nil
           return false
         end
         return true

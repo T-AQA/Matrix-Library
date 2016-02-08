@@ -25,6 +25,8 @@ class AlgorithmTest < Minitest::Test
 
     @matrixThreeByTwo = TwoDMatrix.new
     @matrixThreeByTwo.build_from_array([[1,2],[3,4],[5,6]])
+
+    @matrixnull = TwoDMatrix.new
   end
 
   def test_scalar_multiply
@@ -83,24 +85,25 @@ class AlgorithmTest < Minitest::Test
     assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixa.matrix_subtract(@matrixc) }
   end
 
-  def scalar_err_multiply
-    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_multiply(nil) }
+  def test_scalar_err_multiply
+    assert_raises(ParamContractError) { @matrixa.scalar_multiply(nil) }
+    assert_raises(InvariantError) { @matrixnull.scalar_multiply(1) }
   end
 
-  def scalar_err_add
-    assert_raises(ParamContractErrordfsr) { @matrixa.scalar_add(nil) }
+  def test_scalar_err_add
+    assert_raises(ParamContractError) { @matrixa.scalar_add(nil) }
   end
 
-  def scalar_err_subtract
-    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_subtract(nil) }
+  def test_scalar_err_subtract
+    assert_raises(ParamContractError) { @matrixa.scalar_subtract(nil) }
   end
 
-  def scalar_err_divide
-    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_divide(nil) }
+  def test_scalar_err_divide
+    assert_raises(ParamContractError) { @matrixa.scalar_division(nil) }
   end
 
-  def scalar_err_exp
-    assert_raises(CsrMatrix::Exceptions::ArgumentNullException) { @matrixa.scalar_exp(nil) }
+  def test_scalar_err_exp
+    assert_raises(ParamContractError) { @matrixa.scalar_exp(nil) }
   end
 
   # we multiply by the inverse of b

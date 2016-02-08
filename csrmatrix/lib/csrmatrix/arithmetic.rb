@@ -5,6 +5,7 @@ require "contracts"
 module CsrMatrix    
   module Arithmetic
     include Contracts::Core
+
     # Brings in exception module for exception testing
     def self.included(exceptions)
       exceptions.send :include, Exceptions
@@ -26,46 +27,32 @@ module CsrMatrix
       end
     end # scalar_add
 
+    Contract Contracts::Num => Contracts::ArrayOf[Contracts::Num]
     def scalar_subtract(value)
       # manipulate the matrix by subtracting the value at each index
-      # pre   value to subtract by, existing matrix (matrix.not_null?)
-      # post  boolean, updated matrix
-      if value == nil
-        raise Exceptions::ArgumentNullException.new, "Subtract by nil error."
-        return false
-      end
       @val.each_index do |i|
         @val[i] = @val[i] - value
       end
     end # scalar_subtract
 
+    Contract Contracts::Num => Contracts::ArrayOf[Contracts::Or[Float, Float]]
     def scalar_division(value)
       # manipulate the matrix by dividing the value at each index
-      # pre   value to divide by, existing matrix (matrix.not_null?)
       # post  boolean, updated matrix (in floats, if previously was not)
-      if value == nil
-        raise Exceptions::ArgumentNullException.new, "Divide by nil error."
-        return false
-      end
       @val.each_index do |i|
         @val[i] = @val[i] / value.to_f
       end
     end # scalar_division
 
+    Contract Contracts::Num => Contracts::ArrayOf[Contracts::Num]
     def scalar_exp(value)
       # manipulate the matrix by finding the exponential at each index
-      # pre   value to set exponent by, existing matrix (matrix.not_null?)
-      # post  boolean, updated matrix
-      if value == nil
-        raise Exceptions::ArgumentNullException.new, "Exp. by nil error."
-        return false
-      end
       @val.each_index do |i|
         @val[i] = @val[i] ** value
       end
     end # scalar_exp
 
-    Contract Contracts::Send[:not_null?] => Contracts::Bool
+    Contract Contracts::None => Contracts::Bool
     def inverse()
       # sets the inverse of this matrix
       # pre   existing matrix (matrix.not_null?)

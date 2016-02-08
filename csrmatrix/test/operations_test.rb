@@ -12,9 +12,9 @@ class OperationsTest < Minitest::Test
   end
 
   def test_print_full
-    # assert_output(/1  2  \n3  4  \n/) {
-    #   @matrix.print_full()
-    # }
+    assert_output(/1  2  \n3  4  \n/) {
+      @matrix.print_full()
+    }
 
     assert_output(/0  2  0  \n1  0  0  \n0  2  0  \n/) {
       @matrixSparse3x3.print_full()
