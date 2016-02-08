@@ -44,6 +44,7 @@ module CsrMatrix
 				return true
       end # lower_triangular?
 
+			#USES COMPLEX MATRIX
       def normal? 
         # Determines if the matrix is normal
         # pre   existing matrix (matrix.not_null?)
@@ -92,8 +93,27 @@ module CsrMatrix
 			    raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
-        m = Matrix.rows(self.decompose)
-        return m.permutation?
+
+				#Check the proper number of values
+				if self.val.length != self.columns
+					return false
+				end
+
+				#check for the proper values. ie only 1's				
+				for value in self.val
+					if value != 1
+						return false
+					end
+				end
+
+				column_ind = self.col_ind
+        for column_index in self.col_ind
+					if column_ind.include?(column_index)
+						column_ind.remove(column_index)
+					else
+						return false
+					end
+				end
       end # permutation?
 
       def real?
@@ -119,8 +139,10 @@ module CsrMatrix
         # Determines if the matrix is singular
         # pre   existing matrix (matrix.not_null?)
         # post  boolean 
-        m = Matrix.rows(self.decompose)
-        return m.singular?
+        if self.determinant != 0
+					return false
+				end
+				return true
       end # singular?
 
       def symmetric?
@@ -131,10 +153,21 @@ module CsrMatrix
   				raise Exceptions::MatrixDimException.new, "Matrix is not square."
           return false
         end
-        m = Matrix.rows(self.decompose)
-        return m.symmetric?
+				
+        # transpose the existing matrix
+				@matrix_transpose = TwoDMatrix.new
+				@matrix_transpose.build_from_csr(self.row_ptr, self.col_ind, self.val, self.columns, self.rows)
+				@matrix_transpose.transpose()
+
+				for i in 0..self.val.count()-1
+					if self.val[i] != @matrix_transpose.val[i]
+						return false
+					end
+				end
+				return true
       end # symmetric? 
 
+			#USES COMPLEX MATRIX
       def unitary?
         # Determines if the matrix is unitary
         # pre   existing matrix (matrix.not_null?)
