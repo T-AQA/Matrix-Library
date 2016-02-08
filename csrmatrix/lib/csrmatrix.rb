@@ -7,11 +7,13 @@ require "csrmatrix/operations"
 require "csrmatrix/helpers"
 require "csrmatrix/exceptions"
 require "contracts"
+require "aspector"
 
 module CsrMatrix
   # The current website ref. Used for verificationn of rb systems.
-  Url = "https://github.com/Team-Aqua/Matrix-Library/"
-end # CsrMatrix
+  Url = "https://github.com/Team-Aqua/Matrix-Library/"  
+end# CsrMatrix
+
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
@@ -26,9 +28,8 @@ class TwoDMatrix
   include Contracts::Core
   include Contracts::Invariants
 
-  #invariant(@rows) { @rows < 0} Will cause fails
   invariant(@rows) { @rows >= 0}
-  # invariant(self) {real?}
+  invariant(@columns) { @columns >= 0}
   invariant(:val) {self.val != nil}
 
   # The current website ref. Used for verification of rb systems.
@@ -58,6 +59,13 @@ class TwoDMatrix
   # SPARSE MATRIX ATTRIBUTE OPERATORS 
   # matrix attributes and overloaded operators
   #
+  def is_invariant?
+    if @val == nil
+      raise InvariantError.new, "Invariant not satisfied"
+      return false
+    end
+    return true
+  end
 
   # equals override for matrix operations
   def ==(o)
@@ -115,6 +123,7 @@ class TwoDMatrix
 
   Contract Contracts::Nat, Contracts::Or[Contracts::Nat, nil] => Contracts::Num 
   def index(row, col=nil)
+    is_invariant?
 		# gets the index in the matrix at row, col
 		# pre  	row
 		#				col, default to nil
@@ -181,7 +190,7 @@ class TwoDMatrix
   #
 
   # Builds when given a 2d array to CSR
-  #Contract: Parameter Input Contract Defined on convert_to_csr() to skip invariant check
+  Contract Contracts::ArrayOf[Contracts::ArrayOf[Contracts::Num]] => Contracts::Any 
   def build_from_array(array)
 		#Contracts: Pre
     if !same_sublength(array)

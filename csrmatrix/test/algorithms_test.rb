@@ -87,7 +87,7 @@ class AlgorithmTest < Minitest::Test
 
   def test_scalar_err_multiply
     # assert_raises(ParamContractError) { @matrixa.scalar_multiply(nil) }
-    assert_raises(InvariantError) { @matrixnull.scalar_multiply(1) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_multiply(1) }
   end
 
   def test_scalar_err_add

@@ -25,7 +25,7 @@ class OperationsTest < Minitest::Test
   end
 
   def test_index
-    assert_raises(InvariantError) { @matrixnull.index(1) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.index(1) }
   end
 
 end 
