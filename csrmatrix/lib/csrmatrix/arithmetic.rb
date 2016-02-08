@@ -105,9 +105,7 @@ module CsrMatrix
       # transpose the matrix 
       # pre   existing matrix (matrix.not_null?)
       # post  array of decomposed matrix values
-			m = Matrix.rows(self.decompose)
-      self.build_from_array(m.transpose.to_a())
-      #self.transpose()
+			self.transpose()
     end # t
 
     def matrix_vector(vector) 
