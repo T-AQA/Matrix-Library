@@ -251,6 +251,11 @@ class TwoDMatrix
   # builds matrix dependent on input
   Contract String, C::Or[C::ArrayOf[C::Or[C::ArrayOf[C::Num], C::Num]],C::Nat, Matrix], C::Or[nil, Any, C::None] => C::Bool
   def build(type, data, extra = nil)
+    # builds matrix dependent on input
+    # pre   string type
+    #       data, dependent type
+    # post  generated matrix
+    #       boolean depending on build
     case type 
       when "matrix"
         self.build_from_matrix(data)
