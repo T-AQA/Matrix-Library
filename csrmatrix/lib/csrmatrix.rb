@@ -1,6 +1,6 @@
 require "csrmatrix/version"
-require "csrmatrix/properties"
 require "csrmatrix/arithmetic"
+require "csrmatrix/properties"
 require "csrmatrix/functions"
 require "csrmatrix/decompositions"
 require "csrmatrix/operations"
@@ -78,6 +78,7 @@ class TwoDMatrix
   end # ==(o)
 
   # FIXME: convert to protected value
+  # Contract C::None => C::ArrayOf[ArrayOf[C::Num],ArrayOf[C::Nat],ArrayOf[C::Nat],C::Nat,C::Nat,C::Nat]
   def state
     # returns the current state of the csrmatrix
     # pre self
@@ -86,21 +87,21 @@ class TwoDMatrix
   end # state
 
   # Finds column and row value of an array. 
+  Contract C::None => C::ArrayOf[C::Nat]
   def dimensions()
+    is_invariant?
     # returns the dimensions of the csrmatrix
-		# pre self
-    # post [@rows, @columns]
     return [@rows, @columns]
   end # dimensions
   
+  Contract C::None => C::Bool
   def square?
     # returns whether or not the system is square
-		# pre self
-    # post true if matrix is square
+    is_invariant?
     return self.rows == self.columns
   end # square?
 
-    Contract C::Nat, C::Nat => C::Bool 
+  Contract C::Nat, C::Nat => C::Bool 
   def checkInputBounds(row, col)
     # checks whether or not the index searched is within bounds	
     if row > @rows
@@ -119,36 +120,6 @@ class TwoDMatrix
       return true
     end
   end # checkInputBounds
-
-  Contract C::Nat, C::Or[C::Nat, nil] => C::Num 
-  def index(row, col=nil)
-    # gets the index in the matrix at row, col
-    is_invariant?
-		
-    if col == nil
-        if @val.count < row
-          raise IndexOutOfRangeException.new, "Index out of Bounds"
-          return false
-        end
-
-      return @val[row-1]
-    else
-      if !checkInputBounds(row, col)
-        raise IndexOutOfRangeException.new, "Index out of Bounds"
-        return false
-      end
-
-      num_elm_in_prev = row_ptr[row-1]
-      num_elm_in_row = row_ptr[row] - num_elm_in_prev
-        
-      (0...num_elm_in_row).each do | x |
-        if ( col-1 == @col_ind[num_elm_in_prev+x] )
-          return @val[num_elm_in_prev+x]
-        end
-      end
-      return 0
-    end
-  end # index
 
   ##
   # MATRIX DECOMPOSITION FUNCTIONS
