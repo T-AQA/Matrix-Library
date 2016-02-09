@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    csrmatrix (1.0.0)
+    csrmatrix (1.0.1)
 
 GEM
   remote: https://rubygems.org/
