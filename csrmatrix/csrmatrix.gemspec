@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["hello@teamaqua.ca"]
 
   spec.summary       = %q{Efficient sparse matrix library.}
-  spec.description   = %q{Generation of a sparse matrix package in order to satisfy: 1. Reusability - insofar that the system can be reused for different structures; 2. Efficiency - in both storage and runtime; 3. Light - we need lightweight process stuctures in order to reduce overhead to a minimum.}
+  spec.description   = %q{CSR matrix implementation for Ruby. https://github.com/Team-Aqua/Matrix-Library}
   spec.homepage      = "https://github.com/Team-Aqua/Matrix-Library/"
   spec.license       = "MIT"
 
