@@ -44,8 +44,18 @@ class BuilderTest < Minitest::Test
     assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
     @matrix.build("matrix", @MatrixBuild)
     assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build("failure", 0) } 
+    
   end
+
+	def test_invalid_generic_builder
+		assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build("failure", 0) } 
+		assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build("rows", [[11111111111111111, 2, 3], [1, 2, 3], [1, 2, 3]]) } 
+	assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build("columns", [[11111111111111111, 2, 3], [1, 2, 3], [1, 2, 3]]) } 
+	assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build("identity", 11111111111111111) } 
+	assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build("zero", 11111111111111111) } 
+	assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build("csr", [[0, 3, 6, 9],[0, 1, 2, 0, 1, 2, 0, 1, 2],[11111111111111111, 2, 3, 1, 2, 3, 1, 2, 3],3,3]) } 
+	assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build("array", [[11111111111111111, 2, 3], [1, 2, 3], [1, 2, 3]]) } 
+	end
 
   def test_nil_build
     assert_raises(ParamContractError) { @matrix.build_from_array([[1, nil, 2],[2, nil, 3]]) } 
@@ -54,6 +64,7 @@ class BuilderTest < Minitest::Test
   def test_bad_row_build
     # reference: http://cczona.com/blog/asserting-exceptions-with-minitest/
     assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrix.build_from_rows([[1, 2, 3], [2, 3], [2, 3]]) } 
+		 assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build_from_rows([[11111111111111111, 3], [2, 3], [2, 3]]) } 
   end
 
   def test_build_from_matrix
@@ -72,6 +83,7 @@ class BuilderTest < Minitest::Test
 
   def test_bad_column_build
     assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrix.build_from_columns([[1, 2, 3], [2, 3], [2, 3]]) } 
+		assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrix.build_from_columns([[11111111111111111, 3], [2, 3], [2, 3]]) } 
   end
 
   def test_wrong_type_build
