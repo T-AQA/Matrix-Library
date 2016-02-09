@@ -308,9 +308,13 @@ class TwoDMatrix
   # generates a zero matrix
   Contract C::Nat, C::Nat => true
   def build_zero_matrix(rows, columns = rows)
-    # FIXME: test code: replace with CSR zero gen
 		# generate a matrix with all values equaling zero for a given number of rows and columns
-    self.build_from_array(Matrix.zero(rows, columns).to_a())
+    @row_ptr = Array.new(rows + 1, 0)
+    @col_ind = Array.new(0)
+    @val = Array.new(0)
+    @rows = rows
+    @columns = columns
+    @nonzero_count = nil
     return true
   end # build_zero_matrix
 
