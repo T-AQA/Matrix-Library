@@ -274,10 +274,21 @@ module CsrMatrix
       return matrix.multiply_csr(tmpmatrix)
     end # inverse_multiply
 
+    def count_in_dim()
+      # helper function, identifies the number of expected values in matrix
+      # eg. 2x2 matrix returns 4 values
+      # pre   existing matrix (matrix.not_null?)
+      # post  boolean
+      return self.rows * self.columns
+    end
+
     def matrix_division(matrix)
       # linear division of one matrix to the next
       # pre   matrix to divide, existing matrix (matrix.not_null?)
       # post  boolean, resulting matrix
+      if matrix.val.count() != matrix.count_in_dim()
+        raise Exceptions::DivideByZeroException.new, "Calculations return divide by zero error."
+      end 
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
         row_idx = 0
