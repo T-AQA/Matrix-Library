@@ -111,13 +111,6 @@ class TwoDMatrix
     # returns the dimensions of the csrmatrix
     return [@rows, @columns]
   end # dimensions
-  
-  Contract C::None => C::Bool
-  def square?
-    # returns whether or not the system is square
-    is_invariant?
-    return self.rows == self.columns
-  end # square?
 
   Contract C::Nat, C::Nat => C::Bool 
   def checkInputBounds(row, col)
