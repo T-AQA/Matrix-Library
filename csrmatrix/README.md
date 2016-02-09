@@ -53,6 +53,17 @@ Or by generating a zero or identity matrix:
 @matrix.build_identity_matrix(3)
 ```
 
+For more experienced users, build calls can be generated using keywords:
+```ruby
+@matrix.build("rows", [[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+@matrix.build("columns", [[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+@matrix.build("identity", 3) #rows, columns are same
+@matrix.build("zero", 2) #rows, columns
+@matrix.build("csr", [[0, 3, 6, 9],[0, 1, 2, 0, 1, 2, 0, 1, 2],[1, 2, 3, 1, 2, 3, 1, 2, 3],3,3])
+@matrix.build("array", [[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+@matrix.build("matrix", @MatrixBuild)
+```
+
 #### Properties 
 CsrMatrix offers many property checks for matrices. Test the system by using the following code:
 ```ruby

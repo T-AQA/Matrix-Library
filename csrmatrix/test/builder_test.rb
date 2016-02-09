@@ -29,6 +29,24 @@ class BuilderTest < Minitest::Test
     assert_equal [[1, 1, 1], [2, 2, 2], [3, 3, 3]], @matrix.decompose()
   end
 
+  def test_generic_builder
+    @matrix.build("rows", [[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    assert_equal [[1, 1, 1], [2, 2, 2], [3, 3, 3]], @matrix.decompose()
+    @matrix.build("columns", [[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose() 
+    @matrix.build("identity", 3) #rows, columns are same
+    assert_equal [[1, 0, 0], [0, 1, 0], [0, 0, 1]], @matrix.decompose()
+    @matrix.build("zero", 2) #rows, columns
+    assert_equal [[0, 0], [0, 0]], @matrix.decompose()
+    @matrix.build("csr", [[0, 3, 6, 9],[0, 1, 2, 0, 1, 2, 0, 1, 2],[1, 2, 3, 1, 2, 3, 1, 2, 3],3,3])
+    assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
+    @matrix.build("array", [[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
+    @matrix.build("matrix", @MatrixBuild)
+    assert_equal [[1, 2, 3], [1, 2, 3], [1, 2, 3]], @matrix.decompose()
+    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build("failure", 0) } 
+  end
+
   def test_nil_build
     assert_raises(ParamContractError) { @matrix.build_from_array([[1, nil, 2],[2, nil, 3]]) } 
   end
@@ -44,7 +62,7 @@ class BuilderTest < Minitest::Test
   end
 
   def test_wrong_type_matrix
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_matrix(4) } 
+    assert_raises(ParamContractError) { @matrix.build_from_matrix(4) } 
   end  
 
   def test_build_from_columns
@@ -69,11 +87,11 @@ class BuilderTest < Minitest::Test
   end
 
   def test_wrong_type_identity
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_identity_matrix([4, 4]) } 
+    assert_raises(ParamContractError) { @matrix.build_identity_matrix([4, 4]) } 
   end
 
   def test_wrong_type_zero
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_zero_matrix([4, 4]) } 
+    assert_raises(ParamContractError) { @matrix.build_zero_matrix([4, 4]) } 
   end  
 
   def test_build_identity_matrix

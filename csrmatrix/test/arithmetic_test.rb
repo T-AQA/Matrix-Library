@@ -55,15 +55,27 @@ class AlgorithmTest < Minitest::Test
     assert_equal [[Rational('-2/1'), Rational('1/1')], [Rational('3/2'), Rational('-1/2')]], @matrixConst.decompose()
   end
 
+  def test_err_inverse
+    assert_raises( ArgumentError ) { @matrixConst.inverse(4)}
+
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.inverse()}    
+  end
+
   # not implemented yet
   def test_transpose
     @matrixConst.transpose()
     assert_equal [[1,3],[2,4]],  @matrixConst.decompose()
   end
 
+  def test_err_transpose
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.transpose() }
+  end
+
   def test_matrix_multiply
     assert_equal [[7, 10], [15, 22]], @matrixa.multiply_csr(@matrixb)
   end
+
+
 
   def test_is_same_dim
     assert @matrixa.is_same_dim(@matrixb)
@@ -79,31 +91,37 @@ class AlgorithmTest < Minitest::Test
 
   def test_err_add
     assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixa.matrix_add(@matrixc) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.matrix_add(@matrixc)}
   end
 
   def test_err_subtract
     assert_raises(CsrMatrix::Exceptions::MatrixDimException) { @matrixa.matrix_subtract(@matrixc) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.matrix_subtract(@matrixc)}
   end
 
   def test_scalar_err_multiply
     assert_raises(ParamContractError) { @matrixa.scalar_multiply(nil) }
-    assert_raises(InvariantError) { @matrixnull.scalar_multiply(1) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_multiply(1) }
   end
 
   def test_scalar_err_add
     assert_raises(ParamContractError) { @matrixa.scalar_add(nil) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_add(1)}
   end
 
   def test_scalar_err_subtract
     assert_raises(ParamContractError) { @matrixa.scalar_subtract(nil) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_subtract(1)}
   end
 
   def test_scalar_err_divide
     assert_raises(ParamContractError) { @matrixa.scalar_division(nil) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_division(1)}
   end
 
   def test_scalar_err_exp
     assert_raises(ParamContractError) { @matrixa.scalar_exp(nil) }
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_exp(1)}
   end
 
   # we multiply by the inverse of b
@@ -121,6 +139,10 @@ class AlgorithmTest < Minitest::Test
 
   def test_matrix_inverse_multiply
     assert_equal [[Rational('-1/1'), Rational('2/1')], [Rational('-2/1'), Rational('3/1')]], @matrixa.inverse_multiply(@matrixd)
+  end
+
+  def test_err_matrix_multiply
+    assert_raises( CsrMatrix::Exceptions::InvariantError ) {@matrixnull.matrix_multiply(@matrixb.decompose())}
   end
 
   def test_matrix_divide

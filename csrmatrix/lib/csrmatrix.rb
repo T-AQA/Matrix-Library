@@ -1,6 +1,6 @@
 require "csrmatrix/version"
-require "csrmatrix/properties"
 require "csrmatrix/arithmetic"
+require "csrmatrix/properties"
 require "csrmatrix/functions"
 require "csrmatrix/decompositions"
 require "csrmatrix/operations"
@@ -10,8 +10,10 @@ require "contracts"
 
 module CsrMatrix
   # The current website ref. Used for verificationn of rb systems.
-  Url = "https://github.com/Team-Aqua/Matrix-Library/"
-end # CsrMatrix
+  Url = "https://github.com/Team-Aqua/Matrix-Library/"  
+
+end# CsrMatrix
+
 
 # General code convention in this manner - generate documentation via 'rdoc lib'.
 class TwoDMatrix
@@ -23,13 +25,14 @@ class TwoDMatrix
   include CsrMatrix::Decompositions
   include CsrMatrix::Helpers
   include CsrMatrix::Exceptions
+  include CsrMatrix::MContracts
   include Contracts::Core
   include Contracts::Invariants
 
-  #invariant(@rows) { @rows < 0} Will cause fails
+  C = Contracts
   invariant(@rows) { @rows >= 0}
-  # invariant(self) {real?}
-  invariant(:val) {val}
+  invariant(@columns) { @columns >= 0}
+  invariant(:val) {self.val != nil}
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
@@ -58,6 +61,13 @@ class TwoDMatrix
   # SPARSE MATRIX ATTRIBUTE OPERATORS 
   # matrix attributes and overloaded operators
   #
+  def is_invariant?
+    if @val == nil
+      raise InvariantError.new, "Empty Matrix"
+      return false
+    end
+    return true
+  end
 
   # equals override for matrix operations
   def ==(o)
@@ -68,6 +78,7 @@ class TwoDMatrix
   end # ==(o)
 
   # FIXME: convert to protected value
+  # Contract C::None => C::ArrayOf[ArrayOf[C::Num],ArrayOf[C::Nat],ArrayOf[C::Nat],C::Nat,C::Nat,C::Nat]
   def state
     # returns the current state of the csrmatrix
     # pre self
@@ -76,26 +87,23 @@ class TwoDMatrix
   end # state
 
   # Finds column and row value of an array. 
+  Contract C::None => C::ArrayOf[C::Nat]
   def dimensions()
+    is_invariant?
     # returns the dimensions of the csrmatrix
-		# pre self
-    # post [@rows, @columns]
     return [@rows, @columns]
   end # dimensions
   
+  Contract C::None => C::Bool
   def square?
     # returns whether or not the system is square
-		# pre self
-    # post true if matrix is square
+    is_invariant?
     return self.rows == self.columns
   end # square?
 
+  Contract C::Nat, C::Nat => C::Bool 
   def checkInputBounds(row, col)
     # checks whether or not the index searched is within bounds	
-		# pre  row
-		#			 column
-    # post true if within bounds 
-		#			 false if not within bounds
     if row > @rows
       raise IndexOutOfRangeException.new, "Row index too large"
       return false
@@ -113,42 +121,11 @@ class TwoDMatrix
     end
   end # checkInputBounds
 
-  def index(row, col=nil)
-		# gets the index in the matrix at row, col
-		# pre  	row
-		#				col, default to nil
-		# post	index	
-		#       true on success. faulse on failure.
-    if col == nil
-        if @val.count < row
-          raise IndexOutOfRangeException.new, "Index out of Bounds"
-          return false
-        end
-
-      return @val[row-1]
-    else
-      if !checkInputBounds(row, col)
-        raise IndexOutOfRangeException.new, "Index out of Bounds"
-        return false
-      end
-
-      num_elm_in_prev = row_ptr[row-1]
-      num_elm_in_row = row_ptr[row] - num_elm_in_prev
-        
-      (0...num_elm_in_row).each do | x |
-        if ( col-1 == @col_ind[num_elm_in_prev+x] )
-          return @val[num_elm_in_prev+x]
-        end
-      end
-      return 0
-    end
-  end # index
-
-
   ##
   # MATRIX DECOMPOSITION FUNCTIONS
   #
 
+  Contract C::None => C::ArrayOf[C::ArrayOf[C::Num]]
   def decompose()
 		# decompose the matrix into an array
 		# pre  csrmatrix
@@ -166,6 +143,7 @@ class TwoDMatrix
     return res
   end # decompose
 
+  Contract C::None => Matrix
   def decomp_to_matrix()
     @matrix = Matrix.rows(self.decompose())
     return @matrix
@@ -177,7 +155,7 @@ class TwoDMatrix
   #
 
   # Builds when given a 2d array to CSR
-  #Contract: Parameter Input Contract Defined on convert_to_csr() to skip invariant check
+  Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::Any 
   def build_from_array(array)
 		#Contracts: Pre
     if !same_sublength(array)
@@ -191,12 +169,12 @@ class TwoDMatrix
   end # build_from_array
 
     # Finds the column count, row count and non-zero values in one loop.
-  Contract Contracts::ArrayOf[Contracts::ArrayOf[Contracts::Num]] => Contracts::Any 
+  Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::Any 
   def convert_to_csr(array)
     # converts a given array to csr format
     # pre  array
 
-    
+
     # post csrmatrix from array
     row_count = 0
     col_count = 0
@@ -241,86 +219,100 @@ class TwoDMatrix
     return [col_count, row_count, nonzero_count, value_array, row_ptr, col_ind]
   end # convert_to_csr
 
+  # builds matrix dependent on input
+  Contract String, C::Or[C::ArrayOf[C::Or[C::ArrayOf[C::Num], C::Num]],C::Nat, Matrix], C::Or[nil, Any, C::None] => C::Bool
+  def build(type, data, extra = nil)
+    # builds matrix dependent on input
+    # pre   string type
+    #       data, dependent type
+    # post  generated matrix
+    #       boolean depending on build
+    case type 
+      when "matrix"
+        self.build_from_matrix(data)
+      when "row", "rows"
+        self.build_from_rows(data)
+      when "array"
+        self.build_from_array(data)
+      when "column", "columns"
+        self.build_from_columns(data)
+      when "identity", "i", "unit"
+        if extra != nil 
+          self.build_identity_matrix(data, extra)
+        else
+          self.build_identity_matrix(data)
+        end
+      when "zero"
+        self.build_zero_matrix(data)
+      when "csr"
+        self.build_from_csr(data[0], data[1], data[2], data[3], data[4])
+      else 
+        raise MatrixTypeException.new, "Bad build type, no build response."
+        return false;
+      end 
+      return true;
+  end   
+
   # imports a matrix from a matrix library
+  Contract Matrix => C::Bool
   def build_from_matrix(matrix)
 		# builds a csr matrix a ruby matrix
-		# pre  ruby matrix
-		# post csrmatrix from ruby matrix
-		#      true on success, false on failure
-    if matrix.is_a?(Matrix)
-      build_from_array(matrix.to_a())
-      return true
-    end
-    raise MatrixTypeException.new, "Wrong type convert to matrix."
+    build_from_array(matrix.to_a())
+    return true
   end # build_from_matrix
 
   # builds a matrix given its rows
+  Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::ArrayOf[C::Num]
   def build_from_rows(array)
 		# builds a csr matrix from rows
-		# pre  array
-		# post csrmatrix from array
     build_from_array(array)
     self.transpose()
   end # build_from_rows
 
 
-  # builds a matrix given its columns ;; redirect to array build
+  
+  Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::Bool
   def build_from_columns(array)
+    # builds a matrix given its columns ;; redirect to array build
 		# build a matrix given columns. same implimentation as array build
-		# pre  array
-		# post csrmatrix from array
     self.build_from_array(array)
   end # build_from_columns
 
   # generates an identity matrix
+  Contract C::Nat => true
   def build_identity_matrix(size)
     # FIXME: test code: replace with CSR identity gen
 		# generate identity matrix of a given size
-		# pre   size of identity matrix
-		# post  identity matrix 
-		#       true on succes, false on failure
-    if size.is_a?(Numeric)
-      self.build_from_array(Matrix.identity(size).to_a())
-      return true
-    end
-    raise MatrixTypeException.new, "Wrong type convert to matrix."
-    return false
+    self.build_from_array(Matrix.identity(size).to_a())
   end # build_identity_matrix
 
   # generates a zero matrix
+  Contract C::Nat, C::Nat => true
   def build_zero_matrix(rows, columns = rows)
     # FIXME: test code: replace with CSR zero gen
 		# generate a matrix with all values equaling zero for a given number of rows and columns
-		# pre  rows
-		#			 columns
-		# post zero matrix
-		#			 true on success, false on failure
-    if rows.is_a?(Numeric) && columns.is_a?(Numeric)
-      self.build_from_array(Matrix.zero(rows, columns).to_a())
-      return true
-    end
-    raise MatrixTypeException.new, "Wrong type convert to matrix."
-    return false
+    self.build_from_array(Matrix.zero(rows, columns).to_a())
+    return true
   end # build_zero_matrix
 
   # Builds array using user-generated CSR values
+  Contract C::ArrayOf[C::Nat], C::ArrayOf[C::Nat], C::ArrayOf[C::Num], C::Nat, C::Nat => TwoDMatrix
   def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
     # generate an array from user generated csr values
-		# pre  row_poiner, column_index, values, column_size, row_size
-		# post set values for current csrmatrix
     @val = val
     @row_ptr = row_ptr
     @col_ind = col_ind
     @rows = row_siz
     @columns = col_siz
+    self
   end # build_from_csr
 
   # ensures that all subarrays are of same length
 
+  #FIXME: Could be a contract in itself
+  # Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::Bool #Causes Invariant issues
   def same_sublength(array)
 		# ensures that all sub arrays have the same length
-		# pre  self, array
-		# post true if length is equal, false otherwise
     testLength = array[0].length
     array.each do |subarray|
       if(subarray.length != testLength)

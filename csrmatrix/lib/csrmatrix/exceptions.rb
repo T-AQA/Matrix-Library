@@ -17,5 +17,8 @@ module CsrMatrix
         
         # Occurs when the sparse matrix is used in processing against a null / nil value.
         class ArgumentNullException < StandardError; end   
+
+        #
+        class InvariantError < StandardError; end 
     end # exceptions
 end # csrmatrix
