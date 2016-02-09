@@ -278,7 +278,7 @@ module CsrMatrix
       # helper function, identifies the number of expected values in matrix
       # eg. 2x2 matrix returns 4 values
       # pre   existing matrix (matrix.not_null?)
-      # post  boolean
+      # post  numeric
       return self.rows * self.columns
     end
 
