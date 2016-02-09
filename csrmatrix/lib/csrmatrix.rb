@@ -30,9 +30,43 @@ class TwoDMatrix
   include Contracts::Invariants
 
   C = Contracts
+  #These only get called post Methods with Contract Decorator
   invariant(@rows) { @rows >= 0}
   invariant(@columns) { @columns >= 0}
   invariant(:val) {self.val != nil}
+  # @nonzero_count.is_a?(array) FIXME????????? and @nonzero_count.count() >= 0 
+  # invariant(@nonzero_count) { @nonzero_count >= 0}
+  # invariant(@row_ptr) { @row_ptr.count() >= 0  and @row_ptr.is_a?(Array)}
+  # @row_pointer.is_a?(array) and @row_pointer.count() >= 0
+  # @col_ind.is_a?(array) and @col_ind.count() >= 0
+  # @val.is_a?(array) and @val.count() >= 0
+  # @dimension == 2
+
+  def is_invariant?
+    if @val == nil
+      raise InvariantError.new, "Empty Matrix"
+      return false
+    end
+    if @columns < 0
+      raise InvariantError.new, "Invalid Column Dimension"
+      return false
+    end
+    if @rows < 0
+      raise InvariantError.new, "Invalid Row Dimension"
+      return false
+    end
+    #!@nonzero_count.is_a?(Array) or IS THIS AN ARRAY?
+    # if @nonzero_count == nil
+    #   raise InvariantError.new, "Invalid Non-Zero Count"
+    #   return false
+    # end
+    # @nonzero_count.is_a?(array) and @nonzero_count.count() >= 0
+  # @row_pointer.is_a?(array) and @row_pointer.count() >= 0
+  # @col_ind.is_a?(array) and @col_ind.count() >= 0
+  # @val.is_a?(array) and @val.count() >= 0
+  # @dimension == 2
+    return true
+  end
 
   # The current website ref. Used for verification of rb systems.
   Url = "https://github.com/Team-Aqua/Matrix-Library/"
@@ -40,14 +74,6 @@ class TwoDMatrix
 
   # Blank setup; setup module.
   def initialize()	
-		# invariant
-		# @nonzero_count.is_a?(array) and @nonzero_count.count() >= 0
-		# @row_pointer.is_a?(array) and @row_pointer.count() >= 0
-		# @col_ind.is_a?(array) and @col_ind.count() >= 0
-		# @val.is_a?(array) and @val.count() >= 0
-		# @rows >= 0
-		# @columns >= 0
-		# @dimension == 2
     @nonzero_count = nil
     @row_ptr = nil
     @col_ind = nil
@@ -61,13 +87,6 @@ class TwoDMatrix
   # SPARSE MATRIX ATTRIBUTE OPERATORS 
   # matrix attributes and overloaded operators
   #
-  def is_invariant?
-    if @val == nil
-      raise InvariantError.new, "Empty Matrix"
-      return false
-    end
-    return true
-  end
 
   # equals override for matrix operations
   def ==(o)
