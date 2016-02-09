@@ -1,5 +1,7 @@
 # Matrix
 
+Designed By: Aaron Plamondon, Anson Li, Quentin Lautischer
+
 Welcome to the Matrix gem! This gem is designed to offer high-performance, efficient processes for sparse matrix processes.
 
 If you want to try it out, install the gem and run `bin/console` for an interactive prompt.
