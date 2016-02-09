@@ -254,8 +254,12 @@ class TwoDMatrix
     return [col_count, row_count, nonzero_count, value_array, row_ptr, col_ind]
   end # convert_to_csr
 
-  # builds matrix dependent on input
   def build(type, data, extra = nil)
+    # builds matrix dependent on input
+    # pre   string type
+    #       data, dependent type
+    # post  generated matrix
+    #       boolean depending on build
     case type 
       when "matrix"
         self.build_from_matrix(data)
