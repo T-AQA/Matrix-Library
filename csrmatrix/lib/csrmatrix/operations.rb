@@ -53,23 +53,23 @@ module CsrMatrix
     
     Contract C::Nat => C::Num
     def get_value(index)
-        # gets the value off of the index of matrix
-        is_invariant?
-        return @val[index]
+			# gets the value off of the index of matrix
+			is_invariant?
+			return @val[index]
     end # get_value
 
     Contract C::Nat, C::Or[C::Nat, nil] => C::Num 
     def index(row, col=nil)
-        # gets the index in the matrix at row, col
-        is_invariant?
+			# gets the index in the matrix at row, col
+			is_invariant?
             
-        if col == nil
-            if @val.count < row
-              raise CsrMatrix::Exceptions::IndexOutOfRangeException.new, "Index out of Bounds"
-              return false
-            end
+			if col == nil
+				if @val.count < row
+					raise CsrMatrix::Exceptions::IndexOutOfRangeException.new, "Index out of Bounds"
+					return false
+				end
 
-          return @val[row-1]
+				return @val[row-1]
         else
           if !checkInputBounds(row, col)
             raise CsrMatrix::Exceptions::IndexOutOfRangeException.new, "Index out of Bounds"
@@ -85,7 +85,7 @@ module CsrMatrix
             end
           end
           return 0
-        end
+      	end
     end # index
 
     Contract C::None => C::Any
@@ -94,29 +94,29 @@ module CsrMatrix
       is_invariant?
       full_matrix = self.decompose()
       full_matrix.each do | row |
-          row.each do | val |
-              print "#{val}  "
-          end
-          puts ""
+				row.each do | val |
+					print "#{val}  "
+				end
+				puts ""
       end
       puts ""
     end # print_full
 
     Contract C::None => C::Any
     def print_sparse()
-        # prints all nonzero values of matrix for user
-        is_invariant?
-        full_matrix = self.decompose()
-        full_matrix.each do | row |
-            row.each do | val |
-                if val == 0
-                    print "---"
-                else
-                    print " #{val} "    
-                end
-            end
-            puts ""
-        end
+			# prints all nonzero values of matrix for user
+			is_invariant?
+			full_matrix = self.decompose()
+			full_matrix.each do | row |
+				row.each do | val |
+					if val == 0
+						print "---"
+					else
+						print " #{val} "    
+					end
+				end
+				puts ""
+			end
     end # print_sparse   
   end # Operations
 end # CsrMatrix

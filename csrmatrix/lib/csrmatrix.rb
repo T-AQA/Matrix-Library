@@ -335,19 +335,16 @@ class TwoDMatrix
   end # build_from_csr
 
   # ensures that all subarrays are of same length
-
   #FIXME: Could be a contract in itself
   def same_sublength(array)
 		# ensures that all sub arrays have the same length
     testLength = array[0].length
     array.each do |subarray|
       if(subarray.length != testLength)
-          return false
+				return false
       end
     end
     return true
   end #same_sublength
-
-
 
 end # TwoDMatrix
