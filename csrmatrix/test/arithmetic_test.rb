@@ -51,6 +51,14 @@ class AlgorithmTest < Minitest::Test
     assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_multiply(-10000000000000000) }
   end
 
+  def test_over_multiply_post
+    assert_raises(CsrMatrix::Exceptions::MatrixValueOverflowError) { @matrixConst.scalar_multiply(99999) }
+  end
+
+  def test_under_multiply_post
+    assert_raises(CsrMatrix::Exceptions::MatrixValueOverflowError) { @matrixConst.scalar_multiply(-99999) }
+  end
+
   def test_scalar_multiply
     assert_equal [2,4,6,8], @matrixConst.scalar_multiply(2)
   end
@@ -67,6 +75,10 @@ class AlgorithmTest < Minitest::Test
     assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_add(-10000000000000000) }
   end
 
+  def test_over_add_post
+    assert_raises(CsrMatrix::Exceptions::MatrixValueOverflowError) { @matrixConst.scalar_add(99999) }
+  end
+
   def test_scalar_subtract
     assert_equal [0,1,2,3], @matrixConst.scalar_subtract(1)
   end
@@ -77,6 +89,10 @@ class AlgorithmTest < Minitest::Test
 
   def test_under_subtract
     assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_subtract(-10000000000000000) }
+  end
+
+  def test_under_subtract_post
+    assert_raises(CsrMatrix::Exceptions::MatrixValueOverflowError) { @matrixConst.scalar_subtract(-99999) }
   end
 
   def test_scalar_division
@@ -104,10 +120,15 @@ class AlgorithmTest < Minitest::Test
     assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_exp(-10000000000000000) }
   end
 
+  def test_over_exp_post
+    assert_raises(CsrMatrix::Exceptions::MatrixValueOverflowError) { @matrixConst.scalar_exp(99999) }
+  end
+
   def test_inverse
     @matrixConst.inverse()
     assert_equal [[Rational('-2/1'), Rational('1/1')], [Rational('3/2'), Rational('-1/2')]], @matrixConst.decompose()
   end
+
 
   def test_err_inverse
     assert_raises( ArgumentError ) { @matrixConst.inverse(4)}
