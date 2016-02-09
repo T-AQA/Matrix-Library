@@ -23,6 +23,8 @@ module CsrMatrix
 
         # Occurs when the return values is incorrect or post conditions are not met.
         class ContractReturnError < StandardError; end
-        
+
+        #
+        class InputOverflowError < StandardError; end
     end # exceptions
 end # csrmatrix

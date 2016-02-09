@@ -107,6 +107,8 @@ class AlgorithmTest < Minitest::Test
   def test_scalar_err_add
     assert_raises(ParamContractError) { @matrixa.scalar_add(nil) }
     assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_add(1)}
+
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixa.scalar_add(100000) }
   end
 
   def test_scalar_err_subtract

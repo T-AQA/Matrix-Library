@@ -13,7 +13,7 @@ module CsrMatrix
       exceptions.send :include, Exceptions
     end
 
-    Contract C::Num => C::ArrayOf[C::Num]
+    Contract MContracts::ValidInputNum => C::ArrayOf[C::Num]
     def scalar_multiply(value)
       # multiply the matrix by a scalar value
       is_invariant?
@@ -21,9 +21,10 @@ module CsrMatrix
       @val.each_index do |i|
         @val[i] = @val[i] * value
       end
+      @val
     end # scalar_multiply
     
-    Contract C::Num => C::ArrayOf[C::Num]
+    Contract MContracts::ValidInputNum => C::ArrayOf[C::Num]
     def scalar_add(value)
       # manipulate the matrix by adding a value at each index
       is_invariant?
@@ -33,19 +34,20 @@ module CsrMatrix
       end
     end # scalar_add
 
-    Contract C::Num => C::ArrayOf[C::Num]
+    Contract MContracts::ValidInputNum => C::ArrayOf[C::Num]
     def scalar_subtract(value)
       is_invariant? 
-      
+
       # manipulate the matrix by subtracting the value at each index
       @val.each_index do |i|
         @val[i] = @val[i] - value
       end
     end # scalar_subtract
 
-    Contract C::Num => C::ArrayOf[C::Or[Float, Float]]
+    Contract MContracts::ValidInputNum => C::ArrayOf[C::Or[Float, Float]]
     def scalar_division(value)
       is_invariant?
+
       # manipulate the matrix by dividing the value at each index
       # post  boolean, updated matrix (in floats, if previously was not)
       @val.each_index do |i|
@@ -54,16 +56,17 @@ module CsrMatrix
       @val
     end # scalar_division
 
-    Contract C::Num => C::ArrayOf[C::Num]
+    Contract MContracts::ValidInputNum => C::ArrayOf[C::Num]
     def scalar_exp(value)
       is_invariant?
+
       # manipulate the matrix by finding the exponential at each index
       @val.each_index do |i|
         @val[i] = @val[i] ** value
       end
     end # scalar_exp
 
-    Contract C::Num => C::Bool
+    Contract C::None => C::Bool
     def inverse()
       is_invariant?
       # sets the inverse of this matrix
@@ -118,7 +121,7 @@ module CsrMatrix
 			self.transpose()
     end # t
 
-    Contract C::Num => C::ArrayOf[C::Num]
+    Contract Array => C::ArrayOf[C::Num]
     def matrix_vector(vector) 
       # dev based on http://www.mathcs.emory.edu/~cheung/Courses/561/Syllabus/3-C/sparse.html
       # multiplies the matrix by a vector value (in array form)
@@ -137,7 +140,7 @@ module CsrMatrix
     end # matrix_vector
 
     # dev based on http://stackoverflow.com/questions/29598299/csr-matrix-matrix-multiplication
-    Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::ArrayOf[C::ArrayOf[C::Num]]
+    Contract C::ArrayOf[C::ArrayOf[MContracts::ValidInputNum]] => C::ArrayOf[C::ArrayOf[MContracts::ValidInputNum]]
     def matrix_multiply(matrix)
       # multiply dense (non-dense) matrix to csr matrix [eg. [1, 2]] x 2d array
       is_invariant?
@@ -167,7 +170,7 @@ module CsrMatrix
       return res
     end # matrix_multiply
 
-    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[C::Num]]
+    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[MContracts::ValidInputNum]]
     def multiply_csr(matrix)
       # multiply two csr together - ref: http://www.mcs.anl.gov/papers/P5007-0813_1.pdf
       is_invariant?
@@ -181,7 +184,7 @@ module CsrMatrix
       return self.dimensions() == matrix.dimensions()
     end # is_same_dim
 
-    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[C::Num]]
+    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[MContracts::ValidInputNum]]
     def matrix_add(matrix)
       # adds a matrix to existing matrix
       is_invariant?
@@ -211,7 +214,7 @@ module CsrMatrix
       return res
     end # matrix_add
 
-    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[C::Num]]
+    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[MContracts::ValidInputNum]]
     def matrix_subtract(matrix)
       # subtracts a matrix to existing matrix
       is_invariant?
@@ -241,7 +244,7 @@ module CsrMatrix
       return res
     end # matrix_subtract
 
-    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[C::Num]]
+    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[MContracts::ValidInputNum]]
     def multiply_inverse(matrix)
       # divides (multiply by the inverse of ) a matrix to existing matrix
       # sets y * x^-1, where x is your matrix and y is the accepted matrix
@@ -282,7 +285,7 @@ module CsrMatrix
       return self.rows * self.columns
     end
 
-    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[C::Num]]
+    Contract MContracts::TwoDMatrixType => C::ArrayOf[C::ArrayOf[MContracts::ValidInputNum]]
     def matrix_division(matrix)
       # linear division of one matrix to the next
       is_invariant?
@@ -316,7 +319,7 @@ module CsrMatrix
       return res
     end # matrix_division
 
-    Contract C::ArrayOf[C::Num] => C::Nat
+    Contract C::ArrayOf[MContracts::ValidInputNum] => C::Nat
     def max_row(array)
       # Identifies the 'row' value of an array (eg. the number of entries in a row)
       is_invariant?

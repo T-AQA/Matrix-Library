@@ -5,7 +5,7 @@ module CsrMatrix
     include Contracts::Core
     C = Contracts
 
-    Contract C::Num, C::Nat, C::Nat => C::Bool
+    Contract MContracts::ValidInputNum, C::Nat, C::Nat => C::Bool
     def insert(value, row, column)
       # gets the value off of the index of matrix
       is_invariant?
