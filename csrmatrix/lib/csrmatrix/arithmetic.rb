@@ -24,6 +24,8 @@ module CsrMatrix
     Contract Contracts::Num => Contracts::ArrayOf[Contracts::Num]
     def scalar_add(value)
       # manipulate the matrix by adding a value at each index
+      is_invariant?
+
       @val.each_index do |i|
         @val[i] = @val[i] + value
       end
@@ -31,6 +33,8 @@ module CsrMatrix
 
     Contract Contracts::Num => Contracts::ArrayOf[Contracts::Num]
     def scalar_subtract(value)
+      is_invariant? 
+      
       # manipulate the matrix by subtracting the value at each index
       @val.each_index do |i|
         @val[i] = @val[i] - value

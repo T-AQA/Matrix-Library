@@ -62,7 +62,7 @@ class BuilderTest < Minitest::Test
   end
 
   def test_wrong_type_matrix
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_from_matrix(4) } 
+    assert_raises(ParamContractError) { @matrix.build_from_matrix(4) } 
   end  
 
   def test_build_from_columns
@@ -87,11 +87,11 @@ class BuilderTest < Minitest::Test
   end
 
   def test_wrong_type_identity
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_identity_matrix([4, 4]) } 
+    assert_raises(ParamContractError) { @matrix.build_identity_matrix([4, 4]) } 
   end
 
   def test_wrong_type_zero
-    assert_raises(CsrMatrix::Exceptions::MatrixTypeException) { @matrix.build_zero_matrix([4, 4]) } 
+    assert_raises(ParamContractError) { @matrix.build_zero_matrix([4, 4]) } 
   end  
 
   def test_build_identity_matrix
