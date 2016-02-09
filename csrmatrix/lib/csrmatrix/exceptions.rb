@@ -20,5 +20,8 @@ module CsrMatrix
 
         #
         class InvariantError < StandardError; end 
+
+        class ContractReturnError < StandardError; end
+        
     end # exceptions
 end # csrmatrix

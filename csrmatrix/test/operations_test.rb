@@ -27,6 +27,10 @@ class OperationsTest < Minitest::Test
 		assert_equal [[0, 1, 3], [1, 0, 0], [1, 2, 0]], @matrixSparse3x3.decompose()
 	end
 
+  def test_err_insert
+    assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.insert(1, 3, 1) }
+  end
+
   def test_print_full
     assert_output(/1  2  \n3  4  \n/) {
       @matrix.print_full()
