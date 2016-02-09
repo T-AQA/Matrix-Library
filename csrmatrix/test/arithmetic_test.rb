@@ -38,8 +38,18 @@ class AlgorithmTest < Minitest::Test
     @matrixConst.scalar_add(2)
     @matrixConst.scalar_subtract(1)
     @matrixConst.matrix_add(@matrixb)
-    assert_equal [[3.0, 4.0], [5.0, 6.0]], @matrixConst.decompose
+    @matrixConst.inverse()
+    @matrixConst.round(2)
+    assert_equal [[-3.0, 2.0], [2.5, -1.5]], @matrixConst.decompose
   end 
+
+  def test_over_multiply
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_multiply(10000000000000000) }
+  end
+
+  def test_under_multiply
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_multiply(-10000000000000000) }
+  end
 
   def test_scalar_multiply
     assert_equal [2,4,6,8], @matrixConst.scalar_multiply(2)
@@ -49,17 +59,49 @@ class AlgorithmTest < Minitest::Test
     assert_equal [3,4,5,6], @matrixConst.scalar_add(2)
   end
 
+  def test_over_add
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_add(10000000000000000) }
+  end
+
+  def test_under_add
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_add(-10000000000000000) }
+  end
+
   def test_scalar_subtract
     assert_equal [0,1,2,3], @matrixConst.scalar_subtract(1)
+  end
+
+  def test_over_subtract
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_subtract(10000000000000000) }
+  end
+
+  def test_under_subtract
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_subtract(-10000000000000000) }
   end
 
   def test_scalar_division
     assert_equal [0.5, 1.0, 1.5, 2.0], @matrixConst.scalar_division(2)
   end
 
+  def test_over_division
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_division(10000000000000000) }
+  end
+
+  def test_under_division
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_division(-10000000000000000) }
+  end
+
   # FIXME: convert everything to float with .to_f (ref: http://stackoverflow.com/questions/16563758/how-to-initialize-a-variable-to-the-type-double-in-ruby)
   def test_scalar_exp
     assert_equal [1,4,9,16], @matrixConst.scalar_exp(2)
+  end
+
+  def test_over_exp
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_exp(10000000000000000) }
+  end
+
+  def test_under_exp
+    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixConst.scalar_exp(-10000000000000000) }
   end
 
   def test_inverse
@@ -119,8 +161,6 @@ class AlgorithmTest < Minitest::Test
   def test_scalar_err_add
     assert_raises(ParamContractError) { @matrixa.scalar_add(nil) }
     assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.scalar_add(1)}
-
-    assert_raises(CsrMatrix::Exceptions::InputOverflowError) { @matrixa.scalar_add(100000) }
   end
 
   def test_scalar_err_subtract

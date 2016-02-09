@@ -59,6 +59,10 @@ class FunctionsTest < Minitest::Test
     assert_equal 6, @matrixDense3x3.trace()
   end
 
+  def big_trace 
+    assert_raises(CsrMatrix::Exceptions::BadInputException) { @matrixDense3x3.round(111) }
+  end
+
   def test_err_trace
     assert_raises(CsrMatrix::Exceptions::InvariantError) { @matrixnull.trace() }
   end

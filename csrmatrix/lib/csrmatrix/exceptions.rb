@@ -30,5 +30,8 @@ module CsrMatrix
         #
         class MatrixValueOverflowError < StandardError; end
 
+        # Occurs when a bad input (generally within specific bounds) is entered.
+        class BadInputException < StandardError; end
+
     end # exceptions
 end # csrmatrix

@@ -40,9 +40,13 @@ module CsrMatrix
 		def round(ndig = 0)
 			# identifies the round of a matrix (that is, each value rounded by a specific degree)
 			is_invariant?
-			for i in 0..self.val.count-1
-				self.val[i] = self.val[i].round(ndig)
-			end    
+      if ndig > 100
+        raise BadInputException.new, "Invalid round input" 
+      else 
+  			for i in 0..self.val.count-1
+  				self.val[i] = self.val[i].round(ndig)
+  			end    
+      end
 			self.val
 		end # round
 
