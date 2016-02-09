@@ -303,10 +303,6 @@ module CsrMatrix
             cnta += 1;
           end
           while cntb < rowb
-            if matrix.val[cntb] == 0
-              raise Exceptions::DivideByZeroException.new, "Cannot divide by zero."
-              return false
-            end 
             res[row_idx][@col_ind[cntb]] = res[row_idx][@col_ind[cntb]].to_f / matrix.val[cntb]
             cntb += 1;
           end  
