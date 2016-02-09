@@ -26,5 +26,9 @@ module CsrMatrix
 
         #
         class InputOverflowError < StandardError; end
+
+        #
+        class MatrixValueOverflowError < StandardError; end
+
     end # exceptions
 end # csrmatrix
