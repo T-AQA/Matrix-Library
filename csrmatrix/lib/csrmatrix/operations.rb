@@ -95,7 +95,6 @@ module CsrMatrix
                 puts ""
             end
           	puts ""
-          end
         end # print_full
 
         Contract C::None => C::Any

@@ -6,7 +6,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    aspector (0.14.0)
     contracts (0.13.0)
     diff-lcs (1.2.5)
     minitest (5.8.3)
@@ -29,7 +28,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aspector
   bundler (~> 1.11)
   contracts
   csrmatrix!
