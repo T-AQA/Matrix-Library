@@ -288,6 +288,7 @@ module CsrMatrix
       # post  boolean, resulting matrix
       if matrix.val.count() != matrix.count_in_dim()
         raise Exceptions::DivideByZeroException.new, "Calculations return divide by zero error."
+        return false
       end 
       if self.is_same_dim(matrix)
         res = Array.new(@rows) { Array.new(@columns, 0) }
