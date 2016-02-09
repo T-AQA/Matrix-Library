@@ -34,6 +34,13 @@ module CsrMatrix
     end # empty?
 
     Contract C::None => C::Bool
+    def square?
+      # returns whether or not the system is square
+      is_invariant?
+      return self.rows == self.columns
+    end # square?
+
+    Contract C::None => C::Bool
     def lower_triangular?
       # Determines if the matrix is lower-diagonal; wherein all the values only exist on and below the diagonal line.
       is_invariant?
