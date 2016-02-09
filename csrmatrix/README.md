@@ -21,8 +21,6 @@ Or install it yourself as:
     $ gem install matrix
 
 ## Usage
-
-## Usage
 #### Construction
 
 Start by building the matrix object. This will be a simple shell, on which we can perform our operations on:
