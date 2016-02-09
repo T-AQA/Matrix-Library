@@ -53,8 +53,16 @@ module CsrMatrix
         def trace()
             # identifies the trace of the matrix
             is_invariant?
-            m = Matrix.rows(self.decompose)
-            return m.trace()
+						sum = 0
+						for i in 0..self.columns-1
+							for j in self.row_ptr[i]..self.row_ptr[i+1]-1
+								if self.col_ind[j] == i
+									sum += self.val[j]
+									break
+								end
+							end
+						end
+						return sum
         end # trace
 
         Contract C::None => Contracts::Num
