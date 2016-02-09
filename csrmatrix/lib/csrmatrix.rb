@@ -255,13 +255,13 @@ class TwoDMatrix
       when "column", "columns"
         self.build_from_columns(data)
       when "identity", "i", "unit"
-        if extra != nil 
-          self.build_identity_matrix(data, extra)
-        else
-          self.build_identity_matrix(data)
-        end
+        self.build_identity_matrix(data)
       when "zero"
-        self.build_zero_matrix(data)
+        if extra != nil 
+          self.build_zero_matrix(data, extra)
+        else
+          self.build_zero_matrix(data)
+        end
       when "csr"
         self.build_from_csr(data[0], data[1], data[2], data[3], data[4])
       else 
@@ -312,9 +312,13 @@ class TwoDMatrix
   # generates a zero matrix
   Contract C::Nat, C::Nat => true
   def build_zero_matrix(rows, columns = rows)
-    # FIXME: test code: replace with CSR zero gen
 		# generate a matrix with all values equaling zero for a given number of rows and columns
-    self.build_from_array(Matrix.zero(rows, columns).to_a())
+    @row_ptr = Array.new(rows + 1, 0)
+    @col_ind = Array.new(0)
+    @val = Array.new(0)
+    @rows = rows
+    @columns = columns
+    @nonzero_count = nil
     return true
   end # build_zero_matrix
 
