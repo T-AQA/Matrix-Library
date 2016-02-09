@@ -35,13 +35,6 @@ class TwoDMatrix
   invariant(@rows) { @rows >= 0}
   invariant(@columns) { @columns >= 0}
   invariant(:val) {self.val != nil}
-  # @nonzero_count.is_a?(array) FIXME????????? and @nonzero_count.count() >= 0 
-  # invariant(@nonzero_count) { @nonzero_count >= 0}
-  # invariant(@row_ptr) { @row_ptr.count() >= 0  and @row_ptr.is_a?(Array)}
-  # @row_pointer.is_a?(array) and @row_pointer.count() >= 0
-  # @col_ind.is_a?(array) and @col_ind.count() >= 0
-  # @val.is_a?(array) and @val.count() >= 0
-  # @dimension == 2
 
   def is_invariant?
     if @val == nil
@@ -56,16 +49,6 @@ class TwoDMatrix
       raise InvariantError.new, "Invalid Row Dimension"
       return false
     end
-    #!@nonzero_count.is_a?(Array) or IS THIS AN ARRAY?
-    # if @nonzero_count == nil
-    #   raise InvariantError.new, "Invalid Non-Zero Count"
-    #   return false
-    # end
-    # @nonzero_count.is_a?(array) and @nonzero_count.count() >= 0
-  # @row_pointer.is_a?(array) and @row_pointer.count() >= 0
-  # @col_ind.is_a?(array) and @col_ind.count() >= 0
-  # @val.is_a?(array) and @val.count() >= 0
-  # @dimension == 2
     return true
   end
 
@@ -167,7 +150,7 @@ class TwoDMatrix
   #
 
   # Builds when given a 2d array to CSR
-  Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::Any 
+  Contract C::ArrayOf[C::ArrayOf[CsrMatrix::MContracts::ValidInputNum]] => C::ArrayOf[CsrMatrix::MContracts::ValidMatrixNum] 
   def build_from_array(array)
 		#Contracts: Pre
     if !same_sublength(array)
@@ -177,7 +160,7 @@ class TwoDMatrix
     #END Contracts: Pre
     @val = [] #Allows Invariant Check to Pass for following method call
     @columns, @rows, nonzero_count, @val, @row_ptr, @col_ind = convert_to_csr(array)
-    return true
+    @val
   end # build_from_array
 
     # Finds the column count, row count and non-zero values in one loop.
@@ -274,26 +257,33 @@ class TwoDMatrix
   end # build_from_matrix
 
   # builds a matrix given its rows
-  Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::ArrayOf[C::Num]
+  Contract C::ArrayOf[C::ArrayOf[CsrMatrix::MContracts::ValidInputNum]] => C::ArrayOf[CsrMatrix::MContracts::ValidMatrixNum]
   def build_from_rows(array)
 		# builds a csr matrix from rows
     build_from_array(array)
     self.transpose()
+    @val
   end # build_from_rows
 
 
   
-  Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::Bool
+  Contract C::ArrayOf[C::ArrayOf[CsrMatrix::MContracts::ValidInputNum]] => C::ArrayOf[CsrMatrix::MContracts::ValidMatrixNum]
   def build_from_columns(array)
     # builds a matrix given its columns ;; redirect to array build
 		# build a matrix given columns. same implimentation as array build
     self.build_from_array(array)
+    @val
   end # build_from_columns
 
   # generates an identity matrix
   Contract C::Nat => true
   def build_identity_matrix(size)
 		# generate identity matrix of a given size
+    if size > 100
+      raise CsrMatrix::Exceptions::InputOverflowError.new "Identity Matrix cannot be instantiated larger than 100"
+      return false
+    end
+
     @columns = size
     @rows = size
     @col_ind = 0.step(size-1, 1).to_a
@@ -307,6 +297,11 @@ class TwoDMatrix
   Contract C::Nat, C::Nat => true
   def build_zero_matrix(rows, columns = rows)
 		# generate a matrix with all values equaling zero for a given number of rows and columns
+    if rows > 100 or columns > 100
+      raise CsrMatrix::Exceptions::InputOverflowError.new "Zero Matrix cannot be instantiated larger than 100"
+      return false
+    end
+
     @row_ptr = Array.new(rows + 1, 0)
     @col_ind = Array.new(0)
     @val = Array.new(0)
@@ -317,7 +312,7 @@ class TwoDMatrix
   end # build_zero_matrix
 
   # Builds array using user-generated CSR values
-  Contract C::ArrayOf[C::Nat], C::ArrayOf[C::Nat], C::ArrayOf[C::Num], C::Nat, C::Nat => TwoDMatrix
+  Contract C::ArrayOf[C::Nat], C::ArrayOf[C::Nat], C::ArrayOf[CsrMatrix::MContracts::ValidInputNum], C::Nat, C::Nat => TwoDMatrix
   def build_from_csr(row_ptr, col_ind, val, col_siz, row_siz)
     # generate an array from user generated csr values
     @val = val
