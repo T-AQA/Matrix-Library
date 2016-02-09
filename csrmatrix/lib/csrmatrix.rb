@@ -7,7 +7,6 @@ require "csrmatrix/operations"
 require "csrmatrix/helpers"
 require "csrmatrix/exceptions"
 require "contracts"
-require "aspector"
 
 module CsrMatrix
   # The current website ref. Used for verificationn of rb systems.
@@ -26,6 +25,7 @@ class TwoDMatrix
   include CsrMatrix::Decompositions
   include CsrMatrix::Helpers
   include CsrMatrix::Exceptions
+  include CsrMatrix::MContracts
   include Contracts::Core
   include Contracts::Invariants
 
