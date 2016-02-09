@@ -256,13 +256,13 @@ class TwoDMatrix
       when "column", "columns"
         self.build_from_columns(data)
       when "identity", "i", "unit"
-        if extra != nil 
-          self.build_identity_matrix(data, extra)
-        else
-          self.build_identity_matrix(data)
-        end
+        self.build_identity_matrix(data)
       when "zero"
-        self.build_zero_matrix(data)
+        if extra != nil 
+          self.build_zero_matrix(data, extra)
+        else
+          self.build_zero_matrix(data)
+        end
       when "csr"
         self.build_from_csr(data[0], data[1], data[2], data[3], data[4])
       else 
