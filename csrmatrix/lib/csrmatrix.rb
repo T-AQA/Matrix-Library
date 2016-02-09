@@ -7,6 +7,7 @@ require "csrmatrix/operations"
 require "csrmatrix/helpers"
 require "csrmatrix/exceptions"
 require "contracts"
+require "csrmatrix/mcontracts"
 
 module CsrMatrix
   # The current website ref. Used for verificationn of rb systems.
@@ -136,10 +137,10 @@ class TwoDMatrix
   # MATRIX DECOMPOSITION FUNCTIONS
   #
 
-  Contract C::None => C::ArrayOf[C::ArrayOf[C::Num]]
+  Contract C::None => C::ArrayOf[C::ArrayOf[CsrMatrix::MContracts::ValidMatrixNum]]
   def decompose()
 		# decompose the matrix into an array
-		# pre  csrmatrix
+		is_invariant?
 		# post array from the csrmartix
     res = Array.new(@rows) { Array.new(@columns, 0) }
     row_counter = 0
