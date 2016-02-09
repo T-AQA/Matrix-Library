@@ -335,7 +335,6 @@ class TwoDMatrix
   end # build_from_csr
 
   # ensures that all subarrays are of same length
-
   #FIXME: Could be a contract in itself
   def same_sublength(array)
 		# ensures that all sub arrays have the same length
