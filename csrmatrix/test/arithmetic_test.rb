@@ -29,6 +29,18 @@ class AlgorithmTest < Minitest::Test
     @matrixnull = TwoDMatrix.new
   end
 
+  def test_scalar_full
+    # tests the full capacity of the system; testing robustness
+    @matrixConst.scalar_multiply(2)
+    @matrixConst.scalar_division(2)
+    @matrixConst.scalar_add(2)
+    @matrixConst.scalar_subtract(1)
+    @matrixConst.scalar_add(2)
+    @matrixConst.scalar_subtract(1)
+    @matrixConst.matrix_add(@matrixb)
+    assert_equal [[3.0, 4.0], [5.0, 6.0]], @matrixConst.decompose
+  end 
+
   def test_scalar_multiply
     assert_equal [2,4,6,8], @matrixConst.scalar_multiply(2)
   end
