@@ -17,5 +17,6 @@ module CsrMatrix
 			m = Matrix.rows(self.decompose)
 			return m.eigensystem().to_a[1].round().to_a
 		end # eigenvalue
-  end # Decompositions
+  
+	end # Decompositions
 end # CsrMatrix

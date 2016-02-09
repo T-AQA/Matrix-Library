@@ -342,12 +342,10 @@ class TwoDMatrix
     testLength = array[0].length
     array.each do |subarray|
       if(subarray.length != testLength)
-          return false
+				return false
       end
     end
     return true
   end #same_sublength
-
-
 
 end # TwoDMatrix
