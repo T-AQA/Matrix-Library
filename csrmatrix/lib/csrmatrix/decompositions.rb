@@ -5,10 +5,8 @@ module CsrMatrix
 
     Contract C::None => C::ArrayOf[C::ArrayOf[C::Num]]
 		def eigen()
-			# alias for eigensystem
-			# returns a list in the form {eigenvalues, eigenvectors}
+			# alias for eigenvalue
 			is_invariant?
-			
   		self.eigenvalue()
 		end # eigen
       
@@ -16,7 +14,6 @@ module CsrMatrix
 		def eigenvalue()
 			# identifies the eigenvalues of a matrix
 			is_invariant?
-			# post 	eigenvalues of the matrix
 			m = Matrix.rows(self.decompose)
 			return m.eigensystem().to_a[1].round().to_a
 		end # eigenvalue

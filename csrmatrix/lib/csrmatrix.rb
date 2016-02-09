@@ -96,7 +96,6 @@ class TwoDMatrix
     o.class == self.class && o.state == state
   end # ==(o)
 
-  # FIXME: convert to protected value
   # Contract C::None => C::ArrayOf[ArrayOf[C::Num],ArrayOf[C::Nat],ArrayOf[C::Nat],C::Nat,C::Nat,C::Nat]
   def state
     # returns the current state of the csrmatrix
@@ -300,9 +299,14 @@ class TwoDMatrix
   # generates an identity matrix
   Contract C::Nat => true
   def build_identity_matrix(size)
-    # FIXME: test code: replace with CSR identity gen
 		# generate identity matrix of a given size
-    self.build_from_array(Matrix.identity(size).to_a())
+    @columns = size
+    @rows = size
+    @col_ind = 0.step(size-1, 1).to_a
+    @row_ptr = 0.step(size,1).to_a
+    @nonzero_count = size
+    @val = Array.new(size, 1)
+    return true
   end # build_identity_matrix
 
   # generates a zero matrix
@@ -329,7 +333,6 @@ class TwoDMatrix
   # ensures that all subarrays are of same length
 
   #FIXME: Could be a contract in itself
-  # Contract C::ArrayOf[C::ArrayOf[C::Num]] => C::Bool #Causes Invariant issues
   def same_sublength(array)
 		# ensures that all sub arrays have the same length
     testLength = array[0].length

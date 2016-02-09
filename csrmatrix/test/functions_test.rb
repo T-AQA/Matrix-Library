@@ -46,6 +46,9 @@ class FunctionsTest < Minitest::Test
 	def test_round
     @matrixFloat2x2.round(2)
 		assert_equal [[1.21, 3.22], [0.10, 2.24]], @matrixFloat2x2.decompose()
+
+    @matrixFloat2x2.round()
+    assert_equal [[1, 3], [0, 2]], @matrixFloat2x2.decompose()
   end
 
   def test_err_round

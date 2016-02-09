@@ -9,7 +9,6 @@ module CsrMatrix
     def insert(value, row, column)
       # gets the value off of the index of matrix
       is_invariant?
-      # post value inserted or updated in the given row and column 
     
       # insert if the value exists
       for i in self.row_ptr[row-1]..self.row_ptr[row]-1

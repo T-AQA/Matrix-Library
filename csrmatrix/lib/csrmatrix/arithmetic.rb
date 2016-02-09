@@ -51,6 +51,7 @@ module CsrMatrix
       @val.each_index do |i|
         @val[i] = @val[i] / value.to_f
       end
+      @val
     end # scalar_division
 
     Contract C::Num => C::ArrayOf[C::Num]
@@ -66,8 +67,6 @@ module CsrMatrix
     def inverse()
       is_invariant?
       # sets the inverse of this matrix
-      # pre   existing matrix (matrix.not_null?)
-      # post  inverted matrix
       m = Matrix.rows(self.decompose)
       self.build_from_array(m.inv().to_a())
     end # inverse
@@ -116,7 +115,6 @@ module CsrMatrix
     def t()
       is_invariant?
       # transpose the matrix 
-      # post  array of decomposed matrix values
 			self.transpose()
     end # t
 
@@ -143,8 +141,6 @@ module CsrMatrix
     def matrix_multiply(matrix)
       # multiply dense (non-dense) matrix to csr matrix [eg. [1, 2]] x 2d array
       is_invariant?
-      # pre   matrix to multiply, existing matrix (matrix.not_null?)
-      # post  array holding resulting matrix
       res = Array.new(max_row(matrix)) { Array.new(@columns, 0) } # first denotes row, second denotes columns
       n = matrix.length
       i = 0

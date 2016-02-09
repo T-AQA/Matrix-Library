@@ -18,9 +18,10 @@ module CsrMatrix
         # Occurs when the sparse matrix is used in processing against a null / nil value.
         class ArgumentNullException < StandardError; end   
 
-        #
+        # Occurs anytime an invariant is violated.
         class InvariantError < StandardError; end 
 
+        # Occurs when the return values is incorrect or post conditions are not met.
         class ContractReturnError < StandardError; end
         
     end # exceptions
