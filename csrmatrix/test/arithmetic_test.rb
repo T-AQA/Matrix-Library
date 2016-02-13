@@ -65,6 +65,7 @@ class AlgorithmTest < Minitest::Test
 
   def test_scalar_add
     assert_equal [3,4,5,6], @matrixConst.scalar_add(2)
+    assert_equal [2,3,3,4], @matrixzero.scalar_add(2)
   end
 
   def test_over_add
@@ -81,6 +82,7 @@ class AlgorithmTest < Minitest::Test
 
   def test_scalar_subtract
     assert_equal [0,1,2,3], @matrixConst.scalar_subtract(1)
+    assert_equal [-2,-1,-1,0], @matrixzero.scalar_subtract(2)
   end
 
   def test_over_subtract
