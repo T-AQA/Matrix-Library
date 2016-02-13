@@ -23,6 +23,10 @@ module CsrMatrix
         end
         return true
       end
+
+      def self.to_s
+        "Is Not a valid input number"
+      end
     end
 
     class ValidMatrixNum
